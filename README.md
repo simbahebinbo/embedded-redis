@@ -167,6 +167,11 @@ Contributors
 Changelog
 ==============
 
+### 0.8.1
+
+ * Include statically-linked Redis binaries
+ * Update still more dependencies
+
 ### 0.8
  * Updated to Redis 6.0.5
  * Dropped support for Windows
