@@ -1,0 +1,10 @@
+FROM i386/alpine:3.12.0
+
+ARG REDIS_VERSION
+
+RUN apk add --no-cache musl-dev wget gcc make pkgconfig linux-headers; \
+    mkdir /redis-binaries; \
+    wget https://download.redis.io/releases/redis-${REDIS_VERSION}.tar.gz; \
+    tar zxf redis-${REDIS_VERSION}.tar.gz;
+
+CMD [ "/bin/sh" ]
