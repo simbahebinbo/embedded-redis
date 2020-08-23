@@ -1,5 +1,6 @@
 package redis.embedded.ports;
 
+import lombok.extern.slf4j.Slf4j;
 import redis.embedded.PortProvider;
 import redis.embedded.exceptions.RedisBuildingException;
 
@@ -8,6 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+@Slf4j
 public class PredefinedPortProvider implements PortProvider {
   private final List<Integer> ports = new LinkedList<>();
   private final Iterator<Integer> current;
@@ -20,6 +22,7 @@ public class PredefinedPortProvider implements PortProvider {
   @Override
   public synchronized int next() {
     if (!current.hasNext()) {
+      log.warn("Run out of Redis ports! exception: {}");
       throw new RedisBuildingException("Run out of Redis ports!");
     }
     return current.next();
