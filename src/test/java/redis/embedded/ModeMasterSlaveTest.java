@@ -46,8 +46,8 @@ public class ModeMasterSlaveTest extends BaseTest {
     writeSuccess(masterJedis);
     readSuccess(masterJedis);
 
-//    writeFail(slaveJedis);
-//    readSuccess(slaveJedis);
+    //    writeFail(slaveJedis);
+    //    readSuccess(slaveJedis);
 
     masterPool.close();
     slavePool.close();
