@@ -1,11 +1,10 @@
 package redis.embedded.util;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import lombok.extern.slf4j.Slf4j;
 import redis.embedded.common.CommonConstant;
 import redis.embedded.exceptions.OsDetectionException;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 @Slf4j
 public class OSDetector {

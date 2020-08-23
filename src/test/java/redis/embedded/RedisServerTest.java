@@ -1,6 +1,10 @@
 package redis.embedded;
 
 import com.google.common.io.Resources;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Assertions;
@@ -11,11 +15,6 @@ import redis.embedded.common.CommonConstant;
 import redis.embedded.util.Architecture;
 import redis.embedded.util.OS;
 import redis.embedded.util.TimeUtil;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class RedisServerTest {

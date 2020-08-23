@@ -1,18 +1,18 @@
-//package redis.embedded;
+// package redis.embedded;
 //
-//import com.google.common.collect.Sets;
-//import org.junit.Test;
-//import redis.clients.jedis.Jedis;
-//import redis.clients.jedis.JedisSentinelPool;
+// import com.google.common.collect.Sets;
+// import org.junit.Test;
+// import redis.clients.jedis.Jedis;
+// import redis.clients.jedis.JedisSentinelPool;
 //
-//import java.io.BufferedReader;
-//import java.io.IOException;
-//import java.io.InputStreamReader;
-//import java.util.concurrent.TimeUnit;
+// import java.io.BufferedReader;
+// import java.io.IOException;
+// import java.io.InputStreamReader;
+// import java.util.concurrent.TimeUnit;
 //
-//import static org.junit.Assert.*;
+// import static org.junit.Assert.*;
 //
-//public class RedisSentinelTest {
+// public class RedisSentinelTest {
 //    private RedisSentinel sentinel;
 //    private RedisServer server;
 //
@@ -92,11 +92,12 @@
 //                readyPattern);
 //    }
 //
-//    private void assertReadyPattern(BufferedReader reader, String readyPattern) throws IOException {
+//    private void assertReadyPattern(BufferedReader reader, String readyPattern) throws IOException
+// {
 //        String outputLine;
 //        do {
 //            outputLine = reader.readLine();
 //            assertNotNull(outputLine);
 //        } while (!outputLine.matches(readyPattern));
 //    }
-//}
+// }

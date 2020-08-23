@@ -1,16 +1,16 @@
-//package redis.embedded;
+// package redis.embedded;
 //
-//import com.google.common.base.Preconditions;
-//import com.google.common.io.Files;
-//import redis.embedded.exceptions.RedisBuildingException;
+// import com.google.common.base.Preconditions;
+// import com.google.common.io.Files;
+// import redis.embedded.exceptions.RedisBuildingException;
 //
-//import java.io.File;
-//import java.io.IOException;
-//import java.nio.charset.Charset;
-//import java.util.ArrayList;
-//import java.util.List;
+// import java.io.File;
+// import java.io.IOException;
+// import java.nio.charset.Charset;
+// import java.util.ArrayList;
+// import java.util.List;
 //
-//public class RedisSentinelBuilder {
+// public class RedisSentinelBuilder {
 //    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 //    private static final String CONF_FILENAME = "embedded-redis-sentinel";
 //    private static final String MASTER_MONITOR_LINE = "sentinel monitor %s 127.0.0.1 %d %d";
@@ -80,7 +80,8 @@
 //
 //    public RedisSentinelBuilder configFile(String redisConf) {
 //        if (redisConfigBuilder != null) {
-//            throw new RedisBuildingException("Redis configuration is already partially build using setting(String) method!");
+//            throw new RedisBuildingException("Redis configuration is already partially build using
+// setting(String) method!");
 //        }
 //        this.sentinelConf = redisConf;
 //        return this;
@@ -88,7 +89,8 @@
 //
 //    public RedisSentinelBuilder setting(String configLine) {
 //        if (sentinelConf != null) {
-//            throw new RedisBuildingException("Redis configuration is already set using redis conf file!");
+//            throw new RedisBuildingException("Redis configuration is already set using redis conf
+// file!");
 //        }
 //
 //        if (redisConfigBuilder == null) {
@@ -162,4 +164,4 @@
 //
 //        return args;
 //    }
-//}
+// }

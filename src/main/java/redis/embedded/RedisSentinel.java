@@ -1,9 +1,9 @@
-//package redis.embedded;
+// package redis.embedded;
 //
-//import java.util.ArrayList;
-//import java.util.List;
+// import java.util.ArrayList;
+// import java.util.List;
 //
-//public class RedisSentinel extends AbstractRedisInstance {
+// public class RedisSentinel extends AbstractRedisInstance {
 //  private static final String REDIS_READY_PATTERN = ".*Sentinel (runid|ID) is.*";
 //
 //  public RedisSentinel(List<String> args, int port) {
@@ -19,4 +19,4 @@
 //  protected String redisReadyPattern() {
 //    return REDIS_READY_PATTERN;
 //  }
-//}
+// }

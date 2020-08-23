@@ -1,14 +1,14 @@
-//package redis.embedded;
+// package redis.embedded;
 //
-//import org.junit.After;
-//import org.junit.Before;
-//import org.junit.Test;
-//import redis.clients.jedis.Jedis;
-//import redis.clients.jedis.JedisPool;
+// import org.junit.After;
+// import org.junit.Before;
+// import org.junit.Test;
+// import redis.clients.jedis.Jedis;
+// import redis.clients.jedis.JedisPool;
 //
-//import static org.junit.Assert.assertEquals;
+// import static org.junit.Assert.assertEquals;
 //
-//public class RedisServerClusterTest {
+// public class RedisServerClusterTest {
 //
 //    private RedisServer redisServer1;
 //    private RedisServer redisServer2;
@@ -52,4 +52,4 @@
 //        redisServer1.stop();
 //        redisServer2.stop();
 //    }
-//}
+// }

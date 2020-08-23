@@ -36,8 +36,7 @@ public class CommonConstant {
   /** 连字符 中横线 */
   public static final String SEPARATOR_HYPHEN = "-";
 
-
-  public static final String CONFIG_FILE_SUFFIX =".conf";
+  public static final String CONFIG_FILE_SUFFIX = ".conf";
 
   /** 默认redis的端口和地址 */
   public static final int DEFAULT_REDIS_PORT = 6379;
@@ -65,5 +64,5 @@ public class CommonConstant {
   public static final String REDIS_SERVER_EXEC_UNIX_X86 =
       REDIS_SERVER + SEPARATOR_HYPHEN + REDIS_VERSION + X86_SUFFIX;
   public static final String REDIS_SERVER_EXEC_MAC_OSX =
-          REDIS_SERVER + SEPARATOR_HYPHEN + REDIS_VERSION + MAC_OSX_SUFFIX;
+      REDIS_SERVER + SEPARATOR_HYPHEN + REDIS_VERSION + MAC_OSX_SUFFIX;
 }

@@ -1,9 +1,8 @@
 package redis.embedded.util;
 
+import java.time.Clock;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-
-import java.time.Clock;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DateTool {

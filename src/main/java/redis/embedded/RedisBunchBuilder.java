@@ -1,15 +1,15 @@
-//package redis.embedded;
+// package redis.embedded;
 //
-//import redis.embedded.ports.EphemeralPortProvider;
-//import redis.embedded.ports.PredefinedPortProvider;
-//import redis.embedded.ports.SequencePortProvider;
+// import redis.embedded.ports.EphemeralPortProvider;
+// import redis.embedded.ports.PredefinedPortProvider;
+// import redis.embedded.ports.SequencePortProvider;
 //
-//import java.util.ArrayList;
-//import java.util.Collection;
-//import java.util.LinkedList;
-//import java.util.List;
+// import java.util.ArrayList;
+// import java.util.Collection;
+// import java.util.LinkedList;
+// import java.util.List;
 //
-//public class RedisBunchBuilder {
+// public class RedisBunchBuilder {
 //    private RedisSentinelBuilder sentinelBuilder = new RedisSentinelBuilder();
 //    private RedisServerBuilder serverBuilder = new RedisServerBuilder();
 //    private int sentinelCount = 1;
@@ -72,7 +72,8 @@
 //    }
 //
 //    public RedisBunchBuilder replicationGroup(String masterName, int slaveCount) {
-//        this.groups.add(new ReplicationGroup(masterName, slaveCount, this.replicationGroupPortProvider));
+//        this.groups.add(new ReplicationGroup(masterName, slaveCount,
+// this.replicationGroupPortProvider));
 //        return this;
 //    }
 //
@@ -144,4 +145,4 @@
 //            }
 //        }
 //    }
-//}
+// }

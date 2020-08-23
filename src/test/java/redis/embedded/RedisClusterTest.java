@@ -1,22 +1,22 @@
-//package redis.embedded;
+// package redis.embedded;
 //
-//import com.google.common.collect.Sets;
-//import org.junit.Before;
-//import org.junit.Test;
-//import redis.clients.jedis.Jedis;
-//import redis.clients.jedis.JedisSentinelPool;
-//import redis.embedded.util.JedisUtil;
+// import com.google.common.collect.Sets;
+// import org.junit.Before;
+// import org.junit.Test;
+// import redis.clients.jedis.Jedis;
+// import redis.clients.jedis.JedisSentinelPool;
+// import redis.embedded.util.JedisUtil;
 //
-//import java.util.Arrays;
-//import java.util.List;
-//import java.util.Set;
+// import java.util.Arrays;
+// import java.util.List;
+// import java.util.Set;
 //
-//import static org.junit.Assert.assertEquals;
-//import static org.mockito.BDDMockito.given;
-//import static org.mockito.Mockito.mock;
-//import static org.mockito.Mockito.verify;
+// import static org.junit.Assert.assertEquals;
+// import static org.mockito.BDDMockito.given;
+// import static org.mockito.Mockito.mock;
+// import static org.mockito.Mockito.verify;
 //
-//public class RedisClusterTest {
+// public class RedisClusterTest {
 //    private Redis sentinel1;
 //    private Redis sentinel2;
 //    private Redis master1;
@@ -97,7 +97,8 @@
 //    @Test
 //    public void testSimpleOperationsAfterRunWithSingleMasterNoSlavesCluster() throws Exception {
 //        //given
-//        final RedisCluster cluster = RedisCluster.builder().sentinelCount(1).replicationGroup("ourmaster", 0).build();
+//        final RedisCluster cluster =
+// RedisCluster.builder().sentinelCount(1).replicationGroup("ourmaster", 0).build();
 //        cluster.start();
 //
 //        //when
@@ -116,7 +117,8 @@
 //    @Test
 //    public void testSimpleOperationsAfterRunWithSingleMasterAndOneSlave() throws Exception {
 //        //given
-//        final RedisCluster cluster = RedisCluster.builder().sentinelCount(1).replicationGroup("ourmaster", 1).build();
+//        final RedisCluster cluster =
+// RedisCluster.builder().sentinelCount(1).replicationGroup("ourmaster", 1).build();
 //        cluster.start();
 //
 //        //when
@@ -135,7 +137,8 @@
 //    @Test
 //    public void testSimpleOperationsAfterRunWithSingleMasterMultipleSlaves() throws Exception {
 //        //given
-//        final RedisCluster cluster = RedisCluster.builder().sentinelCount(1).replicationGroup("ourmaster", 2).build();
+//        final RedisCluster cluster =
+// RedisCluster.builder().sentinelCount(1).replicationGroup("ourmaster", 2).build();
 //        cluster.start();
 //
 //        //when
@@ -152,16 +155,19 @@
 //    }
 //
 //    @Test
-//    public void testSimpleOperationsAfterRunWithTwoSentinelsSingleMasterMultipleSlaves() throws Exception {
+//    public void testSimpleOperationsAfterRunWithTwoSentinelsSingleMasterMultipleSlaves() throws
+// Exception {
 //        //given
-//        final RedisCluster cluster = RedisCluster.builder().sentinelCount(2).replicationGroup("ourmaster", 2).build();
+//        final RedisCluster cluster =
+// RedisCluster.builder().sentinelCount(2).replicationGroup("ourmaster", 2).build();
 //        cluster.start();
 //
 //        //when
 //        JedisSentinelPool pool = null;
 //        Jedis jedis = null;
 //        try {
-//            pool = new JedisSentinelPool("ourmaster", Sets.newHashSet("localhost:26379", "localhost:26380"));
+//            pool = new JedisSentinelPool("ourmaster", Sets.newHashSet("localhost:26379",
+// "localhost:26380"));
 //            jedis = testPool(pool);
 //        } finally {
 //            if (jedis != null)
@@ -171,10 +177,12 @@
 //    }
 //
 //    @Test
-//    public void testSimpleOperationsAfterRunWithTwoPredefinedSentinelsSingleMasterMultipleSlaves() throws Exception {
+//    public void testSimpleOperationsAfterRunWithTwoPredefinedSentinelsSingleMasterMultipleSlaves()
+// throws Exception {
 //        //given
 //        List<Integer> sentinelPorts = Arrays.asList(26381, 26382);
-//        final RedisCluster cluster = RedisCluster.builder().sentinelPorts(sentinelPorts).replicationGroup("ourmaster", 2).build();
+//        final RedisCluster cluster =
+// RedisCluster.builder().sentinelPorts(sentinelPorts).replicationGroup("ourmaster", 2).build();
 //        cluster.start();
 //        final Set<String> sentinelHosts = JedisUtil.portsToJedisHosts(sentinelPorts);
 //
@@ -192,7 +200,9 @@
 //    }
 //
 //    @Test
-//    public void testSimpleOperationsAfterRunWithThreeSentinelsThreeMastersOneSlavePerMasterCluster() throws Exception {
+//    public void
+// testSimpleOperationsAfterRunWithThreeSentinelsThreeMastersOneSlavePerMasterCluster() throws
+// Exception {
 //        //given
 //        final String master1 = "master1";
 //        final String master2 = "master2";
@@ -212,9 +222,12 @@
 //        Jedis jedis2 = null;
 //        Jedis jedis3 = null;
 //        try {
-//            pool1 = new JedisSentinelPool(master1, Sets.newHashSet("localhost:26379", "localhost:26380", "localhost:26381"));
-//            pool2 = new JedisSentinelPool(master2, Sets.newHashSet("localhost:26379", "localhost:26380", "localhost:26381"));
-//            pool3 = new JedisSentinelPool(master3, Sets.newHashSet("localhost:26379", "localhost:26380", "localhost:26381"));
+//            pool1 = new JedisSentinelPool(master1, Sets.newHashSet("localhost:26379",
+// "localhost:26380", "localhost:26381"));
+//            pool2 = new JedisSentinelPool(master2, Sets.newHashSet("localhost:26379",
+// "localhost:26380", "localhost:26381"));
+//            pool3 = new JedisSentinelPool(master3, Sets.newHashSet("localhost:26379",
+// "localhost:26380", "localhost:26381"));
 //            jedis1 = testPool(pool1);
 //            jedis2 = testPool(pool2);
 //            jedis3 = testPool(pool3);
@@ -230,12 +243,15 @@
 //    }
 //
 //    @Test
-//    public void testSimpleOperationsAfterRunWithThreeSentinelsThreeMastersOneSlavePerMasterEphemeralCluster() throws Exception {
+//    public void
+// testSimpleOperationsAfterRunWithThreeSentinelsThreeMastersOneSlavePerMasterEphemeralCluster()
+// throws Exception {
 //        //given
 //        final String master1 = "master1";
 //        final String master2 = "master2";
 //        final String master3 = "master3";
-//        final RedisCluster cluster = RedisCluster.builder().ephemeral().sentinelCount(3).quorumSize(2)
+//        final RedisCluster cluster =
+// RedisCluster.builder().ephemeral().sentinelCount(3).quorumSize(2)
 //                .replicationGroup(master1, 1)
 //                .replicationGroup(master2, 1)
 //                .replicationGroup(master3, 1)
@@ -279,4 +295,4 @@
 //        assertEquals(null, jedis.mget("xyz").get(0));
 //        return jedis;
 //    }
-//}
+// }

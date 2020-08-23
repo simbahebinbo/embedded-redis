@@ -1,10 +1,9 @@
 package redis.embedded.ports;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import redis.embedded.PortProvider;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @NoArgsConstructor

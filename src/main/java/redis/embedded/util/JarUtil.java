@@ -2,10 +2,9 @@ package redis.embedded.util;
 
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
-import org.apache.commons.io.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
+import org.apache.commons.io.FileUtils;
 
 public class JarUtil {
 

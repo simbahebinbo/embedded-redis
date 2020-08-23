@@ -1,14 +1,13 @@
 package redis.embedded;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
-import redis.embedded.exceptions.EmbeddedRedisException;
-
 import java.io.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
+import redis.embedded.exceptions.EmbeddedRedisException;
 
 @Slf4j
 abstract class AbstractRedisInstance implements Redis {

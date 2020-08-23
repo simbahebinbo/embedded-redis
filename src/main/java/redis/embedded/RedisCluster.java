@@ -1,13 +1,13 @@
-//package redis.embedded;
+// package redis.embedded;
 //
-//import com.google.common.collect.Lists;
-//import redis.embedded.exceptions.EmbeddedRedisException;
+// import com.google.common.collect.Lists;
+// import redis.embedded.exceptions.EmbeddedRedisException;
 //
-//import java.util.ArrayList;
-//import java.util.LinkedList;
-//import java.util.List;
+// import java.util.ArrayList;
+// import java.util.LinkedList;
+// import java.util.List;
 //
-//public class RedisCluster implements Redis {
+// public class RedisCluster implements Redis {
 //    private final List<Redis> sentinels = new LinkedList<Redis>();
 //    private final List<Redis> servers = new LinkedList<Redis>();
 //
@@ -86,4 +86,4 @@
 //    public static RedisClusterBuilder builder() {
 //        return new RedisClusterBuilder();
 //    }
-//}
+// }

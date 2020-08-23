@@ -1,13 +1,12 @@
 package redis.embedded;
 
-import lombok.extern.slf4j.Slf4j;
-import redis.embedded.common.CommonConstant;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import redis.embedded.common.CommonConstant;
 
 @Slf4j
 public class RedisServer extends AbstractRedisInstance {

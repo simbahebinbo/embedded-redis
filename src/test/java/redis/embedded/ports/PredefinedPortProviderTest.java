@@ -1,14 +1,13 @@
 package redis.embedded.ports;
 
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import redis.embedded.exceptions.RedisBuildingException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import redis.embedded.exceptions.RedisBuildingException;
 
 @Slf4j
 public class PredefinedPortProviderTest {

@@ -1,11 +1,10 @@
 package redis.embedded.ports;
 
+import java.io.IOException;
+import java.net.ServerSocket;
 import lombok.extern.slf4j.Slf4j;
 import redis.embedded.PortProvider;
 import redis.embedded.exceptions.RedisBuildingException;
-
-import java.io.IOException;
-import java.net.ServerSocket;
 
 @Slf4j
 public class EphemeralPortProvider implements PortProvider {

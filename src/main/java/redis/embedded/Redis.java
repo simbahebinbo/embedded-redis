@@ -1,8 +1,7 @@
 package redis.embedded;
 
-import redis.embedded.exceptions.EmbeddedRedisException;
-
 import java.util.List;
+import redis.embedded.exceptions.EmbeddedRedisException;
 
 public interface Redis {
   boolean isActive();

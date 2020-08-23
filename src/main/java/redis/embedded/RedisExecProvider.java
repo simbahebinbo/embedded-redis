@@ -2,16 +2,15 @@ package redis.embedded;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import redis.embedded.common.CommonConstant;
 import redis.embedded.util.Architecture;
 import redis.embedded.util.JarUtil;
 import redis.embedded.util.OS;
 import redis.embedded.util.OSArchitecture;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
 
 @Slf4j
 public class RedisExecProvider {
