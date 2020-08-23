@@ -1,13 +1,20 @@
 package redis.embedded;
 
+import com.google.common.io.Resources;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
-import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import redis.embedded.common.CommonConstant;
+import redis.embedded.util.Architecture;
+import redis.embedded.util.OS;
+import redis.embedded.util.TimeUtil;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -22,11 +29,11 @@ public class RedisServerTest {
   }
 
   @Test
-  @Timeout(value = 1500, unit = TimeUnit.MILLISECONDS)
+  @Timeout(value = 3000, unit = TimeUnit.MILLISECONDS)
   public void testSimpleRun() {
     redisServer = new RedisServer(port);
     redisServer.start();
-    Awaitility.await().pollDelay(1000, TimeUnit.MILLISECONDS).until(() -> true);
+    TimeUtil.sleep(1000L);
     redisServer.stop();
   }
 
@@ -43,132 +50,101 @@ public class RedisServerTest {
         });
   }
 
-  //  @Test
-  //  public void shouldAllowSubsequentRuns() throws Exception {
-  //    redisServer = new RedisServer(6379);
-  //    redisServer.start();
-  //    redisServer.stop();
-  //
-  //    redisServer.start();
-  //    redisServer.stop();
-  //
-  //    redisServer.start();
-  //    redisServer.stop();
-  //  }
-  //
-  //  @Test
-  //  public void testSimpleOperationsAfterRun() throws Exception {
-  //    redisServer = new RedisServer(6379);
-  //    redisServer.start();
-  //
-  //    JedisPool pool = null;
-  //    Jedis jedis = null;
-  //    try {
-  //      pool = new JedisPool("localhost", 6379);
-  //      jedis = pool.getResource();
-  //      jedis.mset("abc", "1", "def", "2");
-  //
-  //      assertEquals("1", jedis.mget("abc").get(0));
-  //      assertEquals("2", jedis.mget("def").get(0));
-  //      assertNull(jedis.mget("xyz").get(0));
-  //    } finally {
-  //      if (jedis != null) pool.returnResource(jedis);
-  //      redisServer.stop();
-  //    }
-  //  }
-  //
-  //  @Test
-  //  public void shouldIndicateInactiveBeforeStart() throws Exception {
-  //    redisServer = new RedisServer(6379);
-  //    assertFalse(redisServer.isActive());
-  //  }
-  //
-  //  @Test
-  //  public void shouldIndicateActiveAfterStart() throws Exception {
-  //    redisServer = new RedisServer(6379);
-  //    redisServer.start();
-  //    assertTrue(redisServer.isActive());
-  //    redisServer.stop();
-  //  }
-  //
-  //  @Test
-  //  public void shouldIndicateInactiveAfterStop() throws Exception {
-  //    redisServer = new RedisServer(6379);
-  //    redisServer.start();
-  //    redisServer.stop();
-  //    assertFalse(redisServer.isActive());
-  //  }
-  //
-  //  @Test
-  //  public void shouldOverrideDefaultExecutable() throws Exception {
-  //    RedisExecProvider customProvider =
-  //        RedisExecProvider.defaultProvider()
-  //            .override(
-  //                OS.UNIX, Architecture.x86,
-  // Resources.getResource("redis-server-6.0.5-32").getFile())
-  //            .override(
-  //                OS.UNIX, Architecture.x86_64,
-  // Resources.getResource("redis-server-6.0.5").getFile())
-  //            .override(OS.MAC_OS_X, Resources.getResource("redis-server-6.0.5").getFile());
-  //
-  //    redisServer = new RedisServerBuilder().redisExecProvider(customProvider).build();
-  //  }
-  //
-  //  @Test(expected = RedisBuildingException.class)
-  //  public void shouldFailWhenBadExecutableGiven() throws Exception {
-  //    RedisExecProvider buggyProvider =
-  //        RedisExecProvider.defaultProvider()
-  //            .override(OS.UNIX, "some")
-  //            .override(OS.WINDOWS, Architecture.x86, "some")
-  //            .override(OS.WINDOWS, Architecture.x86_64, "some")
-  //            .override(OS.MAC_OS_X, "some");
-  //
-  //    redisServer = new RedisServerBuilder().redisExecProvider(buggyProvider).build();
-  //  }
-  //
-  //  @Test
-  //  public void testAwaitRedisServerReady() throws Exception {
-  //    String readyPattern = RedisServer.builder().build().redisReadyPattern();
-  //
-  //    assertReadyPattern(
-  //        new BufferedReader(
-  //            new InputStreamReader(
-  //                getClass()
-  //                    .getClassLoader()
-  //                    .getResourceAsStream("redis-2.x-standalone-startup-output.txt"))),
-  //        readyPattern);
-  //
-  //    assertReadyPattern(
-  //        new BufferedReader(
-  //            new InputStreamReader(
-  //                getClass()
-  //                    .getClassLoader()
-  //                    .getResourceAsStream("redis-3.x-standalone-startup-output.txt"))),
-  //        readyPattern);
-  //
-  //    assertReadyPattern(
-  //        new BufferedReader(
-  //            new InputStreamReader(
-  //                getClass()
-  //                    .getClassLoader()
-  //                    .getResourceAsStream("redis-4.x-standalone-startup-output.txt"))),
-  //        readyPattern);
-  //
-  //    assertReadyPattern(
-  //        new BufferedReader(
-  //            new InputStreamReader(
-  //                getClass()
-  //                    .getClassLoader()
-  //                    .getResourceAsStream("redis-6.x-standalone-startup-output.txt"))),
-  //        readyPattern);
-  //  }
-  //
-  //  private void assertReadyPattern(BufferedReader reader, String readyPattern) throws IOException
-  // {
-  //    String outputLine;
-  //    do {
-  //      outputLine = reader.readLine();
-  //      assertNotNull(outputLine);
-  //    } while (!outputLine.matches(readyPattern));
-  //  }
+  @Test
+  public void shouldAllowSubsequentRuns() {
+    redisServer = new RedisServer(port);
+    redisServer.start();
+    redisServer.stop();
+
+    redisServer.start();
+    redisServer.stop();
+
+    redisServer.start();
+    redisServer.stop();
+  }
+
+  @Test
+  public void shouldIndicateInactiveBeforeStart() {
+    redisServer = new RedisServer(port);
+    Assertions.assertFalse(redisServer.isActive());
+  }
+
+  @Test
+  public void shouldIndicateActiveAfterStart() {
+    redisServer = new RedisServer(port);
+    redisServer.start();
+    Assertions.assertTrue(redisServer.isActive());
+    redisServer.stop();
+  }
+
+  @Test
+  public void shouldIndicateInactiveAfterStop() {
+    redisServer = new RedisServer(port);
+    redisServer.start();
+    redisServer.stop();
+    Assertions.assertFalse(redisServer.isActive());
+  }
+
+  @Test
+  public void shouldOverrideDefaultExecutable() {
+    RedisExecProvider customProvider =
+        RedisExecProvider.defaultProvider()
+            .override(
+                OS.UNIX,
+                Architecture.X86,
+                Resources.getResource(CommonConstant.REDIS_SERVER_EXEC_UNIX_X86).getFile())
+            .override(
+                OS.UNIX,
+                Architecture.AMD64,
+                Resources.getResource(CommonConstant.REDIS_SERVER_EXEC_UNIX_AMD64).getFile())
+            .override(
+                OS.MAC_OSX,
+                Resources.getResource(CommonConstant.REDIS_SERVER_EXEC_MAC_OSX).getFile());
+
+    redisServer = new RedisServerBuilder().redisExecProvider(customProvider).port(port).build();
+  }
+
+  @Test
+  public void shouldFailWhenBadExecutableGiven() {
+    Assertions.assertThrows(
+        Exception.class,
+        () -> {
+          RedisExecProvider buggyProvider =
+              RedisExecProvider.defaultProvider()
+                  .override(OS.UNIX, "some")
+                  .override(OS.MAC_OSX, "some");
+
+          redisServer =
+              new RedisServerBuilder().redisExecProvider(buggyProvider).port(port).build();
+        });
+  }
+
+  @Test
+  public void testAwaitRedisServerReady() {
+
+    try {
+
+      String readyPattern = RedisServer.builder().build().redisReadyPattern();
+
+      assertReadyPattern(
+          new BufferedReader(
+              new InputStreamReader(
+                  getClass()
+                      .getClassLoader()
+                      .getResourceAsStream("redis-6.x-standalone-startup-output.txt"))),
+          readyPattern);
+      Assertions.assertTrue(true);
+    } catch (Exception e) {
+      log.warn(e.getMessage());
+      Assertions.fail();
+    }
+  }
+
+  private void assertReadyPattern(BufferedReader reader, String readyPattern) throws IOException {
+    String outputLine;
+    do {
+      outputLine = reader.readLine();
+      Assertions.assertNotNull(outputLine);
+    } while (!outputLine.matches(readyPattern));
+  }
 }
