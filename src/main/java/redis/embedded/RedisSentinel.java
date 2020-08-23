@@ -11,16 +11,19 @@ public class RedisSentinel extends AbstractRedisInstance {
 
   public RedisSentinel() {
     this(CommonConstant.DEFAULT_REDIS_SENTINEL_PORT, CommonConstant.DEFAULT_REDIS_MASTER_PORT);
+    log.debug("args: " + this.args);
   }
 
   public RedisSentinel(int sentinelPort, int masterPort) {
     super(sentinelPort, masterPort);
     this.args = builder().sentinelPort(sentinelPort).masterPort(masterPort).build().args;
+    log.debug("args: " + this.args);
   }
 
   public RedisSentinel(List<String> args, int port) {
     super(port, CommonConstant.DEFAULT_REDIS_MASTER_PORT);
     this.args = new ArrayList<>(args);
+    log.debug("args: " + this.args);
   }
 
   public static RedisSentinelBuilder builder() {

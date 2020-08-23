@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import redis.embedded.common.CommonConstant;
-import redis.embedded.util.TimeUtil;
+import redis.embedded.util.TimeTool;
 
 @Slf4j
 public class RedisSentinelTest {
@@ -35,7 +35,7 @@ public class RedisSentinelTest {
   public void testSimpleRun() {
     sentinelServer = new RedisSentinel(sentinelPort, masterPort);
     sentinelServer.start();
-    TimeUtil.sleep(1000L);
+    TimeTool.sleep(1000L);
     sentinelServer.stop();
   }
 

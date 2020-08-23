@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Timeout;
 import redis.embedded.common.CommonConstant;
 import redis.embedded.util.Architecture;
 import redis.embedded.util.OS;
-import redis.embedded.util.TimeUtil;
+import redis.embedded.util.TimeTool;
 
 @Slf4j
 public class RedisServerTest {
@@ -34,7 +34,7 @@ public class RedisServerTest {
   public void testSimpleRun() {
     redisServer = new RedisServer(port);
     redisServer.start();
-    TimeUtil.sleep(1000L);
+    TimeTool.sleep(1000L);
     redisServer.stop();
   }
 

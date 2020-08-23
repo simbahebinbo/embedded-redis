@@ -9,6 +9,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.embedded.common.CommonConstant;
 
+// 单机模式
 @Slf4j
 public class ModeStandaloneTest extends BaseTest {
 

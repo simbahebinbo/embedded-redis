@@ -10,6 +10,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisSentinelPool;
 import redis.embedded.common.CommonConstant;
 
+// 哨兵模式
 @Slf4j
 public class ModeSentinelTest extends BaseTest {
 
@@ -32,7 +33,7 @@ public class ModeSentinelTest extends BaseTest {
   }
 
   @Test
-  public void testSimpleOperationsAfterRun() {
+  public void testOperate() {
     masterServer = RedisServer.builder().port(masterPort).build();
     sentinelServer =
         RedisSentinel.builder()

@@ -1,12 +1,14 @@
 package redis.embedded;
 
-import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.common.io.Files;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import redis.embedded.common.CommonConstant;

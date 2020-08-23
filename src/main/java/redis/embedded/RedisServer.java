@@ -14,27 +14,32 @@ public class RedisServer extends AbstractRedisInstance {
 
   public RedisServer() {
     this(CommonConstant.DEFAULT_REDIS_STANDALONE_PORT);
+    log.debug("args: " + this.args);
   }
 
   public RedisServer(int port) {
     super(port);
     this.args = builder().port(port).build().args;
+    log.debug("args: " + this.args);
   }
 
   public RedisServer(File executable, int port) {
     super(port);
     this.args = Arrays.asList(executable.getAbsolutePath(), "--port", Integer.toString(port));
+    log.debug("args: " + this.args);
   }
 
   public RedisServer(RedisServerExecProvider redisExecProvider, int port) throws IOException {
     super(port);
     this.args =
         Arrays.asList(redisExecProvider.get().getAbsolutePath(), "--port", Integer.toString(port));
+    log.debug("args: " + this.args);
   }
 
   RedisServer(List<String> args, int port) {
     super(port);
     this.args = new ArrayList<>(args);
+    log.debug("args: " + this.args);
   }
 
   public static RedisServerBuilder builder() {

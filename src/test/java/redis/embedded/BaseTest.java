@@ -15,13 +15,13 @@ public class BaseTest {
   String value3;
 
   protected void setUp() {
-    key1 = RandomStringUtils.randomAlphabetic(5, 10);
-    key2 = RandomStringUtils.randomAlphabetic(5, 10);
-    key3 = RandomStringUtils.randomAlphabetic(5, 10);
+    key1 = RandomStringUtils.randomAlphabetic(5, 100);
+    key2 = RandomStringUtils.randomAlphabetic(5, 100);
+    key3 = RandomStringUtils.randomAlphabetic(5, 100);
 
-    value1 = RandomStringUtils.randomAlphanumeric(5, 10);
-    value2 = RandomStringUtils.randomAlphanumeric(5, 10);
-    value3 = RandomStringUtils.randomAlphanumeric(5, 10);
+    value1 = RandomStringUtils.randomAlphanumeric(5, 100);
+    value2 = RandomStringUtils.randomAlphanumeric(5, 100);
+    value3 = RandomStringUtils.randomAlphanumeric(5, 100);
   }
 
   protected void writeSuccess(Jedis jedis) {
