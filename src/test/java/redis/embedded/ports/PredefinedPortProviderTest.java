@@ -1,6 +1,8 @@
 package redis.embedded.ports;
 
-import org.junit.Test;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import redis.embedded.exceptions.RedisBuildingException;
 
 import java.util.ArrayList;
@@ -8,38 +10,31 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-
+@Slf4j
 public class PredefinedPortProviderTest {
 
-    @Test
-    public void nextShouldGiveNextPortFromAssignedList() throws Exception {
-        //given
-        Collection<Integer> ports = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        final PredefinedPortProvider provider = new PredefinedPortProvider(ports);
+  @Test
+  public void nextShouldGiveNextPortFromAssignedList() {
+    Collection<Integer> ports = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    final PredefinedPortProvider provider = new PredefinedPortProvider(ports);
 
-        //when
-        final List<Integer> returnedPorts = new ArrayList<Integer>();
-        for(int i = 0;i < ports.size(); i++) {
-            returnedPorts.add(provider.next());
-        }
-
-        //then
-        assertEquals(ports, returnedPorts);
+    final List<Integer> returnedPorts = new ArrayList<>();
+    for (int i = 0; i < ports.size(); i++) {
+      returnedPorts.add(provider.next());
     }
 
-    @Test(expected = RedisBuildingException.class)
-    public void nextShouldThrowExceptionWhenRunOutsOfPorts() throws Exception {
-        //given
-        Collection<Integer> ports = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        final PredefinedPortProvider provider = new PredefinedPortProvider(ports);
+    Assertions.assertEquals(ports, returnedPorts);
+  }
 
-        //when
-        for(int i = 0;i < ports.size(); i++) {
-            provider.next();
-        }
+  @Test
+  public void nextShouldThrowExceptionWhenRunOutsOfPorts() {
+    Collection<Integer> ports = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    final PredefinedPortProvider provider = new PredefinedPortProvider(ports);
 
-        //then exception should be thrown...
-        provider.next();
+    for (int i = 0; i < ports.size(); i++) {
+      provider.next();
     }
+
+    Assertions.assertThrows(RedisBuildingException.class, provider::next);
+  }
 }

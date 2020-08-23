@@ -7,11 +7,11 @@
 //import java.util.LinkedList;
 //import java.util.List;
 //
-//public class RedisCluster implements Redis {
+//public class RedisBunch implements Redis {
 //    private final List<Redis> sentinels = new LinkedList<Redis>();
 //    private final List<Redis> servers = new LinkedList<Redis>();
 //
-//    RedisCluster(List<Redis> sentinels, List<Redis> servers) {
+//    RedisBunch(List<Redis> sentinels, List<Redis> servers) {
 //        this.servers.addAll(servers);
 //        this.sentinels.addAll(sentinels);
 //    }

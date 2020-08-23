@@ -1,51 +1,49 @@
 package redis.embedded;
 
+import lombok.extern.slf4j.Slf4j;
+import redis.embedded.common.CommonConstant;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Slf4j
 public class RedisServer extends AbstractRedisInstance {
-    private static final String REDIS_READY_PATTERN = ".*(R|r)eady to accept connections.*";
-    private static final int DEFAULT_REDIS_PORT = 6379;
+  private static final String REDIS_READY_PATTERN = ".*(R|r)eady to accept connections.*";
 
-    public RedisServer() {
-        this(DEFAULT_REDIS_PORT);
-    }
+  public RedisServer() {
+    this(CommonConstant.DEFAULT_REDIS_PORT);
+  }
 
-    public RedisServer(int port) {
-        super(port);
-        this.args = builder().port(port).build().args;
-	}
+  public RedisServer(int port) {
+    super(port);
+    this.args = builder().port(port).build().args;
+  }
 
-    public RedisServer(File executable, int port) {
-        super(port);
-        this.args = Arrays.asList(
-                executable.getAbsolutePath(),
-                "--port", Integer.toString(port)
-        );
-    }
+  public RedisServer(File executable, int port) {
+    super(port);
+    this.args = Arrays.asList(executable.getAbsolutePath(), "--port", Integer.toString(port));
+  }
 
-    public RedisServer(RedisExecProvider redisExecProvider, int port) throws IOException {
-        super(port);
-        this.args = Arrays.asList(
-                redisExecProvider.get().getAbsolutePath(),
-                "--port", Integer.toString(port)
-        );
-    }
+  public RedisServer(RedisExecProvider redisExecProvider, int port) throws IOException {
+    super(port);
+    this.args =
+        Arrays.asList(redisExecProvider.get().getAbsolutePath(), "--port", Integer.toString(port));
+  }
 
-    RedisServer(List<String> args, int port) {
-        super(port);
-        this.args = new ArrayList<String>(args);
-    }
+  RedisServer(List<String> args, int port) {
+    super(port);
+    this.args = new ArrayList<>(args);
+  }
 
-    public static RedisServerBuilder builder() {
-        return new RedisServerBuilder();
-    }
+  public static RedisServerBuilder builder() {
+    return new RedisServerBuilder();
+  }
 
-    @Override
-    protected String redisReadyPattern() {
-        return REDIS_READY_PATTERN;
-    }
+  @Override
+  protected String redisReadyPattern() {
+    return REDIS_READY_PATTERN;
+  }
 }

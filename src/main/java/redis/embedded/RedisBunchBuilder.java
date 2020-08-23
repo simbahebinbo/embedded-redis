@@ -9,7 +9,7 @@
 //import java.util.LinkedList;
 //import java.util.List;
 //
-//public class RedisClusterBuilder {
+//public class RedisBunchBuilder {
 //    private RedisSentinelBuilder sentinelBuilder = new RedisSentinelBuilder();
 //    private RedisServerBuilder serverBuilder = new RedisServerBuilder();
 //    private int sentinelCount = 1;
@@ -18,60 +18,60 @@
 //    private PortProvider replicationGroupPortProvider = new SequencePortProvider(6379);
 //    private final List<ReplicationGroup> groups = new LinkedList<ReplicationGroup>();
 //
-//    public RedisClusterBuilder withSentinelBuilder(RedisSentinelBuilder sentinelBuilder) {
+//    public RedisBunchBuilder withSentinelBuilder(RedisSentinelBuilder sentinelBuilder) {
 //        this.sentinelBuilder = sentinelBuilder;
 //        return this;
 //    }
 //
-//    public RedisClusterBuilder withServerBuilder(RedisServerBuilder serverBuilder) {
+//    public RedisBunchBuilder withServerBuilder(RedisServerBuilder serverBuilder) {
 //        this.serverBuilder = serverBuilder;
 //        return this;
 //    }
 //
-//    public RedisClusterBuilder sentinelPorts(Collection<Integer> ports) {
+//    public RedisBunchBuilder sentinelPorts(Collection<Integer> ports) {
 //        this.sentinelPortProvider = new PredefinedPortProvider(ports);
 //        this.sentinelCount = ports.size();
 //        return this;
 //    }
 //
-//    public RedisClusterBuilder serverPorts(Collection<Integer> ports) {
+//    public RedisBunchBuilder serverPorts(Collection<Integer> ports) {
 //        this.replicationGroupPortProvider = new PredefinedPortProvider(ports);
 //        return this;
 //    }
 //
-//    public RedisClusterBuilder ephemeralSentinels() {
+//    public RedisBunchBuilder ephemeralSentinels() {
 //        this.sentinelPortProvider = new EphemeralPortProvider();
 //        return this;
 //    }
 //
-//    public RedisClusterBuilder ephemeralServers() {
+//    public RedisBunchBuilder ephemeralServers() {
 //        this.replicationGroupPortProvider = new EphemeralPortProvider();
 //        return this;
 //    }
 //
 //
-//    public RedisClusterBuilder ephemeral() {
+//    public RedisBunchBuilder ephemeral() {
 //        ephemeralSentinels();
 //        ephemeralServers();
 //        return this;
 //    }
 //
-//    public RedisClusterBuilder sentinelCount(int sentinelCount) {
+//    public RedisBunchBuilder sentinelCount(int sentinelCount) {
 //        this.sentinelCount = sentinelCount;
 //        return this;
 //    }
 //
-//    public RedisClusterBuilder sentinelStartingPort(int startingPort) {
+//    public RedisBunchBuilder sentinelStartingPort(int startingPort) {
 //        this.sentinelPortProvider = new SequencePortProvider(startingPort);
 //        return this;
 //    }
 //
-//    public RedisClusterBuilder quorumSize(int quorumSize) {
+//    public RedisBunchBuilder quorumSize(int quorumSize) {
 //        this.quorumSize = quorumSize;
 //        return this;
 //    }
 //
-//    public RedisClusterBuilder replicationGroup(String masterName, int slaveCount) {
+//    public RedisBunchBuilder replicationGroup(String masterName, int slaveCount) {
 //        this.groups.add(new ReplicationGroup(masterName, slaveCount, this.replicationGroupPortProvider));
 //        return this;
 //    }

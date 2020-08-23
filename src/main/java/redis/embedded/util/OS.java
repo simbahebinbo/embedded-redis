@@ -2,5 +2,5 @@ package redis.embedded.util;
 
 public enum OS {
   UNIX,
-  MACOSX
+  MAC_OSX
 }

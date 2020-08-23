@@ -36,8 +36,34 @@ public class CommonConstant {
   /** 连字符 中横线 */
   public static final String SEPARATOR_HYPHEN = "-";
 
+
+  public static final String CONFIG_FILE_SUFFIX =".conf";
+
   /** 默认redis的端口和地址 */
   public static final int DEFAULT_REDIS_PORT = 6379;
 
   public static final String DEFAULT_REDIS_HOST = "127.0.0.1";
+  public static final String ALL_REDIS_HOST = "0.0.0.0";
+
+  /** 操作系统 */
+  public static final String OS_NIX = "nix";
+
+  public static final String OS_NUX = "nux";
+  public static final String OS_AIX = "aix";
+  public static final String OS_MAC_OSX = "Mac OS X";
+
+  /** redis 二进制文件 */
+  public static final String REDIS_SERVER = "redis-server";
+
+  public static final String REDIS_VERSION = "6.0.6";
+
+  public static final String X86_SUFFIX = "-32";
+  public static final String MAC_OSX_SUFFIX = ".app";
+
+  public static final String REDIS_SERVER_EXEC_UNIX_AMD64 =
+      REDIS_SERVER + SEPARATOR_HYPHEN + REDIS_VERSION;
+  public static final String REDIS_SERVER_EXEC_UNIX_X86 =
+      REDIS_SERVER + SEPARATOR_HYPHEN + REDIS_VERSION + X86_SUFFIX;
+  public static final String REDIS_SERVER_EXEC_MAC_OSX =
+          REDIS_SERVER + SEPARATOR_HYPHEN + REDIS_VERSION + MAC_OSX_SUFFIX;
 }
