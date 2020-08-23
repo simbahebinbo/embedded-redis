@@ -1,37 +1,24 @@
 package redis.embedded;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
+
 import lombok.extern.slf4j.Slf4j;
-import redis.embedded.common.CommonConstant;
 import redis.embedded.util.Architecture;
 import redis.embedded.util.JarUtil;
 import redis.embedded.util.OS;
 import redis.embedded.util.OSArchitecture;
 
 @Slf4j
-public class RedisExecProvider {
+abstract class RedisExecProvider {
 
-  private final Map<OSArchitecture, String> executables = Maps.newHashMap();
+  protected final Map<OSArchitecture, String> executables = Maps.newHashMap();
 
-  public static RedisExecProvider defaultProvider() {
-    return new RedisExecProvider();
-  }
-
-  private RedisExecProvider() {
-    initExecutables();
-  }
-
-  private void initExecutables() {
-    executables.put(OSArchitecture.UNIX_X86, CommonConstant.REDIS_SERVER_EXEC_UNIX_X86);
-    executables.put(OSArchitecture.UNIX_AMD64, CommonConstant.REDIS_SERVER_EXEC_UNIX_AMD64);
-
-    executables.put(OSArchitecture.MAC_OSX_X86, CommonConstant.REDIS_SERVER_EXEC_MAC_OSX);
-    executables.put(OSArchitecture.MAC_OSX_AMD64, CommonConstant.REDIS_SERVER_EXEC_MAC_OSX);
-  }
+  protected abstract void initExecutables();
 
   public RedisExecProvider override(OS os, String executable) {
     Preconditions.checkNotNull(executable);

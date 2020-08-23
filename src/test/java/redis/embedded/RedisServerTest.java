@@ -89,7 +89,7 @@ public class RedisServerTest {
   @Test
   public void shouldOverrideDefaultExecutable() {
     RedisExecProvider customProvider =
-        RedisExecProvider.defaultProvider()
+        RedisServerExecProvider.defaultProvider()
             .override(
                 OS.UNIX,
                 Architecture.X86,
@@ -111,7 +111,7 @@ public class RedisServerTest {
         Exception.class,
         () -> {
           RedisExecProvider buggyProvider =
-              RedisExecProvider.defaultProvider()
+              RedisServerExecProvider.defaultProvider()
                   .override(OS.UNIX, "some")
                   .override(OS.MAC_OSX, "some");
 

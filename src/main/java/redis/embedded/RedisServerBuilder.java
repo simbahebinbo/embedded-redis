@@ -1,12 +1,14 @@
 package redis.embedded;
 
-import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.common.io.Files;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import redis.embedded.common.CommonConstant;
@@ -18,7 +20,7 @@ public class RedisServerBuilder {
   private static final String CONF_FILENAME = "embedded-redis-server";
 
   private File executable;
-  private RedisExecProvider redisExecProvider = RedisExecProvider.defaultProvider();
+  private RedisExecProvider redisExecProvider = RedisServerExecProvider.defaultProvider();
   private String bind = CommonConstant.ALL_REDIS_HOST;
   private int port = CommonConstant.DEFAULT_REDIS_PORT;
   private InetSocketAddress slaveOf;

@@ -26,7 +26,7 @@ public class RedisServer extends AbstractRedisInstance {
     this.args = Arrays.asList(executable.getAbsolutePath(), "--port", Integer.toString(port));
   }
 
-  public RedisServer(RedisExecProvider redisExecProvider, int port) throws IOException {
+  public RedisServer(RedisServerExecProvider redisExecProvider, int port) throws IOException {
     super(port);
     this.args =
         Arrays.asList(redisExecProvider.get().getAbsolutePath(), "--port", Integer.toString(port));
