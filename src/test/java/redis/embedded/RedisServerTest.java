@@ -3,6 +3,7 @@ package redis.embedded;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
 import org.awaitility.Awaitility;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
@@ -29,17 +30,19 @@ public class RedisServerTest {
     redisServer.stop();
   }
 
-  //  @Test(expected = RuntimeException.class)
-  //  public void shouldNotAllowMultipleRunsWithoutStop() throws Exception {
-  //    try {
-  //      redisServer = new RedisServer(6379);
-  //      redisServer.start();
-  //      redisServer.start();
-  //    } finally {
-  //      redisServer.stop();
-  //    }
-  //  }
-  //
+  @Test
+  public void shouldNotAllowMultipleRunsWithoutStop() {
+
+    Assertions.assertThrows(
+        Exception.class,
+        () -> {
+          redisServer = new RedisServer(port);
+          redisServer.start();
+          redisServer.start();
+          redisServer.stop();
+        });
+  }
+
   //  @Test
   //  public void shouldAllowSubsequentRuns() throws Exception {
   //    redisServer = new RedisServer(6379);
