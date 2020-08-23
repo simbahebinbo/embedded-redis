@@ -22,9 +22,11 @@ public class RedisServerTest {
 
   private RedisServer redisServer;
   private int port;
+  private String host;
 
   @BeforeEach
   public void setUp() {
+    host = CommonConstant.DEFAULT_REDIS_HOST;
     port = RandomUtils.nextInt(10000, 20000);
   }
 

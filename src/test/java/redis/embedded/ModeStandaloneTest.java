@@ -1,31 +1,91 @@
 package redis.embedded;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomUtils;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.embedded.common.CommonConstant;
 
 @Slf4j
 public class ModeStandaloneTest extends BaseTest {
 
   private RedisServer redisServer;
+  private int port;
+  private String host;
 
-  //	@Test
-  //	public void testSimpleOperationsAfterRun() throws Exception {
-  //		redisServer = new RedisServer(6379);
-  //		redisServer.start();
-  //
-  //		JedisPool pool = null;
-  //		Jedis jedis = null;
-  //		try {
-  //			pool = new JedisPool("localhost", 6379);
-  //			jedis = pool.getResource();
-  //			jedis.mset("abc", "1", "def", "2");
-  //
-  //			assertEquals("1", jedis.mget("abc").get(0));
-  //			assertEquals("2", jedis.mget("def").get(0));
-  //			assertNull(jedis.mget("xyz").get(0));
-  //		} finally {
-  //			if (jedis != null)
-  //				pool.returnResource(jedis);
-  //			redisServer.stop();
-  //		}
-  //	}
+  @BeforeEach
+  public void setUp() {
+    super.setUp();
+    host = CommonConstant.DEFAULT_REDIS_HOST;
+    port = RandomUtils.nextInt(10000, 20000);
+  }
+
+  // 单机模式
+  // 正常启动
+  // 节点可读可写
+  @Test
+  public void testOperate() {
+    redisServer = new RedisServer(port);
+    redisServer.start();
+    JedisPool pool = new JedisPool(host, port);
+
+    Jedis jedis = pool.getResource();
+    writeSuccess(jedis);
+    readSuccess(jedis);
+
+    pool.close();
+    redisServer.stop();
+  }
+
+  // 单机模式
+  // 正常启动,
+  // 节点宕机
+  // 节点不可读不可写
+  @Test
+  public void testOperateThenStandaloneDown() {
+    redisServer = new RedisServer(port);
+    redisServer.start();
+    JedisPool pool = new JedisPool(host, port);
+    Jedis jedis = pool.getResource();
+    writeSuccess(jedis);
+    readSuccess(jedis);
+
+    redisServer.stop();
+
+    Assertions.assertThrows(
+        Exception.class,
+        () -> {
+          Jedis newJedis = pool.getResource();
+        });
+
+    pool.close();
+    redisServer.stop();
+  }
+
+  // 单机模式
+  // 正常启动
+  // 节点宕机，然后重启
+  // 节点不可读不可写
+  @Test
+  public void testOperateThenStandaloneDownUp() {
+    redisServer = new RedisServer(port);
+    redisServer.start();
+    JedisPool pool = new JedisPool(host, port);
+    Jedis jedis = pool.getResource();
+    writeSuccess(jedis);
+    readSuccess(jedis);
+
+    redisServer.stop();
+    redisServer.start();
+
+    Jedis newJedis = pool.getResource();
+    writeSuccess(newJedis);
+    readSuccess(newJedis);
+
+    pool.close();
+    redisServer.stop();
+  }
 }
