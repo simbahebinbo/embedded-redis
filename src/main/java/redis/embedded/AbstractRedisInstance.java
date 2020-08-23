@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.io.IOUtils;
 import redis.embedded.exceptions.EmbeddedRedisException;
 
@@ -15,12 +16,17 @@ abstract class AbstractRedisInstance implements Redis {
   protected List<String> args = Collections.emptyList();
   private volatile boolean active = false;
   private Process redisProcess;
-  private final int port;
+  private List<Integer> ports = Lists.newArrayList();
 
   private ExecutorService executor;
 
   protected AbstractRedisInstance(int port) {
-    this.port = port;
+    this.ports.add(port);
+  }
+
+  protected AbstractRedisInstance(int sentinelPort, int masterPort) {
+    this.ports.add(sentinelPort);
+    this.ports.add(masterPort);
   }
 
   public boolean isActive() {
@@ -113,7 +119,7 @@ abstract class AbstractRedisInstance implements Redis {
   }
 
   public List<Integer> ports() {
-    return Collections.singletonList(port);
+    return ports;
   }
 
   private static class PrintReaderRunnable implements Runnable {

@@ -13,7 +13,7 @@ public class RedisServer extends AbstractRedisInstance {
   private static final String REDIS_READY_PATTERN = ".*(R|r)eady to accept connections.*";
 
   public RedisServer() {
-    this(CommonConstant.DEFAULT_REDIS_PORT);
+    this(CommonConstant.DEFAULT_REDIS_STANDALONE_PORT);
   }
 
   public RedisServer(int port) {

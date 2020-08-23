@@ -39,7 +39,10 @@ public class CommonConstant {
   public static final String CONFIG_FILE_SUFFIX = ".conf";
 
   /** 默认redis的端口和地址 */
-  public static final int DEFAULT_REDIS_PORT = 6379;
+  public static final int DEFAULT_REDIS_STANDALONE_PORT = 6379;
+
+  public static final int DEFAULT_REDIS_MASTER_PORT = 6379;
+  public static final int DEFAULT_REDIS_SENTINEL_PORT = 26379;
 
   public static final String DEFAULT_REDIS_HOST = "127.0.0.1";
   public static final String ALL_REDIS_HOST = "0.0.0.0";
@@ -53,6 +56,7 @@ public class CommonConstant {
 
   /** redis 二进制文件 */
   public static final String REDIS_SERVER = "redis-server";
+
   public static final String REDIS_SENTINEL = "redis-sentinel";
   public static final String REDIS_CLI = "redis-cli";
 
@@ -68,14 +72,12 @@ public class CommonConstant {
   public static final String REDIS_SERVER_EXEC_MAC_OSX =
       REDIS_SERVER + SEPARATOR_HYPHEN + REDIS_VERSION + MAC_OSX_SUFFIX;
 
-
   public static final String REDIS_SENTINEL_EXEC_UNIX_AMD64 =
       REDIS_SENTINEL + SEPARATOR_HYPHEN + REDIS_VERSION;
   public static final String REDIS_SENTINEL_EXEC_UNIX_X86 =
       REDIS_SENTINEL + SEPARATOR_HYPHEN + REDIS_VERSION + X86_SUFFIX;
   public static final String REDIS_SENTINEL_EXEC_MAC_OSX =
       REDIS_SENTINEL + SEPARATOR_HYPHEN + REDIS_VERSION + MAC_OSX_SUFFIX;
-
 
   public static final String REDIS_CLI_EXEC_UNIX_AMD64 =
       REDIS_CLI + SEPARATOR_HYPHEN + REDIS_VERSION;

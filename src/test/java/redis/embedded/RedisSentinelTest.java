@@ -1,103 +1,87 @@
-// package redis.embedded;
-//
-// import com.google.common.collect.Sets;
-// import org.junit.Test;
-// import redis.clients.jedis.Jedis;
-// import redis.clients.jedis.JedisSentinelPool;
-//
-// import java.io.BufferedReader;
-// import java.io.IOException;
-// import java.io.InputStreamReader;
-// import java.util.concurrent.TimeUnit;
-//
-// import static org.junit.Assert.*;
-//
-// public class RedisSentinelTest {
-//    private RedisSentinel sentinel;
-//    private RedisServer server;
-//
-//    @Test(timeout = 3000L)
-//    public void testSimpleRun() throws Exception {
-//        server = new RedisServer();
-//        sentinel = RedisSentinel.builder().build();
-//        sentinel.start();
-//        server.start();
-//        TimeUnit.SECONDS.sleep(1);
-//        server.stop();
-//        sentinel.stop();
-//    }
-//
-//    @Test
-//    public void shouldAllowSubsequentRuns() throws Exception {
-//        sentinel = RedisSentinel.builder().build();
-//        sentinel.start();
-//        sentinel.stop();
-//
-//        sentinel.start();
-//        sentinel.stop();
-//
-//        sentinel.start();
-//        sentinel.stop();
-//    }
-//
-//    @Test
-//    public void testSimpleOperationsAfterRun() throws Exception {
-//        //given
-//        server = new RedisServer();
-//        sentinel = RedisSentinel.builder().build();
-//        server.start();
-//        sentinel.start();
-//        TimeUnit.SECONDS.sleep(1);
-//
-//        //when
-//        JedisSentinelPool pool = null;
-//        Jedis jedis = null;
-//        try {
-//            pool = new JedisSentinelPool("mymaster", Sets.newHashSet("localhost:26379"));
-//            jedis = pool.getResource();
-//            jedis.mset("abc", "1", "def", "2");
-//
-//            //then
-//            assertEquals("1", jedis.mget("abc").get(0));
-//            assertEquals("2", jedis.mget("def").get(0));
-//            assertNull(jedis.mget("xyz").get(0));
-//        } finally {
-//            if (jedis != null)
-//                pool.returnResource(jedis);
-//            sentinel.stop();
-//            server.stop();
-//        }
-//    }
-//
-//    @Test
-//    public void testAwaitRedisSentinelReady() throws Exception {
-//        String readyPattern =  RedisSentinel.builder().build().redisReadyPattern();
-//
-//        assertReadyPattern(new BufferedReader(
-//                        new InputStreamReader(getClass()
-//                                .getClassLoader()
-//                                .getResourceAsStream("redis-2.x-sentinel-startup-output.txt"))),
-//                readyPattern);
-//
-//        assertReadyPattern(new BufferedReader(
-//                        new InputStreamReader(getClass()
-//                                .getClassLoader()
-//                                .getResourceAsStream("redis-3.x-sentinel-startup-output.txt"))),
-//                readyPattern);
-//
-//        assertReadyPattern(new BufferedReader(
-//                        new InputStreamReader(getClass()
-//                                .getClassLoader()
-//                                .getResourceAsStream("redis-6.x-sentinel-startup-output.txt"))),
-//                readyPattern);
-//    }
-//
-//    private void assertReadyPattern(BufferedReader reader, String readyPattern) throws IOException
-// {
-//        String outputLine;
-//        do {
-//            outputLine = reader.readLine();
-//            assertNotNull(outputLine);
-//        } while (!outputLine.matches(readyPattern));
-//    }
-// }
+package redis.embedded;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomUtils;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
+import redis.embedded.common.CommonConstant;
+import redis.embedded.util.TimeUtil;
+
+@Slf4j
+public class RedisSentinelTest {
+  private RedisSentinel sentinelServer;
+  private RedisServer masterServer;
+  private int masterPort;
+  private String masterHost;
+  private int sentinelPort;
+  private String sentinelHost;
+
+  @BeforeEach
+  public void setUp() {
+    masterHost = CommonConstant.DEFAULT_REDIS_HOST;
+    masterPort = RandomUtils.nextInt(10000, 20000);
+    sentinelHost = CommonConstant.DEFAULT_REDIS_HOST;
+    sentinelPort = RandomUtils.nextInt(10000, 20000);
+  }
+
+  @Test
+  @Timeout(value = 3000, unit = TimeUnit.MILLISECONDS)
+  public void testSimpleRun() {
+    sentinelServer = new RedisSentinel(sentinelPort, masterPort);
+    sentinelServer.start();
+    TimeUtil.sleep(1000L);
+    sentinelServer.stop();
+  }
+
+  @Test
+  public void shouldAllowSubsequentRuns() {
+    sentinelServer =
+        RedisSentinel.builder().sentinelPort(sentinelPort).masterPort(masterPort).build();
+    sentinelServer.start();
+    sentinelServer.stop();
+
+    sentinelServer.start();
+    sentinelServer.stop();
+
+    sentinelServer.start();
+    sentinelServer.stop();
+  }
+
+  @Test
+  public void testAwaitRedisSentinelReady() {
+    try {
+      String readyPattern =
+          RedisSentinel.builder()
+              .sentinelPort(sentinelPort)
+              .masterPort(masterPort)
+              .build()
+              .redisReadyPattern();
+
+      assertReadyPattern(
+          new BufferedReader(
+              new InputStreamReader(
+                  getClass()
+                      .getClassLoader()
+                      .getResourceAsStream("redis-6.x-sentinel-startup-output.txt"))),
+          readyPattern);
+      Assertions.assertTrue(true);
+    } catch (Exception e) {
+      log.warn(e.getMessage());
+      Assertions.fail();
+    }
+  }
+
+  private void assertReadyPattern(BufferedReader reader, String readyPattern) throws IOException {
+    String outputLine;
+    do {
+      outputLine = reader.readLine();
+      Assertions.assertNotNull(outputLine);
+    } while (!outputLine.matches(readyPattern));
+  }
+}

@@ -124,7 +124,6 @@ public class RedisServerTest {
   public void testAwaitRedisServerReady() {
 
     try {
-
       String readyPattern = RedisServer.builder().build().redisReadyPattern();
 
       assertReadyPattern(

@@ -1,12 +1,10 @@
 package redis.embedded;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
-
 import lombok.extern.slf4j.Slf4j;
 import redis.embedded.util.Architecture;
 import redis.embedded.util.JarUtil;

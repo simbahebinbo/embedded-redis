@@ -28,7 +28,7 @@ public class ModeStandaloneTest extends BaseTest {
   // 节点可读可写
   @Test
   public void testOperate() {
-    redisServer = new RedisServer(port);
+    redisServer = RedisServer.builder().port(port).build();
     redisServer.start();
     JedisPool pool = new JedisPool(host, port);
 
@@ -46,7 +46,7 @@ public class ModeStandaloneTest extends BaseTest {
   // 节点不可读不可写
   @Test
   public void testOperateThenStandaloneDown() {
-    redisServer = new RedisServer(port);
+    redisServer = RedisServer.builder().port(port).build();
     redisServer.start();
     JedisPool pool = new JedisPool(host, port);
     Jedis jedis = pool.getResource();
@@ -71,7 +71,7 @@ public class ModeStandaloneTest extends BaseTest {
   // 节点不可读不可写
   @Test
   public void testOperateThenStandaloneDownUp() {
-    redisServer = new RedisServer(port);
+    redisServer = RedisServer.builder().port(port).build();
     redisServer.start();
     JedisPool pool = new JedisPool(host, port);
     Jedis jedis = pool.getResource();

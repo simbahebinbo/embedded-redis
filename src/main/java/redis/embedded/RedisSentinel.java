@@ -1,14 +1,26 @@
- package redis.embedded;
+package redis.embedded;
 
- import java.util.ArrayList;
- import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import redis.embedded.common.CommonConstant;
 
- public class RedisSentinel extends AbstractRedisInstance {
+@Slf4j
+public class RedisSentinel extends AbstractRedisInstance {
   private static final String REDIS_READY_PATTERN = ".*Sentinel (runid|ID) is.*";
 
+  public RedisSentinel() {
+    this(CommonConstant.DEFAULT_REDIS_SENTINEL_PORT, CommonConstant.DEFAULT_REDIS_MASTER_PORT);
+  }
+
+  public RedisSentinel(int sentinelPort, int masterPort) {
+    super(sentinelPort, masterPort);
+    this.args = builder().sentinelPort(sentinelPort).masterPort(masterPort).build().args;
+  }
+
   public RedisSentinel(List<String> args, int port) {
-    super(port);
-    this.args = new ArrayList<String>(args);
+    super(port, CommonConstant.DEFAULT_REDIS_MASTER_PORT);
+    this.args = new ArrayList<>(args);
   }
 
   public static RedisSentinelBuilder builder() {
@@ -19,4 +31,4 @@
   protected String redisReadyPattern() {
     return REDIS_READY_PATTERN;
   }
- }
+}
