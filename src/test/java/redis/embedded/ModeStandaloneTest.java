@@ -42,7 +42,7 @@ public class ModeStandaloneTest extends BaseTest {
   }
 
   // 单机模式
-  // 正常启动,
+  // 正常启动
   // 节点宕机
   // 节点不可读不可写
   @Test
@@ -59,6 +59,7 @@ public class ModeStandaloneTest extends BaseTest {
     Assertions.assertThrows(
         Exception.class,
         () -> {
+          // 重新获取连接
           Jedis newJedis = pool.getResource();
         });
 
@@ -69,7 +70,7 @@ public class ModeStandaloneTest extends BaseTest {
   // 单机模式
   // 正常启动
   // 节点宕机，然后重启
-  // 节点不可读不可写
+  // 节点可读可写
   @Test
   public void testOperateThenStandaloneDownUp() {
     redisServer = RedisServer.builder().port(port).build();
@@ -82,6 +83,7 @@ public class ModeStandaloneTest extends BaseTest {
     redisServer.stop();
     redisServer.start();
 
+    // 重新获取连接
     Jedis newJedis = pool.getResource();
     writeSuccess(newJedis);
     readSuccess(newJedis);

@@ -20,21 +20,7 @@ public class BaseTest {
   String value5;
   String value6;
 
-  protected void setUp() {
-    key1 = RandomStringUtils.randomAlphabetic(5, 100);
-    key2 = RandomStringUtils.randomAlphabetic(5, 100);
-    key3 = RandomStringUtils.randomAlphabetic(5, 100);
-    key4 = RandomStringUtils.randomAlphabetic(5, 100);
-    key5 = RandomStringUtils.randomAlphabetic(5, 100);
-    key6 = RandomStringUtils.randomAlphabetic(5, 100);
-
-    value1 = RandomStringUtils.randomAlphanumeric(5, 100);
-    value2 = RandomStringUtils.randomAlphanumeric(5, 100);
-    value3 = RandomStringUtils.randomAlphanumeric(5, 100);
-    value4 = RandomStringUtils.randomAlphanumeric(5, 100);
-    value5 = RandomStringUtils.randomAlphanumeric(5, 100);
-    value6 = RandomStringUtils.randomAlphanumeric(5, 100);
-  }
+  protected void setUp() {}
 
   protected void writeSuccess(Jedis jedis) {
     msetSuccess(jedis);
@@ -42,6 +28,14 @@ public class BaseTest {
   }
 
   private void msetSuccess(Jedis jedis) {
+    key1 = RandomStringUtils.randomAlphabetic(5, 100);
+    key2 = RandomStringUtils.randomAlphabetic(5, 100);
+    key3 = RandomStringUtils.randomAlphabetic(5, 100);
+
+    value1 = RandomStringUtils.randomAlphanumeric(5, 100);
+    value2 = RandomStringUtils.randomAlphanumeric(5, 100);
+    value3 = RandomStringUtils.randomAlphanumeric(5, 100);
+
     log.info("key1:" + key1 + "   value1:" + value1);
     log.info("key2:" + key2 + "   value2:" + value2);
     log.info("key3:" + key3 + "   value3:" + value3);
@@ -50,6 +44,14 @@ public class BaseTest {
   }
 
   private void setSuccess(Jedis jedis) {
+    key4 = RandomStringUtils.randomAlphabetic(5, 100);
+    key5 = RandomStringUtils.randomAlphabetic(5, 100);
+    key6 = RandomStringUtils.randomAlphabetic(5, 100);
+
+    value4 = RandomStringUtils.randomAlphanumeric(5, 100);
+    value5 = RandomStringUtils.randomAlphanumeric(5, 100);
+    value6 = RandomStringUtils.randomAlphanumeric(5, 100);
+
     log.info("key4:" + key4 + "   value4:" + value4);
     log.info("key5:" + key5 + "   value5:" + value5);
     log.info("key6:" + key6 + "   value6:" + value6);
@@ -130,9 +132,9 @@ public class BaseTest {
     Assertions.assertThrows(
         Exception.class,
         () -> {
-          jedis.mget(key1).get(0);
-          jedis.mget(key2).get(0);
-          jedis.mget(key3).get(0);
+          jedis.mget(key1);
+          jedis.mget(key2);
+          jedis.mget(key3);
         });
   }
 
