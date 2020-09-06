@@ -25,9 +25,9 @@ public class RedisSentinelTest {
   @BeforeEach
   public void setUp() {
     masterHost = CommonConstant.DEFAULT_REDIS_HOST;
-    masterPort = RandomUtils.nextInt(10000, 20000);
+    masterPort = RandomUtils.nextInt(10000, 60000);
     sentinelHost = CommonConstant.DEFAULT_REDIS_HOST;
-    sentinelPort = RandomUtils.nextInt(10000, 20000);
+    sentinelPort = RandomUtils.nextInt(10000, 60000);
   }
 
   @Test

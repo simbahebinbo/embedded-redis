@@ -8,7 +8,7 @@ import redis.embedded.PortProvider;
 @Slf4j
 @NoArgsConstructor
 public class SequencePortProvider implements PortProvider {
-  private AtomicInteger currentPort = new AtomicInteger(26379);
+  private final AtomicInteger currentPort = new AtomicInteger(26379);
 
   public SequencePortProvider(int currentPort) {
     this.currentPort.set(currentPort);

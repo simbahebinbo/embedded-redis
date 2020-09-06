@@ -4,23 +4,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import redis.embedded.Redis;
+import redis.embedded.RedisBunch;
 import redis.embedded.common.CommonConstant;
 
 public class JedisUtil {
-  public static Set<String> jedisHosts(Redis redis) {
+  public static Set<String> jedisJedisHosts(Redis redis) {
     final List<Integer> ports = redis.ports();
     return portsToJedisHosts(ports);
   }
 
-  //  public static Set<String> sentinelHosts(RedisCluster cluster) {
-  //    final List<Integer> ports = cluster.sentinelPorts();
-  //    return portsToJedisHosts(ports);
-  //  }
+  public static Set<String> sentinelJedisHosts(RedisBunch bunch) {
+    final List<Integer> ports = bunch.sentinelPorts();
+    return portsToJedisHosts(ports);
+  }
 
   public static Set<String> portsToJedisHosts(List<Integer> ports) {
     Set<String> hosts = new HashSet<>();
-    for (Integer p : ports) {
-      hosts.add(CommonConstant.DEFAULT_REDIS_HOST + CommonConstant.SEPARATOR_COLON + p);
+    for (Integer port : ports) {
+      hosts.add(CommonConstant.DEFAULT_REDIS_HOST + CommonConstant.SEPARATOR_COLON + port);
     }
     return hosts;
   }

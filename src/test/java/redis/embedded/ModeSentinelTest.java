@@ -33,11 +33,11 @@ public class ModeSentinelTest extends BaseTest {
   public void setUp() {
     super.setUp();
     masterHost = CommonConstant.DEFAULT_REDIS_HOST;
-    masterPort = RandomUtils.nextInt(10000, 20000);
+    masterPort = RandomUtils.nextInt(10000, 60000);
     slaveHost = CommonConstant.DEFAULT_REDIS_HOST;
-    slavePort = RandomUtils.nextInt(10000, 20000);
+    slavePort = RandomUtils.nextInt(10000, 60000);
     sentinelHost = CommonConstant.DEFAULT_REDIS_HOST;
-    sentinelPort = RandomUtils.nextInt(10000, 20000);
+    sentinelPort = RandomUtils.nextInt(10000, 60000);
     masterName = RandomStringUtils.randomAlphabetic(5, 10);
   }
 

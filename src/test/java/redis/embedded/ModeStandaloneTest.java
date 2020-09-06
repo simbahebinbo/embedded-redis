@@ -21,7 +21,7 @@ public class ModeStandaloneTest extends BaseTest {
   public void setUp() {
     super.setUp();
     host = CommonConstant.DEFAULT_REDIS_HOST;
-    port = RandomUtils.nextInt(10000, 20000);
+    port = RandomUtils.nextInt(10000, 60000);
   }
 
   // 单机模式

@@ -16,7 +16,7 @@ abstract class AbstractRedisInstance implements Redis {
   protected List<String> args = Collections.emptyList();
   private volatile boolean active = false;
   private Process redisProcess;
-  private List<Integer> ports = Lists.newArrayList();
+  private final List<Integer> ports = Lists.newArrayList();
 
   private ExecutorService executor;
 
@@ -66,7 +66,7 @@ abstract class AbstractRedisInstance implements Redis {
     BufferedReader reader =
         new BufferedReader(new InputStreamReader(redisProcess.getInputStream()));
     try {
-      StringBuffer outputStringBuffer = new StringBuffer();
+      StringBuilder outputStringBuffer = new StringBuilder();
       String outputLine;
       do {
         outputLine = reader.readLine();

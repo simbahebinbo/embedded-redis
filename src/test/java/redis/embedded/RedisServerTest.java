@@ -26,7 +26,7 @@ public class RedisServerTest {
   @BeforeEach
   public void setUp() {
     host = CommonConstant.DEFAULT_REDIS_HOST;
-    port = RandomUtils.nextInt(10000, 20000);
+    port = RandomUtils.nextInt(10000, 60000);
   }
 
   @Test

@@ -22,8 +22,7 @@ public class DateTool {
 
   // 将纳秒转成毫秒 保留精度
   public static double convertNanosToMillis(long nanos) {
-    double millis = nanos / 1000 / 1000D;
 
-    return millis;
+    return (double) nanos / 1000 / 1000D;
   }
 }

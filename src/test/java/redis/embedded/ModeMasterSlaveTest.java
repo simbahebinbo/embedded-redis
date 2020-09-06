@@ -27,9 +27,9 @@ public class ModeMasterSlaveTest extends BaseTest {
   public void setUp() {
     super.setUp();
     masterHost = CommonConstant.DEFAULT_REDIS_HOST;
-    masterPort = RandomUtils.nextInt(10000, 20000);
+    masterPort = RandomUtils.nextInt(10000, 60000);
     slaveHost = CommonConstant.DEFAULT_REDIS_HOST;
-    slavePort = RandomUtils.nextInt(10000, 20000);
+    slavePort = RandomUtils.nextInt(10000, 60000);
   }
 
   // 主从模式

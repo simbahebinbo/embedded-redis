@@ -15,8 +15,12 @@ public class JarUtil {
     File command = new File(tmpDir, executable);
     FileUtils.copyURLToFile(Resources.getResource(executable), command);
     command.deleteOnExit();
-    command.setExecutable(true);
+    boolean ret = command.setExecutable(true);
 
-    return command;
+    if (ret) {
+      return command;
+    } else {
+      return null;
+    }
   }
 }
