@@ -39,9 +39,11 @@ public class CommonConstant {
   public static final String CONFIG_FILE_SUFFIX = ".conf";
 
   /** 默认redis的端口和地址 */
-  public static final int DEFAULT_REDIS_STANDALONE_PORT = 6379;
+  public static final int DEFAULT_REDIS_PORT = 6379;
 
-  public static final int DEFAULT_REDIS_MASTER_PORT = 6379;
+  public static final int DEFAULT_REDIS_STANDALONE_PORT = DEFAULT_REDIS_PORT;
+
+  public static final int DEFAULT_REDIS_MASTER_PORT = DEFAULT_REDIS_PORT;
   public static final int DEFAULT_REDIS_SENTINEL_PORT = 26379;
 
   public static final String DEFAULT_REDIS_HOST = "127.0.0.1";

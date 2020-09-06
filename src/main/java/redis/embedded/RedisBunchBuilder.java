@@ -14,8 +14,10 @@ public class RedisBunchBuilder {
   private RedisServerBuilder serverBuilder = new RedisServerBuilder();
   private int sentinelCount = 1;
   private int quorumSize = 1;
-  private PortProvider sentinelPortProvider = new SequencePortProvider(26379);
-  private PortProvider replicationGroupPortProvider = new SequencePortProvider(6379);
+  private PortProvider sentinelPortProvider =
+      new SequencePortProvider(CommonConstant.DEFAULT_REDIS_SENTINEL_PORT);
+  private PortProvider replicationGroupPortProvider =
+      new SequencePortProvider(CommonConstant.DEFAULT_REDIS_PORT);
   private final List<ReplicationGroup> groups = new LinkedList<>();
 
   public RedisBunchBuilder withSentinelBuilder(RedisSentinelBuilder sentinelBuilder) {

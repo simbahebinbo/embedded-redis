@@ -105,7 +105,8 @@
 //        JedisSentinelPool pool = null;
 //        Jedis jedis = null;
 //        try {
-//            pool = new JedisSentinelPool("ourmaster", Sets.newHashSet("localhost:26379"));
+//            pool = new JedisSentinelPool("ourmaster",
+// Sets.newHashSet("localhost:CommonConstant.DEFAULT_REDIS_SENTINEL_PORT"));
 //            jedis = testPool(pool);
 //        } finally {
 //            if (jedis != null)
@@ -125,7 +126,8 @@
 //        JedisSentinelPool pool = null;
 //        Jedis jedis = null;
 //        try {
-//            pool = new JedisSentinelPool("ourmaster", Sets.newHashSet("localhost:26379"));
+//            pool = new JedisSentinelPool("ourmaster",
+// Sets.newHashSet("localhost:CommonConstant.DEFAULT_REDIS_SENTINEL_PORT"));
 //            jedis = testPool(pool);
 //        } finally {
 //            if (jedis != null)
@@ -145,7 +147,8 @@
 //        JedisSentinelPool pool = null;
 //        Jedis jedis = null;
 //        try {
-//            pool = new JedisSentinelPool("ourmaster", Sets.newHashSet("localhost:26379"));
+//            pool = new JedisSentinelPool("ourmaster",
+// Sets.newHashSet("localhost:CommonConstant.DEFAULT_REDIS_SENTINEL_PORT"));
 //            jedis = testPool(pool);
 //        } finally {
 //            if (jedis != null)
@@ -166,7 +169,8 @@
 //        JedisSentinelPool pool = null;
 //        Jedis jedis = null;
 //        try {
-//            pool = new JedisSentinelPool("ourmaster", Sets.newHashSet("localhost:26379",
+//            pool = new JedisSentinelPool("ourmaster",
+// Sets.newHashSet("localhost:CommonConstant.DEFAULT_REDIS_SENTINEL_PORT",
 // "localhost:26380"));
 //            jedis = testPool(pool);
 //        } finally {
@@ -222,11 +226,14 @@
 //        Jedis jedis2 = null;
 //        Jedis jedis3 = null;
 //        try {
-//            pool1 = new JedisSentinelPool(master1, Sets.newHashSet("localhost:26379",
+//            pool1 = new JedisSentinelPool(master1,
+// Sets.newHashSet("localhost:CommonConstant.DEFAULT_REDIS_SENTINEL_PORT",
 // "localhost:26380", "localhost:26381"));
-//            pool2 = new JedisSentinelPool(master2, Sets.newHashSet("localhost:26379",
+//            pool2 = new JedisSentinelPool(master2,
+// Sets.newHashSet("localhost:CommonConstant.DEFAULT_REDIS_SENTINEL_PORT",
 // "localhost:26380", "localhost:26381"));
-//            pool3 = new JedisSentinelPool(master3, Sets.newHashSet("localhost:26379",
+//            pool3 = new JedisSentinelPool(master3,
+// Sets.newHashSet("localhost:CommonConstant.DEFAULT_REDIS_SENTINEL_PORT",
 // "localhost:26380", "localhost:26381"));
 //            jedis1 = testPool(pool1);
 //            jedis2 = testPool(pool2);
