@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import redis.embedded.exceptions.EmbeddedRedisException;
 
-public class RedisCluster implements Redis {
+public class RedisCluster implements IRedisServer {
   private final List<RedisServer> redisServers = new LinkedList<>();
 
   RedisCluster(List<RedisServer> redisServers) {

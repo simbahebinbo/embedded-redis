@@ -1,12 +1,14 @@
 package redis.embedded;
 
-import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import redis.embedded.exceptions.EmbeddedRedisException;
 
-public class RedisBunch implements Redis {
+public class RedisBunch implements IRedisServer {
   private final List<RedisSentinel> redisSentinels = new LinkedList<>();
   private final List<RedisServer> redisServers = new LinkedList<>();
 
@@ -42,10 +44,10 @@ public class RedisBunch implements Redis {
 
   @Override
   public void stop() throws EmbeddedRedisException {
-    for (Redis redisSentinel : redisSentinels) {
+    for (RedisSentinel redisSentinel : redisSentinels) {
       redisSentinel.stop();
     }
-    for (Redis redisServer : redisServers) {
+    for (RedisServer redisServer : redisServers) {
       redisServer.stop();
     }
   }

@@ -11,7 +11,7 @@ import org.apache.commons.io.IOUtils;
 import redis.embedded.exceptions.EmbeddedRedisException;
 
 @Slf4j
-abstract class AbstractRedisInstance implements Redis {
+abstract class AbstractRedisInstance implements IRedisServer {
 
   protected List<String> args = Collections.emptyList();
   private volatile boolean active = false;

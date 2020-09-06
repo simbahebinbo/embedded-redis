@@ -3,7 +3,7 @@ package redis.embedded;
 import java.util.List;
 import redis.embedded.exceptions.EmbeddedRedisException;
 
-public interface Redis {
+public interface IRedisServer {
   boolean isActive();
 
   void start() throws EmbeddedRedisException;

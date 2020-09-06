@@ -3,12 +3,12 @@ package redis.embedded.util;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import redis.embedded.Redis;
+import redis.embedded.IRedisServer;
 import redis.embedded.RedisBunch;
 import redis.embedded.common.CommonConstant;
 
 public class JedisUtil {
-  public static Set<String> jedisJedisHosts(Redis redis) {
+  public static Set<String> jedisJedisHosts(IRedisServer redis) {
     final List<Integer> ports = redis.ports();
     return portsToJedisHosts(ports);
   }
