@@ -1,6 +1,7 @@
 package redis.embedded;
 
 import com.google.common.collect.Sets;
+import javax.annotation.concurrent.NotThreadSafe;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -12,6 +13,7 @@ import redis.embedded.common.CommonConstant;
 
 // 哨兵模式
 @Slf4j
+@NotThreadSafe
 public class ModeSentinelTest extends BaseTest {
 
   private RedisSentinel sentinelServer;
@@ -32,6 +34,9 @@ public class ModeSentinelTest extends BaseTest {
     masterName = RandomStringUtils.randomAlphabetic(5, 10);
   }
 
+  // 哨兵模式
+  // 正常启动
+  // 节点可读可写
   @Test
   public void testOperate() {
     masterServer = RedisServer.builder().port(masterPort).build();
