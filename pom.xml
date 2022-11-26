@@ -7,8 +7,8 @@
     <version>6.0.6</version>
     <packaging>jar</packaging>
     <name>embedded-redis</name>
-    <description>redis embedded server for Java integration testing.</description>
-    <url>https://github.com/lansheng228/embedded-redis</url>
+    <description>redis embedded server for Java integration testing</description>
+    <url>https://github.com/simbahebinbo/embedded-redis</url>
 
 
     <licenses>
@@ -23,7 +23,7 @@
             <name>lansheng228</name>
             <email>lansheng228@gmail.com</email>
             <organization>lansheng228</organization>
-            <organizationUrl>https://github.com/lansheng228</organizationUrl>
+            <organizationUrl>https://github.com/simbahebinbo</organizationUrl>
             <roles>
                 <role>developer</role>
             </roles>
@@ -32,12 +32,12 @@
     </developers>
 
     <scm>
-        <connection>scm:git:https://github.com/lansheng228/embedded-redis.git
+        <connection>scm:git:https://github.com/simbahebinbo/embedded-redis.git
         </connection>
         <developerConnection>
-            scm:git:https://github.com/lansheng228/embedded-redis.git
+            scm:git:https://github.com/simbahebinbo/embedded-redis.git
         </developerConnection>
-        <url>https://github.com/lansheng228/embedded-redis</url>
+        <url>https://github.com/simbahebinbo/embedded-redis</url>
         <tag>v${project.version}</tag>
     </scm>
 
@@ -55,9 +55,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <java.version>1.8</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <java.version>11</java.version>
 
         <jedis.version>3.3.0</jedis.version>
         <commons-lang3.version>3.11</commons-lang3.version>
@@ -86,7 +86,7 @@
         <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-        <spotless-maven-plugin.version>2.0.3</spotless-maven-plugin.version>
+        <spotless-maven-plugin.version>2.27.2</spotless-maven-plugin.version>
 
         <!-- disabled spring-javaformat code style checks -->
         <disable.checks>true</disable.checks>
@@ -509,7 +509,7 @@
                 <configuration>
                     <java>
                         <googleJavaFormat>
-                            <version>1.7</version>
+                            <version>1.15.0</version>
                             <style>GOOGLE</style>
                         </googleJavaFormat>
                     </java>

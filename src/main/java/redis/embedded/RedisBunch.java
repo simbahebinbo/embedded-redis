@@ -1,11 +1,9 @@
 package redis.embedded;
 
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import redis.embedded.exceptions.EmbeddedRedisException;
 
 public class RedisBunch implements IRedisServer {
