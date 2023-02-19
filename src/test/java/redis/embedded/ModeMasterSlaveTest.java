@@ -1,6 +1,5 @@
 package redis.embedded;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Assertions;
@@ -11,451 +10,519 @@ import redis.clients.jedis.JedisPool;
 import redis.embedded.common.CommonConstant;
 import redis.embedded.util.TimeTool;
 
+import javax.annotation.concurrent.NotThreadSafe;
+
 // 主从模式
 @Slf4j
 @NotThreadSafe
 public class ModeMasterSlaveTest extends BaseTest {
 
-  private RedisServer slaveServer;
-  private RedisServer masterServer;
-  private int masterPort;
-  private String masterHost;
-  private int slavePort;
-  private String slaveHost;
+    private RedisServer slaveServer;
+    private RedisServer masterServer;
+    private int masterPort;
+    private String masterHost;
+    private int slavePort;
+    private String slaveHost;
 
-  @BeforeEach
-  public void setUp() {
-    super.setUp();
-    masterHost = CommonConstant.DEFAULT_REDIS_HOST;
-    masterPort = RandomUtils.nextInt(10000, 60000);
-    slaveHost = CommonConstant.DEFAULT_REDIS_HOST;
-    slavePort = RandomUtils.nextInt(10000, 60000);
-  }
+    @BeforeEach
+    public void setUp() {
+        super.setUp();
+        masterHost = CommonConstant.DEFAULT_REDIS_HOST;
+        masterPort = RandomUtils.nextInt(10000, 30000);
+        slaveHost = CommonConstant.DEFAULT_REDIS_HOST;
+        slavePort = RandomUtils.nextInt(40000, 60000);
+    }
 
-  // 主从模式
-  // 正常启动
-  // 主节点可读可写 从节点可读不可写
-  @Test
-  public void testOperate() {
-    masterServer = RedisServer.builder().port(masterPort).build();
-    masterServer.start();
+    // 主从模式
+    // 正常启动
+    // 主节点可读可写 从节点可读不可写
+    @Test
+    public void testOperate() {
+        masterServer = RedisServer.builder().port(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build();
 
-    slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build();
-    slaveServer.start();
+        masterServer.start();
+        slaveServer.start();
 
-    JedisPool masterPool = new JedisPool(masterHost, masterPort);
-    JedisPool slavePool = new JedisPool(slaveHost, slavePort);
-    Jedis masterJedis = masterPool.getResource();
-    Jedis slaveJedis = slavePool.getResource();
+        JedisPool masterPool = new JedisPool(masterHost, masterPort);
+        JedisPool slavePool = new JedisPool(slaveHost, slavePort);
+        Jedis masterJedis = masterPool.getResource();
+        Jedis slaveJedis = slavePool.getResource();
 
-    writeSuccess(masterJedis);
-    readSuccess(masterJedis);
-    // 等待主从同步
-    TimeTool.sleep(1000);
-    writeFail(slaveJedis);
-    readNothing(slaveJedis);
+        //读写主节点成功
+        writeSuccess(masterJedis);
+        readSuccess(masterJedis);
+        // 等待主从同步
+        TimeTool.sleep(10000);
+        //读取主节点写入的值
+        readSuccess(slaveJedis);
+        //写入从节点失败
+        writeFail(slaveJedis);
+        //读取从节点成功
+        readNothing(slaveJedis);
 
-    masterPool.close();
-    slavePool.close();
-    slaveServer.stop();
-    masterServer.stop();
-  }
+        masterPool.close();
+        slavePool.close();
+        slaveServer.stop();
+        masterServer.stop();
+    }
 
-  // 主从模式
-  // 正常启动
-  // 主节点宕机
-  // 主节点不可读不可写 从节点可读不可写
-  @Test
-  public void testOperateThenMasterDown() {
-    masterServer = RedisServer.builder().port(masterPort).build();
-    slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build();
-
-    masterServer.start();
-    slaveServer.start();
-
-    JedisPool masterPool = new JedisPool(masterHost, masterPort);
-    JedisPool slavePool = new JedisPool(slaveHost, slavePort);
-    Jedis masterJedis = masterPool.getResource();
-    Jedis slaveJedis = slavePool.getResource();
-
-    writeSuccess(masterJedis);
-    readSuccess(masterJedis);
-    // 等待主从同步
-    TimeTool.sleep(1000);
-    writeFail(slaveJedis);
-    readNothing(slaveJedis);
-
+    // 主从模式
+    // 正常启动
     // 主节点宕机
-    masterServer.stop();
-    TimeTool.sleep(1000);
+    // 主节点不可读不可写 从节点可读不可写
+    @Test
+    public void testOperateThenMasterDown() {
+        masterServer = RedisServer.builder().port(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build();
 
-    Assertions.assertThrows(
-        Exception.class,
-        () -> {
-          // 重新获取连接
-          Jedis newMasterJedis = masterPool.getResource();
-        });
+        masterServer.start();
+        slaveServer.start();
 
-    // 重新获取连接
-    Jedis newSlaveJedis = slavePool.getResource();
-    writeFail(newSlaveJedis);
-    readNothing(newSlaveJedis);
+        JedisPool masterPool = new JedisPool(masterHost, masterPort);
+        JedisPool slavePool = new JedisPool(slaveHost, slavePort);
+        Jedis masterJedis = masterPool.getResource();
+        Jedis slaveJedis = slavePool.getResource();
 
-    masterPool.close();
-    slavePool.close();
-    slaveServer.stop();
-    masterServer.stop();
-  }
+        //读写主节点成功
+        writeSuccess(masterJedis);
+        readSuccess(masterJedis);
+        // 等待主从同步
+        TimeTool.sleep(10000);
+        //读取主节点写入的值
+        readSuccess(slaveJedis);
 
-  // 主从模式
-  // 正常启动
-  // 主节点宕机，然后重启
-  // 主节点可读可写 从节点可读不可写
-  @Test
-  public void testOperateThenMasterDownUp() {
-    masterServer = RedisServer.builder().port(masterPort).build();
-    slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build();
+        //写入从节点失败
+        writeFail(slaveJedis);
+        //读取从节点成功
+        readNothing(slaveJedis);
 
-    masterServer.start();
-    slaveServer.start();
+        // 主节点宕机
+        masterServer.stop();
+        TimeTool.sleep(3000);
 
-    JedisPool masterPool = new JedisPool(masterHost, masterPort);
-    JedisPool slavePool = new JedisPool(slaveHost, slavePort);
-    Jedis masterJedis = masterPool.getResource();
-    Jedis slaveJedis = slavePool.getResource();
+        Assertions.assertThrows(
+                Exception.class,
+                () -> {
+                    // 重新获取连接 失败
+                    Jedis newMasterJedis = masterPool.getResource();
+                });
 
-    writeSuccess(masterJedis);
-    readSuccess(masterJedis);
-    // 等待主从同步
-    TimeTool.sleep(1000);
-    writeFail(slaveJedis);
-    readNothing(slaveJedis);
+        // 重新获取连接
+        Jedis newSlaveJedis = slavePool.getResource();
+        //写入从节点失败
+        writeFail(newSlaveJedis);
+        //读取从节点成功
+        readNothing(newSlaveJedis);
 
-    // 主节点宕机
-    masterServer.stop();
-    TimeTool.sleep(1000);
-    // 主节点重启
-    masterServer.start();
-    TimeTool.sleep(1000);
+        masterPool.close();
+        slavePool.close();
+        slaveServer.stop();
+        masterServer.stop();
+    }
 
-    // 重新获取连接
-    Jedis newMasterJedis = masterPool.getResource();
-    Jedis newSlaveJedis = slavePool.getResource();
+    // 主从模式
+    // 正常启动
+    // 主节点宕机，然后重启
+    // 主节点可读可写 从节点可读不可写
+    @Test
+    public void testOperateThenMasterDownUp() {
+        masterServer = RedisServer.builder().port(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build();
 
-    writeSuccess(newMasterJedis);
-    readSuccess(newMasterJedis);
-    // 等待主从同步
-    TimeTool.sleep(1000);
-    writeFail(newSlaveJedis);
-    readNothing(newSlaveJedis);
+        masterServer.start();
+        slaveServer.start();
 
-    masterPool.close();
-    slavePool.close();
-    slaveServer.stop();
-    masterServer.stop();
-  }
+        JedisPool masterPool = new JedisPool(masterHost, masterPort);
+        JedisPool slavePool = new JedisPool(slaveHost, slavePort);
+        Jedis masterJedis = masterPool.getResource();
+        Jedis slaveJedis = slavePool.getResource();
 
-  // 主从模式
-  // 正常启动
-  // 从节点宕机
-  // 主节点可读可写 从节点不可读不可写
-  @Test
-  public void testOperateThenSlaveDown() {
-    masterServer = RedisServer.builder().port(masterPort).build();
-    slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build();
+        //读写主节点成功
+        writeSuccess(masterJedis);
+        readSuccess(masterJedis);
+        // 等待主从同步
+        TimeTool.sleep(10000);
+        //读取主节点写入的值
+        readSuccess(slaveJedis);
+        //写入从节点失败
+        writeFail(slaveJedis);
+        //读取从节点成功
+        readNothing(slaveJedis);
 
-    masterServer.start();
-    slaveServer.start();
+        // 主节点宕机
+        masterServer.stop();
+        TimeTool.sleep(3000);
+        // 主节点重启
+        masterServer.start();
+        TimeTool.sleep(3000);
 
-    JedisPool masterPool = new JedisPool(masterHost, masterPort);
-    JedisPool slavePool = new JedisPool(slaveHost, slavePort);
-    Jedis masterJedis = masterPool.getResource();
-    Jedis slaveJedis = slavePool.getResource();
+        // 重新获取连接
+        Jedis newMasterJedis = masterPool.getResource();
+        Jedis newSlaveJedis = slavePool.getResource();
 
-    writeSuccess(masterJedis);
-    readSuccess(masterJedis);
-    // 等待主从同步
-    TimeTool.sleep(1000);
-    writeFail(slaveJedis);
-    readNothing(slaveJedis);
+        //读写主节点成功
+        writeSuccess(newMasterJedis);
+        readSuccess(newMasterJedis);
+        // 等待主从同步
+        TimeTool.sleep(10000);
+        //读取主节点写入的值
+        readSuccess(newSlaveJedis);
+        //写入从节点失败
+        writeFail(newSlaveJedis);
+        //读取从节点成功
+        readNothing(newSlaveJedis);
 
+        masterPool.close();
+        slavePool.close();
+        slaveServer.stop();
+        masterServer.stop();
+    }
+
+    // 主从模式
+    // 正常启动
     // 从节点宕机
-    slaveServer.stop();
-    TimeTool.sleep(1000);
+    // 主节点可读可写 从节点不可读不可写
+    @Test
+    public void testOperateThenSlaveDown() {
+        masterServer = RedisServer.builder().port(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build();
 
-    // 重新获取连接
-    Jedis newMasterJedis = masterPool.getResource();
+        masterServer.start();
+        slaveServer.start();
 
-    writeSuccess(newMasterJedis);
-    readSuccess(newMasterJedis);
+        JedisPool masterPool = new JedisPool(masterHost, masterPort);
+        JedisPool slavePool = new JedisPool(slaveHost, slavePort);
+        Jedis masterJedis = masterPool.getResource();
+        Jedis slaveJedis = slavePool.getResource();
 
-    Assertions.assertThrows(
-        Exception.class,
-        () -> {
-          // 重新获取连接
-          Jedis newSlaveJedis = slavePool.getResource();
-        });
+        //读写主节点成功
+        writeSuccess(masterJedis);
+        readSuccess(masterJedis);
+        // 等待主从同步
+        TimeTool.sleep(10000);
+        //读取主节点写入的值
+        readSuccess(slaveJedis);
+        //写入从节点失败
+        writeFail(slaveJedis);
+        //读取从节点成功
+        readNothing(slaveJedis);
 
-    masterPool.close();
-    slavePool.close();
-    slaveServer.stop();
-    masterServer.stop();
-  }
+        // 从节点宕机
+        slaveServer.stop();
+        TimeTool.sleep(3000);
 
-  // 主从模式
-  // 正常启动
-  // 从节点宕机，然后重启
-  // 主节点可读可写 从节点可读不可写
-  @Test
-  public void testOperateThenSlaveDownUp() {
-    masterServer = RedisServer.builder().port(masterPort).build();
-    slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build();
+        // 重新获取连接
+        Jedis newMasterJedis = masterPool.getResource();
 
-    masterServer.start();
-    slaveServer.start();
+        //读写主节点成功
+        writeSuccess(newMasterJedis);
+        readSuccess(newMasterJedis);
 
-    JedisPool masterPool = new JedisPool(masterHost, masterPort);
-    JedisPool slavePool = new JedisPool(slaveHost, slavePort);
-    Jedis masterJedis = masterPool.getResource();
-    Jedis slaveJedis = slavePool.getResource();
+        Assertions.assertThrows(
+                Exception.class,
+                () -> {
+                    // 重新获取连接 失败
+                    Jedis newSlaveJedis = slavePool.getResource();
+                });
 
-    writeSuccess(masterJedis);
-    readSuccess(masterJedis);
-    // 等待主从同步
-    TimeTool.sleep(1000);
-    writeFail(slaveJedis);
-    readNothing(slaveJedis);
+        masterPool.close();
+        slavePool.close();
+        slaveServer.stop();
+        masterServer.stop();
+    }
 
-    // 从节点宕机
-    slaveServer.stop();
-    TimeTool.sleep(1000);
-    // 从节点重启
-    slaveServer.start();
-    TimeTool.sleep(1000);
+    // 主从模式
+    // 正常启动
+    // 从节点宕机，然后重启
+    // 主节点可读可写 从节点可读不可写
+    @Test
+    public void testOperateThenSlaveDownUp() {
+        masterServer = RedisServer.builder().port(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build();
 
-    // 重新获取连接
-    Jedis newMasterJedis = masterPool.getResource();
-    Jedis newSlaveJedis = slavePool.getResource();
+        masterServer.start();
+        slaveServer.start();
 
-    writeSuccess(newMasterJedis);
-    readSuccess(newMasterJedis);
-    // 等待主从同步
-    TimeTool.sleep(1000);
-    writeFail(newSlaveJedis);
-    readNothing(newSlaveJedis);
+        JedisPool masterPool = new JedisPool(masterHost, masterPort);
+        JedisPool slavePool = new JedisPool(slaveHost, slavePort);
+        Jedis masterJedis = masterPool.getResource();
+        Jedis slaveJedis = slavePool.getResource();
 
-    masterPool.close();
-    slavePool.close();
-    slaveServer.stop();
-    masterServer.stop();
-  }
+        //读写主节点成功
+        writeSuccess(masterJedis);
+        readSuccess(masterJedis);
+        // 等待主从同步
+        TimeTool.sleep(10000);
+        //读取主节点写入的值
+        readSuccess(slaveJedis);
+        //写入从节点失败
+        writeFail(slaveJedis);
+        //读取从节点成功
+        readNothing(slaveJedis);
 
-  // 主从模式
-  // 正常启动
-  // 主节点宕机  从节点宕机
-  // 主节点不可读不可写 从节点不可读不可写
-  @Test
-  public void testOperateThenMasterDownAndSlaveDown() {
-    masterServer = RedisServer.builder().port(masterPort).build();
-    slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build();
+        // 从节点宕机
+        slaveServer.stop();
+        TimeTool.sleep(3000);
+        // 从节点重启
+        slaveServer.start();
+        TimeTool.sleep(3000);
 
-    masterServer.start();
-    slaveServer.start();
+        // 重新获取连接
+        Jedis newMasterJedis = masterPool.getResource();
+        Jedis newSlaveJedis = slavePool.getResource();
 
-    JedisPool masterPool = new JedisPool(masterHost, masterPort);
-    JedisPool slavePool = new JedisPool(slaveHost, slavePort);
-    Jedis masterJedis = masterPool.getResource();
-    Jedis slaveJedis = slavePool.getResource();
+        //读写主节点成功
+        writeSuccess(newMasterJedis);
+        readSuccess(newMasterJedis);
+        // 等待主从同步
+        TimeTool.sleep(10000);
+        //读取主节点写入的值
+        readSuccess(newSlaveJedis);
+        //写入从节点失败
+        writeFail(newSlaveJedis);
+        //读取从节点成功
+        readNothing(newSlaveJedis);
 
-    writeSuccess(masterJedis);
-    readSuccess(masterJedis);
-    // 等待主从同步
-    TimeTool.sleep(1000);
-    writeFail(slaveJedis);
-    readNothing(slaveJedis);
+        masterPool.close();
+        slavePool.close();
+        slaveServer.stop();
+        masterServer.stop();
+    }
 
-    // 主节点宕机
-    masterServer.stop();
-    TimeTool.sleep(1000);
-    // 从节点宕机
-    slaveServer.stop();
-    TimeTool.sleep(1000);
+    // 主从模式
+    // 正常启动
+    // 主节点宕机  从节点宕机
+    // 主节点不可读不可写 从节点不可读不可写
+    @Test
+    public void testOperateThenMasterDownAndSlaveDown() {
+        masterServer = RedisServer.builder().port(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build();
 
-    Assertions.assertThrows(
-        Exception.class,
-        () -> {
-          // 重新获取连接
-          Jedis newMasterJedis = masterPool.getResource();
-        });
+        masterServer.start();
+        slaveServer.start();
 
-    Assertions.assertThrows(
-        Exception.class,
-        () -> {
-          // 重新获取连接
-          Jedis newSlaveJedis = slavePool.getResource();
-        });
+        JedisPool masterPool = new JedisPool(masterHost, masterPort);
+        JedisPool slavePool = new JedisPool(slaveHost, slavePort);
+        Jedis masterJedis = masterPool.getResource();
+        Jedis slaveJedis = slavePool.getResource();
 
-    masterPool.close();
-    slavePool.close();
-    slaveServer.stop();
-    masterServer.stop();
-  }
+        //读写主节点成功
+        writeSuccess(masterJedis);
+        readSuccess(masterJedis);
+        // 等待主从同步
+        TimeTool.sleep(10000);
+        //读取主节点写入的值
+        readSuccess(slaveJedis);
+        //写入从节点失败
+        writeFail(slaveJedis);
+        //读取从节点成功
+        readNothing(slaveJedis);
 
-  // 主从模式
-  // 正常启动
-  // 主节点宕机，然后重启；从节点宕机，然后重启
-  // 主节点可读可写 从节点可读不可写
-  @Test
-  public void testOperateThenMasterDownUpAndSlaveDownUp() {
-    masterServer = RedisServer.builder().port(masterPort).build();
-    slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build();
+        // 主节点宕机
+        masterServer.stop();
+        TimeTool.sleep(3000);
+        // 从节点宕机
+        slaveServer.stop();
+        TimeTool.sleep(3000);
 
-    masterServer.start();
-    slaveServer.start();
+        Assertions.assertThrows(
+                Exception.class,
+                () -> {
+                    // 重新获取连接 失败
+                    Jedis newMasterJedis = masterPool.getResource();
+                });
 
-    JedisPool masterPool = new JedisPool(masterHost, masterPort);
-    JedisPool slavePool = new JedisPool(slaveHost, slavePort);
-    Jedis masterJedis = masterPool.getResource();
-    Jedis slaveJedis = slavePool.getResource();
+        Assertions.assertThrows(
+                Exception.class,
+                () -> {
+                    // 重新获取连接 失败
+                    Jedis newSlaveJedis = slavePool.getResource();
+                });
 
-    writeSuccess(masterJedis);
-    readSuccess(masterJedis);
-    // 等待主从同步
-    TimeTool.sleep(1000);
-    writeFail(slaveJedis);
-    readNothing(slaveJedis);
+        masterPool.close();
+        slavePool.close();
+        slaveServer.stop();
+        masterServer.stop();
+    }
 
-    // 主节点宕机
-    masterServer.stop();
-    TimeTool.sleep(1000);
-    // 从节点宕机
-    slaveServer.stop();
-    TimeTool.sleep(1000);
-    // 主节点重启
-    masterServer.start();
-    TimeTool.sleep(1000);
-    // 从节点重启
-    slaveServer.start();
-    TimeTool.sleep(1000);
+    // 主从模式
+    // 正常启动
+    // 主节点宕机，然后重启；从节点宕机，然后重启
+    // 主节点可读可写 从节点可读不可写
+    @Test
+    public void testOperateThenMasterDownUpAndSlaveDownUp() {
+        masterServer = RedisServer.builder().port(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build();
 
-    // 重新获取连接
-    Jedis newMasterJedis = masterPool.getResource();
-    Jedis newSlaveJedis = slavePool.getResource();
+        masterServer.start();
+        slaveServer.start();
 
-    writeSuccess(newMasterJedis);
-    readSuccess(newMasterJedis);
-    // 等待主从同步
-    TimeTool.sleep(1000);
-    writeFail(newSlaveJedis);
-    readNothing(newSlaveJedis);
+        JedisPool masterPool = new JedisPool(masterHost, masterPort);
+        JedisPool slavePool = new JedisPool(slaveHost, slavePort);
+        Jedis masterJedis = masterPool.getResource();
+        Jedis slaveJedis = slavePool.getResource();
 
-    masterPool.close();
-    slavePool.close();
-    slaveServer.stop();
-    masterServer.stop();
-  }
+        //读写主节点成功
+        writeSuccess(masterJedis);
+        readSuccess(masterJedis);
+        // 等待主从同步
+        TimeTool.sleep(10000);
+        //读取主节点写入的值
+        readSuccess(slaveJedis);
+        //写入从节点失败
+        writeFail(slaveJedis);
+        //读取从节点成功
+        readNothing(slaveJedis);
 
-  // 主从模式
-  // 正常启动
-  // 主节点宕机；从节点宕机，然后重启
-  // 主节点不可读不可写 从节点可读不可写
-  @Test
-  public void testOperateThenMasterDownAndSlaveDownUp() {
-    masterServer = RedisServer.builder().port(masterPort).build();
-    slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build();
+        // 主节点宕机
+        masterServer.stop();
+        TimeTool.sleep(3000);
+        // 从节点宕机
+        slaveServer.stop();
+        TimeTool.sleep(3000);
+        // 主节点重启
+        masterServer.start();
+        TimeTool.sleep(3000);
+        // 从节点重启
+        slaveServer.start();
+        TimeTool.sleep(3000);
 
-    masterServer.start();
-    slaveServer.start();
+        // 重新获取连接
+        Jedis newMasterJedis = masterPool.getResource();
+        Jedis newSlaveJedis = slavePool.getResource();
 
-    JedisPool masterPool = new JedisPool(masterHost, masterPort);
-    JedisPool slavePool = new JedisPool(slaveHost, slavePort);
-    Jedis masterJedis = masterPool.getResource();
-    Jedis slaveJedis = slavePool.getResource();
+        //读写主节点成功
+        writeSuccess(newMasterJedis);
+        readSuccess(newMasterJedis);
+        // 等待主从同步
+        TimeTool.sleep(10000);
+        //读取主节点写入的值
+        readSuccess(newSlaveJedis);
+        //写入从节点失败
+        writeFail(newSlaveJedis);
+        //读取从节点成功
+        readNothing(newSlaveJedis);
 
-    writeSuccess(masterJedis);
-    readSuccess(masterJedis);
-    // 等待主从同步
-    TimeTool.sleep(1000);
-    writeFail(slaveJedis);
-    readNothing(slaveJedis);
+        masterPool.close();
+        slavePool.close();
+        slaveServer.stop();
+        masterServer.stop();
+    }
 
-    // 主节点宕机
-    masterServer.stop();
-    TimeTool.sleep(1000);
-    // 从节点宕机
-    slaveServer.stop();
-    TimeTool.sleep(1000);
-    // 从节点重启
-    slaveServer.start();
-    TimeTool.sleep(1000);
+    // 主从模式
+    // 正常启动
+    // 主节点宕机；从节点宕机，然后重启
+    // 主节点不可读不可写 从节点可读不可写
+    @Test
+    public void testOperateThenMasterDownAndSlaveDownUp() {
+        masterServer = RedisServer.builder().port(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build();
 
-    Assertions.assertThrows(
-        Exception.class,
-        () -> {
-          // 重新获取连接
-          Jedis newMasterJedis = masterPool.getResource();
-        });
+        masterServer.start();
+        slaveServer.start();
 
-    // 重新获取连接
-    Jedis newSlaveJedis = slavePool.getResource();
-    writeFail(newSlaveJedis);
-    readNothing(newSlaveJedis);
+        JedisPool masterPool = new JedisPool(masterHost, masterPort);
+        JedisPool slavePool = new JedisPool(slaveHost, slavePort);
+        Jedis masterJedis = masterPool.getResource();
+        Jedis slaveJedis = slavePool.getResource();
 
-    masterPool.close();
-    slavePool.close();
-    slaveServer.stop();
-    masterServer.stop();
-  }
+        //读写主节点成功
+        writeSuccess(masterJedis);
+        readSuccess(masterJedis);
+        // 等待主从同步
+        TimeTool.sleep(10000);
+        //读取主节点写入的值
+        readSuccess(slaveJedis);
+        //写入从节点失败
+        writeFail(slaveJedis);
+        //读取从节点成功
+        readNothing(slaveJedis);
 
-  // 主从模式
-  // 正常启动
-  // 主节点宕机，然后重启；从节点宕机
-  // 主节点可读可写 从节点可读不可写
-  @Test
-  public void testOperateThenMasterDownUpAndSlaveDown() {
-    masterServer = RedisServer.builder().port(masterPort).build();
-    slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build();
+        // 主节点宕机
+        masterServer.stop();
+        TimeTool.sleep(3000);
+        // 从节点宕机
+        slaveServer.stop();
+        TimeTool.sleep(3000);
+        // 从节点重启
+        slaveServer.start();
+        TimeTool.sleep(3000);
 
-    masterServer.start();
-    slaveServer.start();
+        Assertions.assertThrows(
+                Exception.class,
+                () -> {
+                    // 重新获取连接 失败
+                    Jedis newMasterJedis = masterPool.getResource();
+                });
 
-    JedisPool masterPool = new JedisPool(masterHost, masterPort);
-    JedisPool slavePool = new JedisPool(slaveHost, slavePort);
-    Jedis masterJedis = masterPool.getResource();
-    Jedis slaveJedis = slavePool.getResource();
+        // 重新获取连接
+        Jedis newSlaveJedis = slavePool.getResource();
+        //写入从节点失败
+        writeFail(newSlaveJedis);
+        //读取从节点成功
+        readNothing(newSlaveJedis);
 
-    writeSuccess(masterJedis);
-    readSuccess(masterJedis);
-    // 等待主从同步
-    TimeTool.sleep(1000);
-    writeFail(slaveJedis);
-    readNothing(slaveJedis);
+        masterPool.close();
+        slavePool.close();
+        slaveServer.stop();
+        masterServer.stop();
+    }
 
-    // 主节点宕机
-    masterServer.stop();
-    TimeTool.sleep(1000);
-    // 从节点宕机
-    slaveServer.stop();
-    TimeTool.sleep(1000);
-    // 主节点重启
-    masterServer.start();
-    TimeTool.sleep(1000);
+    // 主从模式
+    // 正常启动
+    // 主节点宕机，然后重启；从节点宕机
+    // 主节点可读可写 从节点可读不可写
+    @Test
+    public void testOperateThenMasterDownUpAndSlaveDown() {
+        masterServer = RedisServer.builder().port(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build();
 
-    // 重新获取连接
-    Jedis newMasterJedis = masterPool.getResource();
-    writeSuccess(newMasterJedis);
-    readSuccess(newMasterJedis);
+        masterServer.start();
+        slaveServer.start();
 
-    Assertions.assertThrows(
-        Exception.class,
-        () -> {
-          // 重新获取连接
-          Jedis newSlaveJedis = slavePool.getResource();
-        });
+        JedisPool masterPool = new JedisPool(masterHost, masterPort);
+        JedisPool slavePool = new JedisPool(slaveHost, slavePort);
+        Jedis masterJedis = masterPool.getResource();
+        Jedis slaveJedis = slavePool.getResource();
 
-    masterPool.close();
-    slavePool.close();
-    slaveServer.stop();
-    masterServer.stop();
-  }
+        //读写主节点成功
+        writeSuccess(masterJedis);
+        readSuccess(masterJedis);
+        // 等待主从同步
+        TimeTool.sleep(10000);
+        //读取主节点写入的值
+        readSuccess(slaveJedis);
+        //写入从节点失败
+        writeFail(slaveJedis);
+        //读取从节点成功
+        readNothing(slaveJedis);
+
+        // 主节点宕机
+        masterServer.stop();
+        TimeTool.sleep(3000);
+        // 从节点宕机
+        slaveServer.stop();
+        TimeTool.sleep(3000);
+        // 主节点重启
+        masterServer.start();
+        TimeTool.sleep(3000);
+
+        // 重新获取连接
+        Jedis newMasterJedis = masterPool.getResource();
+        writeSuccess(newMasterJedis);
+        readSuccess(newMasterJedis);
+
+        Assertions.assertThrows(
+                Exception.class,
+                () -> {
+                    // 重新获取连接 失败
+                    Jedis newSlaveJedis = slavePool.getResource();
+                });
+
+        masterPool.close();
+        slavePool.close();
+        slaveServer.stop();
+        masterServer.stop();
+    }
 }
