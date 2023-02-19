@@ -15,7 +15,7 @@ Maven Central:
 <dependency>
   <groupId>org.signal</groupId>
   <artifactId>embedded-redis</artifactId>
-  <version>0.8.0</version>
+  <version>7.0.8</version>
 </dependency>
 ```
 
@@ -23,7 +23,7 @@ Usage
 ==============
 
 Running RedisServer is as simple as:
-```java
+```
 RedisServer redisServer = new RedisServer(6379);
 redisServer.start();
 // do some work
@@ -31,7 +31,7 @@ redisServer.stop();
 ```
 
 You can also provide RedisServer with your own executable:
-```java
+```
 // 1) given explicit file (os-independence broken!)
 RedisServer redisServer = new RedisServer("/path/to/your/redis", 6379);
 
@@ -47,7 +47,7 @@ RedisServer redisServer = new RedisServer(customProvider, 6379);
 ```
 
 You can also use fluent API to create RedisServer:
-```java
+```
 RedisServer redisServer = RedisServer.builder()
   .redisExecProvider(customRedisProvider)
   .port(6379)
@@ -57,7 +57,7 @@ RedisServer redisServer = RedisServer.builder()
 ```
 
 Or even create simple redis.conf file from scratch:
-```java
+```
 RedisServer redisServer = RedisServer.builder()
   .redisExecProvider(customRedisProvider)
   .port(6379)
@@ -75,7 +75,7 @@ Our Embedded Redis has support for HA Redis clusters with Sentinels and master-s
 
 #### Using ephemeral ports
 A simple redis integration test with Redis cluster on ephemeral ports, with setup similar to that from production would look like this:
-```java
+```
 public class SomeIntegrationTestThatRequiresRedis {
   private RedisCluster cluster;
   private Set<String> jedisSentinelHosts;
@@ -114,7 +114,7 @@ or servers with ```cluster.serverPorts()```. ```JedisUtil``` class contains util
 
 #### Using predefined ports
 You can also start Redis cluster on predefined ports and even mix both approaches:
-```java
+```
 public class SomeIntegrationTestThatRequiresRedis {
     private RedisCluster cluster;
 

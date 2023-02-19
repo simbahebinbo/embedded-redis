@@ -62,7 +62,7 @@ public class CommonConstant {
   public static final String REDIS_SENTINEL = "redis-sentinel";
   public static final String REDIS_CLI = "redis-cli";
 
-  public static final String REDIS_VERSION = "6.0.6";
+  public static final String REDIS_VERSION = "7.0.8";
 
   public static final String X86_SUFFIX = "-32";
   public static final String MAC_OSX_SUFFIX = ".app";

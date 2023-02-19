@@ -68,7 +68,7 @@ public class RedisSentinelTest {
               new InputStreamReader(
                   getClass()
                       .getClassLoader()
-                      .getResourceAsStream("redis-6.x-sentinel-startup-output.txt"))),
+                      .getResourceAsStream("redis-7.x-sentinel-startup-output.txt"))),
           readyPattern);
       Assertions.assertTrue(true);
     } catch (Exception e) {

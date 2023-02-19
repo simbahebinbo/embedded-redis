@@ -1,10 +1,10 @@
 124304:C 26 Jun 2020 12:23:30.115 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
-124304:C 26 Jun 2020 12:23:30.115 # Redis version=6.0.6, bits=64, commit=00000000, modified=0, pid=124304, just started
-124304:C 26 Jun 2020 12:23:30.115 # Warning: no config file specified, using the default config. In order to specify a config file use ./src/main/resources/redis-server-6.0.6 /path/to/redis.conf
+124304:C 26 Jun 2020 12:23:30.115 # Redis version=7.0.8, bits=64, commit=00000000, modified=0, pid=124304, just started
+124304:C 26 Jun 2020 12:23:30.115 # Warning: no config file specified, using the default config. In order to specify a config file use ./src/main/resources/redis-server-7.0.8 /path/to/redis.conf
 124304:M 26 Jun 2020 12:23:30.116 * Increased maximum number of open files to 10032 (it was originally set to 1024).
                 _._
            _.-``__ ''-._
-      _.-``    `.  `_.  ''-._           Redis 6.0.6 (00000000/0) 64 bit
+      _.-``    `.  `_.  ''-._           Redis 7.0.8 (00000000/0) 64 bit
   .-`` .-```.  ```\/    _.,_ ''-._
  (    '      ,       .-`  | `,    )     Running in standalone mode
  |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379

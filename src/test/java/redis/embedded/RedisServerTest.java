@@ -131,7 +131,7 @@ public class RedisServerTest {
               new InputStreamReader(
                   getClass()
                       .getClassLoader()
-                      .getResourceAsStream("redis-6.x-standalone-startup-output.txt"))),
+                      .getResourceAsStream("redis-7.x-standalone-startup-output.txt"))),
           readyPattern);
       Assertions.assertTrue(true);
     } catch (Exception e) {

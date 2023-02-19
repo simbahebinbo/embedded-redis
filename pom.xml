@@ -59,31 +59,27 @@
         <maven.compiler.target>17</maven.compiler.target>
         <java.version>17</java.version>
 
-        <jedis.version>3.3.0</jedis.version>
-        <commons-lang3.version>3.11</commons-lang3.version>
-        <commons-collections4.version>4.4</commons-collections4.version>
-        <guava.version>29.0-jre</guava.version>
-        <gson.version>2.8.6</gson.version>
-        <lombok.version>1.18.12</lombok.version>
-        <commons-io.version>2.7</commons-io.version>
-        <commons-beanutils.version>1.9.4</commons-beanutils.version>
-        <commons-codec.version>1.14</commons-codec.version>
-        <commons-compress.version>1.20</commons-compress.version>
-        <hutool.version>5.4.1</hutool.version>
-        <junit.jupiter.version>5.6.2</junit.jupiter.version>
-        <mockito.version>3.5.2</mockito.version>
-        <awaitility.version>4.0.3</awaitility.version>
-        <awaitility-proxy.version>3.1.6</awaitility-proxy.version>
-        <slf4j.version>1.7.30</slf4j.version>
+        <jedis.version>4.3.1</jedis.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <guava.version>31.1-jre</guava.version>
+        <gson.version>2.10.1</gson.version>
+        <lombok.version>1.18.26</lombok.version>
+        <commons-io.version>2.11.0</commons-io.version>
+        <commons-compress.version>1.22</commons-compress.version>
+        <hutool.version>5.8.12</hutool.version>
+        <junit.jupiter.version>5.9.2</junit.jupiter.version>
+        <mockito.version>5.1.1</mockito.version>
+        <awaitility.version>4.2.0</awaitility.version>
+        <slf4j.version>2.0.6</slf4j.version>
 
-        <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
-        <maven-site-plugin.version>3.9.1</maven-site-plugin.version>
+        <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
+        <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
-        <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
-        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+        <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
+        <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
 
         <!-- disabled spring-javaformat code style checks -->
         <disable.checks>true</disable.checks>
@@ -117,24 +113,6 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-collections4</artifactId>
-                <version>${commons-collections4.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-beanutils</groupId>
-                <artifactId>commons-beanutils</artifactId>
-                <version>${commons-beanutils.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>${commons-codec.version}</version>
             </dependency>
 
             <dependency>
@@ -209,14 +187,6 @@
                 <version>${awaitility.version}</version>
                 <scope>test</scope>
             </dependency>
-
-            <dependency>
-                <groupId>org.awaitility</groupId>
-                <artifactId>awaitility-proxy</artifactId>
-                <version>${awaitility-proxy.version}</version>
-                <scope>test</scope>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 
@@ -230,21 +200,6 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
         </dependency>
 
         <dependency>
@@ -300,12 +255,6 @@
         <dependency>
             <groupId>org.awaitility</groupId>
             <artifactId>awaitility</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.awaitility</groupId>
-            <artifactId>awaitility-proxy</artifactId>
             <scope>test</scope>
         </dependency>
 
