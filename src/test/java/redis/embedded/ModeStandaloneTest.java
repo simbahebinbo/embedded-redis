@@ -11,84 +11,84 @@ import redis.embedded.common.CommonConstant;
 
 // 单机模式
 @Slf4j
-public class ModeStandaloneTest extends BaseTest {
+public class ModeStandaloneTest extends JedisBaseTest {
 
-  private RedisServer redisServer;
-  private int port;
-  private String host;
+    private RedisServer redisServer;
+    private int port;
+    private String host;
 
-  @BeforeEach
-  public void setUp() {
-    super.setUp();
-    host = CommonConstant.DEFAULT_REDIS_HOST;
-    port = RandomUtils.nextInt(10000, 60000);
-  }
+    @BeforeEach
+    public void setUp() {
+        super.setUp();
+        host = CommonConstant.DEFAULT_REDIS_HOST;
+        port = RandomUtils.nextInt(10000, 60000);
+    }
 
-  // 单机模式
-  // 正常启动
-  // 节点可读可写
-  @Test
-  public void testOperate() {
-    redisServer = RedisServer.builder().port(port).build();
-    redisServer.start();
-    JedisPool pool = new JedisPool(host, port);
+    // 单机模式
+    // 正常启动
+    // 节点可读可写
+    @Test
+    public void testOperate() {
+        redisServer = RedisServer.builder().port(port).build();
+        redisServer.start();
+        JedisPool pool = new JedisPool(host, port);
 
-    Jedis jedis = pool.getResource();
-    writeSuccess(jedis);
-    readSuccess(jedis);
+        Jedis jedis = pool.getResource();
+        writeSuccess(jedis);
+        readSuccess(jedis);
 
-    pool.close();
-    redisServer.stop();
-  }
+        pool.close();
+        redisServer.stop();
+    }
 
-  // 单机模式
-  // 正常启动
-  // 节点宕机
-  // 节点不可读不可写
-  @Test
-  public void testOperateThenStandaloneDown() {
-    redisServer = RedisServer.builder().port(port).build();
-    redisServer.start();
-    JedisPool pool = new JedisPool(host, port);
-    Jedis jedis = pool.getResource();
-    writeSuccess(jedis);
-    readSuccess(jedis);
+    // 单机模式
+    // 正常启动
+    // 节点宕机
+    // 节点不可读不可写
+    @Test
+    public void testOperateThenStandaloneDown() {
+        redisServer = RedisServer.builder().port(port).build();
+        redisServer.start();
+        JedisPool pool = new JedisPool(host, port);
+        Jedis jedis = pool.getResource();
+        writeSuccess(jedis);
+        readSuccess(jedis);
 
-    redisServer.stop();
+        redisServer.stop();
 
-    Assertions.assertThrows(
-        Exception.class,
-        () -> {
-          // 重新获取连接
-          Jedis newJedis = pool.getResource();
-        });
+        Assertions.assertThrows(
+                Exception.class,
+                () -> {
+                    // 重新获取连接
+                    Jedis newJedis = pool.getResource();
+                });
 
-    pool.close();
-    redisServer.stop();
-  }
+        pool.close();
+        redisServer.stop();
+    }
 
-  // 单机模式
-  // 正常启动
-  // 节点宕机，然后重启
-  // 节点可读可写
-  @Test
-  public void testOperateThenStandaloneDownUp() {
-    redisServer = RedisServer.builder().port(port).build();
-    redisServer.start();
-    JedisPool pool = new JedisPool(host, port);
-    Jedis jedis = pool.getResource();
-    writeSuccess(jedis);
-    readSuccess(jedis);
+    // 单机模式
+    // 正常启动
+    // 节点宕机，然后重启
+    // 节点可读可写
+    @Test
+    public void testOperateThenStandaloneDownUp() {
+        redisServer = RedisServer.builder().port(port).build();
+        redisServer.start();
+        JedisPool pool = new JedisPool(host, port);
+        Jedis jedis = pool.getResource();
+        writeSuccess(jedis);
+        readSuccess(jedis);
 
-    redisServer.stop();
-    redisServer.start();
+        redisServer.stop();
+        redisServer.start();
 
-    // 重新获取连接
-    Jedis newJedis = pool.getResource();
-    writeSuccess(newJedis);
-    readSuccess(newJedis);
+        // 重新获取连接
+        Jedis newJedis = pool.getResource();
+        writeSuccess(newJedis);
+        readSuccess(newJedis);
 
-    pool.close();
-    redisServer.stop();
-  }
+        pool.close();
+        redisServer.stop();
+    }
 }

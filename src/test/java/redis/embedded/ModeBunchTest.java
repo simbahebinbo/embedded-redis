@@ -16,10 +16,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-// 哨兵模式
+// 集合模式
 @Slf4j
 @NotThreadSafe
-public class ModeBunchTest extends BaseTest {
+public class ModeBunchTest extends JedisBaseTest {
     private int sentinelPort;
     private String sentinelHost;
     private String masterName;

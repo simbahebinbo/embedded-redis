@@ -3,10 +3,10 @@ package redis.embedded;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Assertions;
-import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisCluster;
 
 @Slf4j
-public class BaseTest {
+public class JedisClusterBaseTest {
   String key1;
   String key2;
   String key3;
@@ -20,14 +20,15 @@ public class BaseTest {
   String value5;
   String value6;
 
-  protected void setUp() {}
+  protected void setUp() {
+  }
 
-  protected void writeSuccess(Jedis jedis) {
+  protected void writeSuccess(JedisCluster jedis) {
     msetSuccess(jedis);
     setSuccess(jedis);
   }
 
-  private void msetSuccess(Jedis jedis) {
+  private void msetSuccess(JedisCluster jedis) {
     key1 = RandomStringUtils.randomAlphabetic(5, 100);
     key2 = RandomStringUtils.randomAlphabetic(5, 100);
     key3 = RandomStringUtils.randomAlphabetic(5, 100);
@@ -43,7 +44,7 @@ public class BaseTest {
     Assertions.assertTrue(true);
   }
 
-  private void setSuccess(Jedis jedis) {
+  private void setSuccess(JedisCluster jedis) {
     key4 = RandomStringUtils.randomAlphabetic(5, 100);
     key5 = RandomStringUtils.randomAlphabetic(5, 100);
     key6 = RandomStringUtils.randomAlphabetic(5, 100);
@@ -60,12 +61,12 @@ public class BaseTest {
     Assertions.assertTrue(true);
   }
 
-  protected void writeFail(Jedis jedis) {
+  protected void writeFail(JedisCluster jedis) {
     msetFail(jedis);
     setFail(jedis);
   }
 
-  private void msetFail(Jedis jedis) {
+  private void msetFail(JedisCluster jedis) {
     key1 = RandomStringUtils.randomAlphabetic(5, 100);
     key2 = RandomStringUtils.randomAlphabetic(5, 100);
     key3 = RandomStringUtils.randomAlphabetic(5, 100);
@@ -79,7 +80,7 @@ public class BaseTest {
     Assertions.assertThrows(Exception.class, () -> jedis.mset(key1, value1, key2, value2));
   }
 
-  private void setFail(Jedis jedis) {
+  private void setFail(JedisCluster jedis) {
     key4 = RandomStringUtils.randomAlphabetic(5, 100);
     key5 = RandomStringUtils.randomAlphabetic(5, 100);
     key6 = RandomStringUtils.randomAlphabetic(5, 100);
@@ -92,19 +93,19 @@ public class BaseTest {
     log.info("key6:" + key6 + "   value6:" + value6);
 
     Assertions.assertThrows(
-        Exception.class,
-        () -> {
-          jedis.set(key4, value4);
-          jedis.set(key5, value5);
-        });
+            Exception.class,
+            () -> {
+              jedis.set(key4, value4);
+              jedis.set(key5, value5);
+            });
   }
 
-  protected void readSuccess(Jedis jedis) {
+  protected void readSuccess(JedisCluster jedis) {
     mgetSuccess(jedis);
     getSuccess(jedis);
   }
 
-  private void mgetSuccess(Jedis jedis) {
+  private void mgetSuccess(JedisCluster jedis) {
     log.info("key1:" + key1 + "   value1:" + value1);
     log.info("key2:" + key2 + "   value2:" + value2);
     log.info("key3:" + key3 + "   value3:" + value3);
@@ -119,7 +120,7 @@ public class BaseTest {
     Assertions.assertNull(newValue3);
   }
 
-  private void getSuccess(Jedis jedis) {
+  private void getSuccess(JedisCluster jedis) {
     log.info("key4:" + key4 + "   value4:" + value4);
     log.info("key5:" + key5 + "   value5:" + value5);
     log.info("key6:" + key6 + "   value6:" + value6);
@@ -134,43 +135,43 @@ public class BaseTest {
     Assertions.assertNull(newValue6);
   }
 
-  protected void readFail(Jedis jedis) {
+  protected void readFail(JedisCluster jedis) {
     mgetFail(jedis);
     getFail(jedis);
   }
 
-  private void mgetFail(Jedis jedis) {
+  private void mgetFail(JedisCluster jedis) {
     log.info("key1:" + key1 + "   value1:" + value1);
     log.info("key2:" + key2 + "   value2:" + value2);
     log.info("key3:" + key3 + "   value3:" + value3);
     Assertions.assertThrows(
-        Exception.class,
-        () -> {
-          jedis.mget(key1);
-          jedis.mget(key2);
-          jedis.mget(key3);
-        });
+            Exception.class,
+            () -> {
+              jedis.mget(key1);
+              jedis.mget(key2);
+              jedis.mget(key3);
+            });
   }
 
-  private void getFail(Jedis jedis) {
+  private void getFail(JedisCluster jedis) {
     log.info("key4:" + key4 + "   value4:" + value4);
     log.info("key5:" + key5 + "   value5:" + value5);
     log.info("key6:" + key6 + "   value6:" + value6);
     Assertions.assertThrows(
-        Exception.class,
-        () -> {
-          jedis.get(key4);
-          jedis.get(key5);
-          jedis.get(key6);
-        });
+            Exception.class,
+            () -> {
+              jedis.get(key4);
+              jedis.get(key5);
+              jedis.get(key6);
+            });
   }
 
-  protected void readNothing(Jedis jedis) {
+  protected void readNothing(JedisCluster jedis) {
     mgetNothing(jedis);
     getNothing(jedis);
   }
 
-  private void mgetNothing(Jedis jedis) {
+  private void mgetNothing(JedisCluster jedis) {
     log.info("key1:" + key1 + "   value1:" + value1);
     log.info("key2:" + key2 + "   value2:" + value2);
     log.info("key3:" + key3 + "   value3:" + value3);
@@ -186,7 +187,7 @@ public class BaseTest {
     Assertions.assertNull(newValue3);
   }
 
-  private void getNothing(Jedis jedis) {
+  private void getNothing(JedisCluster jedis) {
     log.info("key4:" + key4 + "   value4:" + value4);
     log.info("key5:" + key5 + "   value5:" + value5);
     log.info("key6:" + key6 + "   value6:" + value6);

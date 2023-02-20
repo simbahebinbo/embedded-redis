@@ -1,106 +1,72 @@
-//package redis.embedded;
+package redis.embedded;
+
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import redis.embedded.common.CommonConstant;
+
+import javax.annotation.concurrent.NotThreadSafe;
+import java.util.List;
+
+//集群模式
+@Slf4j
+@NotThreadSafe
+public class ModeClusterTest extends JedisClusterBaseTest {
+//    private RedisCluster redisCluster;
+//    private RedisServer redisServer1;
+//    private RedisServer redisServer2;
+//    private RedisServer redisServer3;
+
+    private int slavePort1;
+    private String slaveHost1;
+
+    private int slavePort2;
+    private String slaveHost2;
+
+    private int slavePort3;
+    private String slaveHost3;
+
+    @BeforeEach
+    public void setUp() {
+        super.setUp();
+//        masterName = RandomStringUtils.randomAlphabetic(50, 100);
+//        masterName1 = RandomStringUtils.randomAlphabetic(50, 100);
+//        masterName2 = RandomStringUtils.randomAlphabetic(50, 100);
+//        masterName3 = RandomStringUtils.randomAlphabetic(50, 100);
+        slaveHost1 = CommonConstant.DEFAULT_REDIS_HOST;
+        slavePort1 = RandomUtils.nextInt(20000, 30000);
+        slaveHost2 = CommonConstant.DEFAULT_REDIS_HOST;
+        slavePort2 = RandomUtils.nextInt(30000, 40000);
+        slaveHost3 = CommonConstant.DEFAULT_REDIS_HOST;
+        slavePort3 = RandomUtils.nextInt(40000, 50000);
+    }
+
+
+    @Test
+    public void testSimpleOperationsAfterRunWithSingleMasterNoSlavesCluster() throws Exception {
+        List<Integer> slavePorts = List.of(slavePort1, slavePort2, slavePort3);
+
+        //given
+        RedisCluster redisCluster =
+                RedisCluster.builder()
+                        .serverPorts(slavePorts)
+                        .build();
+        redisCluster.start();
+
+
+//        Set<HostAndPort> nodes = new HashSet<>();
+//        nodes.add(new HostAndPort(slaveHost1, slavePort1));
+//        nodes.add(new HostAndPort(slaveHost2, slavePort2));
+//        nodes.add(new HostAndPort(slaveHost3, slavePort3));
 //
-//import com.google.common.collect.Sets;
-//import org.junit.Before;
-//import org.junit.Test;
-//import redis.clients.jedis.Jedis;
-//import redis.clients.jedis.JedisSentinelPool;
-//import redis.embedded.util.JedisUtil;
+//        JedisCluster jedisCluster = new JedisCluster(nodes);
 //
-//import java.util.Arrays;
-//import java.util.List;
-//import java.util.Set;
+//        writeSuccess(jedisCluster);
+//        readSuccess(jedisCluster);
 //
-//import static org.junit.Assert.assertEquals;
-//import static org.mockito.BDDMockito.given;
-//import static org.mockito.Mockito.mock;
-//import static org.mockito.Mockito.verify;
-//
-//public class ModeClusterTest {
-//    private Redis sentinel1;
-//    private Redis sentinel2;
-//    private Redis master1;
-//    private Redis master2;
-//
-//    private RedisCluster instance;
-//
-//    @Before
-//    public void setUp() throws Exception {
-//        sentinel1 = mock(Redis.class);
-//        sentinel2 = mock(Redis.class);
-//        master1 = mock(Redis.class);
-//        master2 = mock(Redis.class);
-//    }
-//
-//
-//    @Test
-//    public void stopShouldStopEntireCluster() throws Exception {
-//        //given
-//        final List<Redis> sentinels = Arrays.asList(sentinel1, sentinel2);
-//        final List<Redis> servers = Arrays.asList(master1, master2);
-//        instance = new RedisCluster(sentinels, servers);
-//
-//        //when
-//        instance.stop();
-//
-//        //then
-//        for (Redis s : sentinels) {
-//            verify(s).stop();
-//        }
-//        for (Redis s : servers) {
-//            verify(s).stop();
-//        }
-//    }
-//
-//    @Test
-//    public void startShouldStartEntireCluster() throws Exception {
-//        //given
-//        final List<Redis> sentinels = Arrays.asList(sentinel1, sentinel2);
-//        final List<Redis> servers = Arrays.asList(master1, master2);
-//        instance = new RedisCluster(sentinels, servers);
-//
-//        //when
-//        instance.start();
-//
-//        //then
-//        for (Redis s : sentinels) {
-//            verify(s).start();
-//        }
-//        for (Redis s : servers) {
-//            verify(s).start();
-//        }
-//    }
-//
-//    @Test
-//    public void isActiveShouldCheckEntireClusterIfAllActive() throws Exception {
-//        //given
-//        given(sentinel1.isActive()).willReturn(true);
-//        given(sentinel2.isActive()).willReturn(true);
-//        given(master1.isActive()).willReturn(true);
-//        given(master2.isActive()).willReturn(true);
-//        final List<Redis> sentinels = Arrays.asList(sentinel1, sentinel2);
-//        final List<Redis> servers = Arrays.asList(master1, master2);
-//        instance = new RedisCluster(sentinels, servers);
-//
-//        //when
-//        instance.isActive();
-//
-//        //then
-//        for (Redis s : sentinels) {
-//            verify(s).isActive();
-//        }
-//        for (Redis s : servers) {
-//            verify(s).isActive();
-//        }
-//    }
-//
-//    @Test
-//    public void testSimpleOperationsAfterRunWithSingleMasterNoSlavesCluster() throws Exception {
-//        //given
-//        final RedisCluster cluster =
-//                RedisCluster.builder().sentinelCount(1).replicationGroup("ourmaster", 0).build();
-//        cluster.start();
-//
+        redisCluster.stop();
+
 //        //when
 //        JedisSentinelPool pool = null;
 //        Jedis jedis = null;
@@ -113,8 +79,8 @@
 //                pool.returnResource(jedis);
 //            cluster.stop();
 //        }
-//    }
-//
+    }
+
 //    @Test
 //    public void testSimpleOperationsAfterRunWithSingleMasterAndOneSlave() throws Exception {
 //        //given
@@ -302,4 +268,4 @@
 //        assertEquals(null, jedis.mget("xyz").get(0));
 //        return jedis;
 //    }
-//}
+}

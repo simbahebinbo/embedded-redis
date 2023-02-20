@@ -18,7 +18,7 @@ import java.util.Set;
 // 哨兵模式
 @Slf4j
 @NotThreadSafe
-public class ModeSentinelTest extends BaseTest {
+public class ModeSentinelTest extends JedisBaseTest {
 
     private RedisSentinel redisSentinel;
     private RedisServer masterServer;
