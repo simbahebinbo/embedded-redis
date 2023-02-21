@@ -53,7 +53,7 @@ public class ModeMasterSlaveTest extends BaseTest {
         writeSuccess(masterJedis);
         readSuccess(masterJedis);
         // 等待主从同步
-        TimeTool.sleep(1000);
+        TimeTool.sleep(10000);
         //读取主节点写入的值
         readSuccess(slaveJedis);
         //写入从节点失败
@@ -88,7 +88,7 @@ public class ModeMasterSlaveTest extends BaseTest {
         writeSuccess(masterJedis);
         readSuccess(masterJedis);
         // 等待主从同步
-        TimeTool.sleep(1000);
+        TimeTool.sleep(10000);
         //读取主节点写入的值
         readSuccess(slaveJedis);
 
@@ -142,7 +142,7 @@ public class ModeMasterSlaveTest extends BaseTest {
         writeSuccess(masterJedis);
         readSuccess(masterJedis);
         // 等待主从同步
-        TimeTool.sleep(1000);
+        TimeTool.sleep(10000);
         //读取主节点写入的值
         readSuccess(slaveJedis);
         //写入从节点失败
@@ -165,7 +165,7 @@ public class ModeMasterSlaveTest extends BaseTest {
         writeSuccess(newMasterJedis);
         readSuccess(newMasterJedis);
         // 等待主从同步
-        TimeTool.sleep(1000);
+        TimeTool.sleep(10000);
         //读取主节点写入的值
         readSuccess(newSlaveJedis);
         //写入从节点失败
@@ -200,7 +200,7 @@ public class ModeMasterSlaveTest extends BaseTest {
         writeSuccess(masterJedis);
         readSuccess(masterJedis);
         // 等待主从同步
-        TimeTool.sleep(1000);
+        TimeTool.sleep(10000);
         //读取主节点写入的值
         readSuccess(slaveJedis);
         //写入从节点失败
@@ -253,7 +253,7 @@ public class ModeMasterSlaveTest extends BaseTest {
         writeSuccess(masterJedis);
         readSuccess(masterJedis);
         // 等待主从同步
-        TimeTool.sleep(1000);
+        TimeTool.sleep(10000);
         //读取主节点写入的值
         readSuccess(slaveJedis);
         //写入从节点失败
@@ -276,7 +276,7 @@ public class ModeMasterSlaveTest extends BaseTest {
         writeSuccess(newMasterJedis);
         readSuccess(newMasterJedis);
         // 等待主从同步
-        TimeTool.sleep(1000);
+        TimeTool.sleep(10000);
         //读取主节点写入的值
         readSuccess(newSlaveJedis);
         //写入从节点失败
@@ -311,7 +311,7 @@ public class ModeMasterSlaveTest extends BaseTest {
         writeSuccess(masterJedis);
         readSuccess(masterJedis);
         // 等待主从同步
-        TimeTool.sleep(1000);
+        TimeTool.sleep(10000);
         //读取主节点写入的值
         readSuccess(slaveJedis);
         //写入从节点失败
@@ -367,7 +367,7 @@ public class ModeMasterSlaveTest extends BaseTest {
         writeSuccess(masterJedis);
         readSuccess(masterJedis);
         // 等待主从同步
-        TimeTool.sleep(1000);
+        TimeTool.sleep(10000);
         //读取主节点写入的值
         readSuccess(slaveJedis);
         //写入从节点失败
@@ -396,7 +396,7 @@ public class ModeMasterSlaveTest extends BaseTest {
         writeSuccess(newMasterJedis);
         readSuccess(newMasterJedis);
         // 等待主从同步
-        TimeTool.sleep(1000);
+        TimeTool.sleep(10000);
         //读取主节点写入的值
         readSuccess(newSlaveJedis);
         //写入从节点失败
@@ -431,7 +431,7 @@ public class ModeMasterSlaveTest extends BaseTest {
         writeSuccess(masterJedis);
         readSuccess(masterJedis);
         // 等待主从同步
-        TimeTool.sleep(1000);
+        TimeTool.sleep(10000);
         //读取主节点写入的值
         readSuccess(slaveJedis);
         //写入从节点失败
@@ -490,7 +490,7 @@ public class ModeMasterSlaveTest extends BaseTest {
         writeSuccess(masterJedis);
         readSuccess(masterJedis);
         // 等待主从同步
-        TimeTool.sleep(1000);
+        TimeTool.sleep(10000);
         //读取主节点写入的值
         readSuccess(slaveJedis);
         //写入从节点失败
