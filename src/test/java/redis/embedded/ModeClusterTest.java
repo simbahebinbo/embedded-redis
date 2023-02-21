@@ -2,22 +2,23 @@ package redis.embedded;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import redis.clients.jedis.HostAndPort;
+import redis.clients.jedis.JedisCluster;
 import redis.embedded.common.CommonConstant;
+import redis.embedded.util.TimeTool;
 
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 //集群模式
 @Slf4j
 @NotThreadSafe
 public class ModeClusterTest extends JedisClusterBaseTest {
-//    private RedisCluster redisCluster;
-//    private RedisServer redisServer1;
-//    private RedisServer redisServer2;
-//    private RedisServer redisServer3;
-
     private int slavePort1;
     private String slaveHost1;
 
@@ -27,245 +28,218 @@ public class ModeClusterTest extends JedisClusterBaseTest {
     private int slavePort3;
     private String slaveHost3;
 
+    private int slavePort4;
+    private String slaveHost4;
+
+    private int slavePort5;
+    private String slaveHost5;
+
+    private int slavePort6;
+    private String slaveHost6;
+
+    private int slavePort7;
+    private String slaveHost7;
+
+
     @BeforeEach
     public void setUp() {
         super.setUp();
-//        masterName = RandomStringUtils.randomAlphabetic(50, 100);
-//        masterName1 = RandomStringUtils.randomAlphabetic(50, 100);
-//        masterName2 = RandomStringUtils.randomAlphabetic(50, 100);
-//        masterName3 = RandomStringUtils.randomAlphabetic(50, 100);
         slaveHost1 = CommonConstant.DEFAULT_REDIS_HOST;
-        slavePort1 = RandomUtils.nextInt(20000, 30000);
+        slavePort1 = RandomUtils.nextInt(10001, 11000);
         slaveHost2 = CommonConstant.DEFAULT_REDIS_HOST;
-        slavePort2 = RandomUtils.nextInt(30000, 40000);
+        slavePort2 = RandomUtils.nextInt(11001, 12000);
         slaveHost3 = CommonConstant.DEFAULT_REDIS_HOST;
-        slavePort3 = RandomUtils.nextInt(40000, 50000);
+        slavePort3 = RandomUtils.nextInt(12001, 13000);
+        slaveHost4 = CommonConstant.DEFAULT_REDIS_HOST;
+        slavePort4 = RandomUtils.nextInt(13001, 14000);
+        slaveHost5 = CommonConstant.DEFAULT_REDIS_HOST;
+        slavePort5 = RandomUtils.nextInt(14001, 15000);
+        slaveHost6 = CommonConstant.DEFAULT_REDIS_HOST;
+        slavePort6 = RandomUtils.nextInt(15001, 16000);
+        slaveHost7 = CommonConstant.DEFAULT_REDIS_HOST;
+        slavePort7 = RandomUtils.nextInt(16001, 17000);
     }
 
 
+    //一共三个节点  三个主节点 没有从节点
     @Test
-    public void testSimpleOperationsAfterRunWithSingleMasterNoSlavesCluster() throws Exception {
+    public void testSimpleOperationsAfterRunWithThreeMastersNoSlavesCluster() {
         List<Integer> slavePorts = List.of(slavePort1, slavePort2, slavePort3);
 
-        //given
         RedisCluster redisCluster =
                 RedisCluster.builder()
                         .serverPorts(slavePorts)
                         .build();
         redisCluster.start();
+        // 等待主从同步
+        TimeTool.sleep(10000);
 
+        Set<HostAndPort> nodes = new HashSet<>();
+        nodes.add(new HostAndPort(slaveHost1, slavePort1));
+        nodes.add(new HostAndPort(slaveHost2, slavePort2));
+        nodes.add(new HostAndPort(slaveHost3, slavePort3));
 
-//        Set<HostAndPort> nodes = new HashSet<>();
-//        nodes.add(new HostAndPort(slaveHost1, slavePort1));
-//        nodes.add(new HostAndPort(slaveHost2, slavePort2));
-//        nodes.add(new HostAndPort(slaveHost3, slavePort3));
-//
-//        JedisCluster jedisCluster = new JedisCluster(nodes);
-//
-//        writeSuccess(jedisCluster);
-//        readSuccess(jedisCluster);
-//
+        JedisCluster jedisCluster = new JedisCluster(nodes);
+
+        //从主节点读取数据成功
+        writeSuccess(jedisCluster);
+        readSuccess(jedisCluster);
+
         redisCluster.stop();
-
-//        //when
-//        JedisSentinelPool pool = null;
-//        Jedis jedis = null;
-//        try {
-//            pool = new JedisSentinelPool("ourmaster",
-//                    Sets.newHashSet("localhost:CommonConstant.DEFAULT_REDIS_SENTINEL_PORT"));
-//            jedis = testPool(pool);
-//        } finally {
-//            if (jedis != null)
-//                pool.returnResource(jedis);
-//            cluster.stop();
-//        }
     }
 
-//    @Test
-//    public void testSimpleOperationsAfterRunWithSingleMasterAndOneSlave() throws Exception {
-//        //given
-//        final RedisCluster cluster =
-//                RedisCluster.builder().sentinelCount(1).replicationGroup("ourmaster", 1).build();
-//        cluster.start();
-//
-//        //when
-//        JedisSentinelPool pool = null;
-//        Jedis jedis = null;
-//        try {
-//            pool = new JedisSentinelPool("ourmaster",
-//                    Sets.newHashSet("localhost:CommonConstant.DEFAULT_REDIS_SENTINEL_PORT"));
-//            jedis = testPool(pool);
-//        } finally {
-//            if (jedis != null)
-//                pool.returnResource(jedis);
-//            cluster.stop();
-//        }
-//    }
-//
-//    @Test
-//    public void testSimpleOperationsAfterRunWithSingleMasterMultipleSlaves() throws Exception {
-//        //given
-//        final RedisCluster cluster =
-//                RedisCluster.builder().sentinelCount(1).replicationGroup("ourmaster", 2).build();
-//        cluster.start();
-//
-//        //when
-//        JedisSentinelPool pool = null;
-//        Jedis jedis = null;
-//        try {
-//            pool = new JedisSentinelPool("ourmaster",
-//                    Sets.newHashSet("localhost:CommonConstant.DEFAULT_REDIS_SENTINEL_PORT"));
-//            jedis = testPool(pool);
-//        } finally {
-//            if (jedis != null)
-//                pool.returnResource(jedis);
-//            cluster.stop();
-//        }
-//    }
-//
-//    @Test
-//    public void testSimpleOperationsAfterRunWithTwoSentinelsSingleMasterMultipleSlaves() throws
-//            Exception {
-//        //given
-//        final RedisCluster cluster =
-//                RedisCluster.builder().sentinelCount(2).replicationGroup("ourmaster", 2).build();
-//        cluster.start();
-//
-//        //when
-//        JedisSentinelPool pool = null;
-//        Jedis jedis = null;
-//        try {
-//            pool = new JedisSentinelPool("ourmaster",
-//                    Sets.newHashSet("localhost:CommonConstant.DEFAULT_REDIS_SENTINEL_PORT",
-//                            "localhost:26380"));
-//            jedis = testPool(pool);
-//        } finally {
-//            if (jedis != null)
-//                pool.returnResource(jedis);
-//            cluster.stop();
-//        }
-//    }
-//
-//    @Test
-//    public void testSimpleOperationsAfterRunWithTwoPredefinedSentinelsSingleMasterMultipleSlaves()
-//            throws Exception {
-//        //given
-//        List<Integer> sentinelPorts = Arrays.asList(26381, 26382);
-//        final RedisCluster cluster =
-//                RedisCluster.builder().sentinelPorts(sentinelPorts).replicationGroup("ourmaster", 2).build();
-//        cluster.start();
-//        final Set<String> sentinelHosts = JedisUtil.portsToJedisHosts(sentinelPorts);
-//
-//        //when
-//        JedisSentinelPool pool = null;
-//        Jedis jedis = null;
-//        try {
-//            pool = new JedisSentinelPool("ourmaster", sentinelHosts);
-//            jedis = testPool(pool);
-//        } finally {
-//            if (jedis != null)
-//                pool.returnResource(jedis);
-//            cluster.stop();
-//        }
-//    }
-//
-//    @Test
-//    public void
-//    testSimpleOperationsAfterRunWithThreeSentinelsThreeMastersOneSlavePerMasterCluster() throws
-//            Exception {
-//        //given
-//        final String master1 = "master1";
-//        final String master2 = "master2";
-//        final String master3 = "master3";
-//        final RedisCluster cluster = RedisCluster.builder().sentinelCount(3).quorumSize(2)
-//                .replicationGroup(master1, 1)
-//                .replicationGroup(master2, 1)
-//                .replicationGroup(master3, 1)
-//                .build();
-//        cluster.start();
-//
-//        //when
-//        JedisSentinelPool pool1 = null;
-//        JedisSentinelPool pool2 = null;
-//        JedisSentinelPool pool3 = null;
-//        Jedis jedis1 = null;
-//        Jedis jedis2 = null;
-//        Jedis jedis3 = null;
-//        try {
-//            pool1 = new JedisSentinelPool(master1,
-//                    Sets.newHashSet("localhost:CommonConstant.DEFAULT_REDIS_SENTINEL_PORT",
-//                            "localhost:26380", "localhost:26381"));
-//            pool2 = new JedisSentinelPool(master2,
-//                    Sets.newHashSet("localhost:CommonConstant.DEFAULT_REDIS_SENTINEL_PORT",
-//                            "localhost:26380", "localhost:26381"));
-//            pool3 = new JedisSentinelPool(master3,
-//                    Sets.newHashSet("localhost:CommonConstant.DEFAULT_REDIS_SENTINEL_PORT",
-//                            "localhost:26380", "localhost:26381"));
-//            jedis1 = testPool(pool1);
-//            jedis2 = testPool(pool2);
-//            jedis3 = testPool(pool3);
-//        } finally {
-//            if (jedis1 != null)
-//                pool1.returnResource(jedis1);
-//            if (jedis2 != null)
-//                pool2.returnResource(jedis2);
-//            if (jedis3 != null)
-//                pool3.returnResource(jedis3);
-//            cluster.stop();
-//        }
-//    }
-//
-//    @Test
-//    public void
-//    testSimpleOperationsAfterRunWithThreeSentinelsThreeMastersOneSlavePerMasterEphemeralCluster()
-//            throws Exception {
-//        //given
-//        final String master1 = "master1";
-//        final String master2 = "master2";
-//        final String master3 = "master3";
-//        final RedisCluster cluster =
-//                RedisCluster.builder().ephemeral().sentinelCount(3).quorumSize(2)
-//                        .replicationGroup(master1, 1)
-//                        .replicationGroup(master2, 1)
-//                        .replicationGroup(master3, 1)
-//                        .build();
-//        cluster.start();
-//        final Set<String> sentinelHosts = JedisUtil.sentinelHosts(cluster);
-//
-//        //when
-//        JedisSentinelPool pool1 = null;
-//        JedisSentinelPool pool2 = null;
-//        JedisSentinelPool pool3 = null;
-//        Jedis jedis1 = null;
-//        Jedis jedis2 = null;
-//        Jedis jedis3 = null;
-//        try {
-//            pool1 = new JedisSentinelPool(master1, sentinelHosts);
-//            pool2 = new JedisSentinelPool(master2, sentinelHosts);
-//            pool3 = new JedisSentinelPool(master3, sentinelHosts);
-//            jedis1 = testPool(pool1);
-//            jedis2 = testPool(pool2);
-//            jedis3 = testPool(pool3);
-//        } finally {
-//            if (jedis1 != null)
-//                pool1.returnResource(jedis1);
-//            if (jedis2 != null)
-//                pool2.returnResource(jedis2);
-//            if (jedis3 != null)
-//                pool3.returnResource(jedis3);
-//            cluster.stop();
-//        }
-//    }
-//
-//    private Jedis testPool(JedisSentinelPool pool) {
-//        Jedis jedis;
-//        jedis = pool.getResource();
-//        jedis.mset("abc", "1", "def", "2");
-//
-//        //then
-//        assertEquals("1", jedis.mget("abc").get(0));
-//        assertEquals("2", jedis.mget("def").get(0));
-//        assertEquals(null, jedis.mget("xyz").get(0));
-//        return jedis;
-//    }
+    //一共四个节点  三个主节点 一个从节点
+    //无法满足需求，创建集群失败
+    @Test
+    public void shouldFailWhenThreeMastersOneSlaves() {
+        Assertions.assertThrows(
+                Exception.class,
+                () -> {
+                    List<Integer> slavePorts = List.of(slavePort1, slavePort2, slavePort3, slavePort4);
+
+                    RedisCluster redisCluster =
+                            RedisCluster.builder()
+                                    .serverPorts(slavePorts)
+                                    .clusterReplicas(1)
+                                    .build();
+                    redisCluster.start();
+                    redisCluster.stop();
+                });
+    }
+
+    //一共五个节点  三个主节点 两个从节点
+    //无法满足需求，创建集群失败
+    @Test
+    public void shouldFailWhenThreeMastersTwoSlaves() {
+        Assertions.assertThrows(
+                Exception.class,
+                () -> {
+                    List<Integer> slavePorts = List.of(slavePort1, slavePort2, slavePort3, slavePort4, slavePort5);
+
+                    RedisCluster redisCluster =
+                            RedisCluster.builder()
+                                    .serverPorts(slavePorts)
+                                    .clusterReplicas(1)
+                                    .build();
+                    redisCluster.start();
+                    redisCluster.stop();
+                });
+    }
+
+    //一共六个节点  三个主节点 三个从节点
+    @Test
+    public void testSimpleOperationsAfterRunWithThreeMastersThreeSlavesCluster() {
+        List<Integer> slavePorts = List.of(slavePort1, slavePort2, slavePort3, slavePort4, slavePort5, slavePort6);
+
+        RedisCluster redisCluster =
+                RedisCluster.builder()
+                        .serverPorts(slavePorts)
+                        .clusterReplicas(1)
+                        .build();
+        redisCluster.start();
+        // 等待主从同步
+        TimeTool.sleep(10000);
+
+        Set<HostAndPort> nodes = new HashSet<>();
+        nodes.add(new HostAndPort(slaveHost1, slavePort1));
+        nodes.add(new HostAndPort(slaveHost2, slavePort2));
+        nodes.add(new HostAndPort(slaveHost3, slavePort3));
+        nodes.add(new HostAndPort(slaveHost4, slavePort4));
+        nodes.add(new HostAndPort(slaveHost5, slavePort5));
+        nodes.add(new HostAndPort(slaveHost6, slavePort6));
+
+        JedisCluster jedisCluster = new JedisCluster(nodes);
+
+        writeSuccess(jedisCluster);
+        readSuccess(jedisCluster);
+
+        redisCluster.stop();
+    }
+
+    //一共七个节点  个主节点 四个从节点
+    @Test
+    public void testSimpleOperationsAfterRunWithThreeMastersFourSlavesCluster() {
+        List<Integer> slavePorts = List.of(slavePort1, slavePort2, slavePort3, slavePort4, slavePort5, slavePort6, slavePort7);
+
+        RedisCluster redisCluster =
+                RedisCluster.builder()
+                        .serverPorts(slavePorts)
+                        .clusterReplicas(1)
+                        .build();
+        redisCluster.start();
+        // 等待主从同步
+        TimeTool.sleep(10000);
+
+        Set<HostAndPort> nodes = new HashSet<>();
+        nodes.add(new HostAndPort(slaveHost1, slavePort1));
+        nodes.add(new HostAndPort(slaveHost2, slavePort2));
+        nodes.add(new HostAndPort(slaveHost3, slavePort3));
+        nodes.add(new HostAndPort(slaveHost4, slavePort4));
+        nodes.add(new HostAndPort(slaveHost5, slavePort5));
+        nodes.add(new HostAndPort(slaveHost6, slavePort6));
+        nodes.add(new HostAndPort(slaveHost7, slavePort7));
+
+        JedisCluster jedisCluster = new JedisCluster(nodes);
+
+        writeSuccess(jedisCluster);
+        readSuccess(jedisCluster);
+
+        redisCluster.stop();
+    }
+
+
+    //一共七个节点  三个主节点 四个从节点
+    //无法满足需求，创建集群失败
+    @Test
+    public void shouldFailWhenThreeMastersFourSlavesCluster() {
+        Assertions.assertThrows(
+                Exception.class,
+                () -> {
+                    List<Integer> slavePorts = List.of(slavePort1, slavePort2, slavePort3, slavePort4, slavePort5, slavePort6, slavePort7);
+
+                    RedisCluster redisCluster =
+                            RedisCluster.builder()
+                                    .serverPorts(slavePorts)
+                                    .clusterReplicas(2)
+                                    .build();
+                    redisCluster.start();
+                    redisCluster.stop();
+                });
+    }
+
+    //一共一个节点
+    // redis 集群至少需要三个节点
+    @Test
+    public void shouldFailWhenTwoNodes() {
+        Assertions.assertThrows(
+                Exception.class,
+                () -> {
+                    List<Integer> slavePorts = List.of(slavePort1, slavePort2);
+
+                    RedisCluster redisCluster =
+                            RedisCluster.builder()
+                                    .serverPorts(slavePorts)
+                                    .build();
+                    redisCluster.start();
+                    redisCluster.stop();
+                });
+    }
+
+    //一共两个节点
+    // redis 集群至少需要三个节点
+    @Test
+    public void shouldFailWhenOneNodes() {
+        Assertions.assertThrows(
+                Exception.class,
+                () -> {
+                    List<Integer> slavePorts = List.of(slavePort1);
+
+                    RedisCluster redisCluster =
+                            RedisCluster.builder()
+                                    .serverPorts(slavePorts)
+                                    .build();
+                    redisCluster.start();
+                    redisCluster.stop();
+                });
+    }
 }

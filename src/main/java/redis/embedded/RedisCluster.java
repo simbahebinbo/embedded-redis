@@ -10,8 +10,11 @@ import java.util.List;
 public class RedisCluster implements IRedisServer {
     private final List<RedisServer> redisServers = new LinkedList<>();
 
-    RedisCluster(List<RedisServer> redisServers) {
+    private final RedisClient redisClient;
+
+    RedisCluster(List<RedisServer> redisServers, RedisClient redisClient) {
         this.redisServers.addAll(redisServers);
+        this.redisClient = redisClient;
     }
 
     public static RedisClusterBuilder builder() {
@@ -33,6 +36,7 @@ public class RedisCluster implements IRedisServer {
         for (RedisServer redisServer : redisServers) {
             redisServer.start();
         }
+        redisClient.run();
     }
 
     @Override

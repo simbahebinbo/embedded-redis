@@ -17,9 +17,6 @@ import java.util.List;
 public class RedisServerBuilder {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
     private static final String CONF_FILENAME = "embedded-redis-server";
-    //主从模式参数
-    private Boolean masterEnable = false;
-    private Boolean slaveEnable = false;
     private File executable;
     private RedisExecProvider redisExecProvider = RedisServerExecProvider.defaultProvider();
     private String bind = CommonConstant.ALL_REDIS_HOST;
@@ -59,19 +56,8 @@ public class RedisServerBuilder {
         return this;
     }
 
-    public RedisServerBuilder masterEnable(boolean enable) {
-        this.masterEnable = enable;
-        return this;
-    }
-
-    public RedisServerBuilder slaveEnable(boolean enable) {
-        this.slaveEnable = enable;
-        return this;
-    }
-
-
-    public RedisServerBuilder slaveOf(String hostname, int port) {
-        this.slaveOf = new InetSocketAddress(hostname, port);
+    public RedisServerBuilder slaveOf(int port) {
+        this.slaveOf = new InetSocketAddress(CommonConstant.DEFAULT_REDIS_HOST, port);
         return this;
     }
 
@@ -80,8 +66,8 @@ public class RedisServerBuilder {
         return this;
     }
 
-    public RedisServerBuilder replicaOf(String hostname, int port) {
-        this.replicaOf = new InetSocketAddress(hostname, port);
+    public RedisServerBuilder replicaOf(int port) {
+        this.replicaOf = new InetSocketAddress(CommonConstant.DEFAULT_REDIS_HOST, port);
         return this;
     }
 
@@ -131,8 +117,6 @@ public class RedisServerBuilder {
         this.clusterEnable = false;
         this.slaveOf = null;
         this.sentinelEnable = false;
-        this.masterEnable = false;
-        this.slaveEnable = false;
     }
 
     private void tryResolveConfAndExec() {

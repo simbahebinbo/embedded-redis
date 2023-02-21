@@ -134,7 +134,7 @@ public class JedisBaseTest {
         Assertions.assertEquals(value5, newValue5);
         Assertions.assertNull(newValue6);
     }
-
+    
     protected void readFail(Jedis jedis) {
         mgetFail(jedis);
         getFail(jedis);
