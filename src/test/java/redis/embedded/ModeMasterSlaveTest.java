@@ -15,7 +15,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 // 主从模式
 @Slf4j
 @NotThreadSafe
-public class ModeMasterSlaveTest extends BaseTest {
+public class ModeMasterSlaveTest extends JedisBaseTest {
 
     private RedisServer slaveServer;
     private RedisServer masterServer;
@@ -48,7 +48,6 @@ public class ModeMasterSlaveTest extends BaseTest {
         JedisPool slavePool = new JedisPool(slaveHost, slavePort);
         Jedis masterJedis = masterPool.getResource();
         Jedis slaveJedis = slavePool.getResource();
-
         //读写主节点成功
         writeSuccess(masterJedis);
         readSuccess(masterJedis);
