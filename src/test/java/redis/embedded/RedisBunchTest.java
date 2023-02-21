@@ -1,80 +1,114 @@
 package redis.embedded;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
+import redis.embedded.util.TimeTool;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import java.util.Arrays;
-import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 public class RedisBunchTest {
-  private RedisSentinel redisSentinel1;
-  private RedisSentinel redisSentinel2;
-  private RedisServer redisServer1;
-  private RedisServer redisServer2;
+    private RedisSentinel redisSentinel1;
+    private RedisSentinel redisSentinel2;
+    private RedisServer redisServer1;
+    private RedisServer redisServer2;
 
-  private RedisBunch redisBunch;
+    private RedisBunch redisBunch;
 
-  @BeforeEach
-  public void setUp() {
-    redisSentinel1 = mock(RedisSentinel.class);
-    redisSentinel2 = mock(RedisSentinel.class);
-    redisServer1 = mock(RedisServer.class);
-    redisServer2 = mock(RedisServer.class);
-  }
-
-  @Test
-  public void stopShouldStopEntireBunch() {
-
-    List<RedisSentinel> redisSentinels = Arrays.asList(redisSentinel1, redisSentinel2);
-    List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2);
-    redisBunch = new RedisBunch(redisSentinels, redisServers);
-
-    redisBunch.stop();
-
-    for (RedisSentinel redisSentinel : redisSentinels) {
-      verify(redisSentinel).stop();
+    @BeforeEach
+    public void setUp() {
+        redisSentinel1 = mock(RedisSentinel.class);
+        redisSentinel2 = mock(RedisSentinel.class);
+        redisServer1 = mock(RedisServer.class);
+        redisServer2 = mock(RedisServer.class);
     }
-    for (RedisServer redisServer : redisServers) {
-      verify(redisServer).stop();
+
+    @Test
+    @Timeout(value = 3000, unit = TimeUnit.MILLISECONDS)
+    public void testSimpleRun() {
+        List<RedisSentinel> redisSentinels = Arrays.asList(redisSentinel1, redisSentinel2);
+        List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2);
+        redisBunch = new RedisBunch(redisSentinels, redisServers);
+        redisBunch.start();
+        TimeTool.sleep(1000L);
+        redisBunch.stop();
     }
-  }
 
-  @Test
-  public void startShouldStartEntireBunch() {
-    List<RedisSentinel> redisSentinels = Arrays.asList(redisSentinel1, redisSentinel2);
-    List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2);
-    redisBunch = new RedisBunch(redisSentinels, redisServers);
+    @Test
+    public void shouldAllowSubsequentRuns() {
+        List<RedisSentinel> redisSentinels = Arrays.asList(redisSentinel1, redisSentinel2);
+        List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2);
+        redisBunch = new RedisBunch(redisSentinels, redisServers);
+        redisBunch.start();
+        redisBunch.stop();
 
-    redisBunch.start();
+        redisBunch.start();
+        redisBunch.stop();
 
-    for (RedisSentinel redisSentinel : redisSentinels) {
-      verify(redisSentinel).start();
+        redisBunch.start();
+        redisBunch.stop();
     }
-    for (RedisServer redisServer : redisServers) {
-      verify(redisServer).start();
-    }
-  }
 
-  @Test
-  public void isActiveShouldCheckEntireBunchIfAllActive() {
-    given(redisSentinel1.isActive()).willReturn(true);
-    given(redisSentinel2.isActive()).willReturn(true);
-    given(redisServer1.isActive()).willReturn(true);
-    given(redisServer2.isActive()).willReturn(true);
-    List<RedisSentinel> redisSentinels = Arrays.asList(redisSentinel1, redisSentinel2);
-    List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2);
-    redisBunch = new RedisBunch(redisSentinels, redisServers);
 
-    redisBunch.isActive();
+    //哨兵模式 集合停止
+    @Test
+    public void stopShouldStopEntireBunch() {
 
-    for (RedisSentinel redisSentinel : redisSentinels) {
-      verify(redisSentinel).isActive();
+        List<RedisSentinel> redisSentinels = Arrays.asList(redisSentinel1, redisSentinel2);
+        List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2);
+        redisBunch = new RedisBunch(redisSentinels, redisServers);
+
+        redisBunch.stop();
+
+        for (RedisSentinel redisSentinel : redisSentinels) {
+            verify(redisSentinel).stop();
+        }
+        for (RedisServer redisServer : redisServers) {
+            verify(redisServer).stop();
+        }
     }
-    for (RedisServer redisServer : redisServers) {
-      verify(redisServer).isActive();
+
+    //哨兵模式 集合启动
+    @Test
+    public void startShouldStartEntireBunch() {
+        List<RedisSentinel> redisSentinels = Arrays.asList(redisSentinel1, redisSentinel2);
+        List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2);
+        redisBunch = new RedisBunch(redisSentinels, redisServers);
+
+        redisBunch.start();
+
+        for (RedisSentinel redisSentinel : redisSentinels) {
+            verify(redisSentinel).start();
+        }
+        for (RedisServer redisServer : redisServers) {
+            verify(redisServer).start();
+        }
     }
-  }
+
+    //哨兵模式 集合判活
+    @Test
+    public void isActiveShouldCheckEntireBunchIfAllActive() {
+        given(redisSentinel1.isActive()).willReturn(true);
+        given(redisSentinel2.isActive()).willReturn(true);
+        given(redisServer1.isActive()).willReturn(true);
+        given(redisServer2.isActive()).willReturn(true);
+        List<RedisSentinel> redisSentinels = Arrays.asList(redisSentinel1, redisSentinel2);
+        List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2);
+        redisBunch = new RedisBunch(redisSentinels, redisServers);
+
+        redisBunch.isActive();
+
+        for (RedisSentinel redisSentinel : redisSentinels) {
+            verify(redisSentinel).isActive();
+        }
+        for (RedisServer redisServer : redisServers) {
+            verify(redisServer).isActive();
+        }
+    }
 }
