@@ -58,9 +58,4 @@ public class RedisCluster implements IRedisServer {
         }
         return ports;
     }
-
-//    @Override
-//    protected String redisReadyPattern() {
-//        return REDIS_READY_PATTERN;
-//    }
 }

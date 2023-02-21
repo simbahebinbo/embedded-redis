@@ -172,6 +172,9 @@ public class RedisSentinelBuilder {
         args.add("--daemonize");
         args.add("no");
 
+        args.add("--protected-mode");
+        args.add("no");
+
         return args;
     }
 }

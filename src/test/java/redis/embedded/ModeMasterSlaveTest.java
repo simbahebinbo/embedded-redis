@@ -45,26 +45,25 @@ public class ModeMasterSlaveTest extends JedisBaseTest {
 
         JedisPool masterPool = new JedisPool(masterHost, masterPort);
         JedisPool slavePool = new JedisPool(slaveHost, slavePort);
-        try (masterPool; slavePool) {
-            Jedis masterJedis = masterPool.getResource();
-            Jedis slaveJedis = slavePool.getResource();
-            //读写主节点成功
-            writeSuccess(masterJedis);
-            readSuccess(masterJedis);
-            // 等待主从同步
-            TimeTool.sleep(5000);
-            //读取主节点写入的值
-            readSuccess(slaveJedis);
-            //写入从节点失败
-            writeFail(slaveJedis);
-            //读取从节点成功
-            readNothing(slaveJedis);
-        }
 
-//        masterPool.close();
-//        slavePool.close();
-//        slaveServer.stop();
-//        masterServer.stop();
+        Jedis masterJedis = masterPool.getResource();
+        Jedis slaveJedis = slavePool.getResource();
+        //读写主节点成功
+        writeSuccess(masterJedis);
+        readSuccess(masterJedis);
+        // 等待主从同步
+        TimeTool.sleep(10000);
+        //读取主节点写入的值
+        readSuccess(slaveJedis);
+        //写入从节点失败
+        writeFail(slaveJedis);
+        //读取从节点成功
+        readNothing(slaveJedis);
+
+        masterPool.close();
+        slavePool.close();
+        slaveServer.stop();
+        masterServer.stop();
     }
 
     // 主从模式
