@@ -40,7 +40,7 @@ public class ModeMasterSlaveTest extends JedisBaseTest {
     public void testOperate() {
         masterServer = RedisServer.builder().port(masterPort).build();
         masterServer.start();
-        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterHost, masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build();
         slaveServer.start();
 
         JedisPool masterPool = new JedisPool(masterHost, masterPort);
