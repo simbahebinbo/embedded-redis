@@ -91,11 +91,9 @@ abstract class AbstractRedisInstance implements IRedisServer {
                     outputStringBuffer.append(outputLine);
                 }
                 log.debug(outputLine);
-//            } while (!outputLine.matches(redisReadyPattern()));
             } while (!outputLine.matches(redisReadyPattern()));
         } finally {
-            log.info("~~~~~~~~~~~~~~");
-//            IOUtils.closeQuietly(reader, null);
+            IOUtils.closeQuietly(reader, null);
         }
     }
 
