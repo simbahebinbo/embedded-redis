@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
-public class RedisServer extends AbstractRedisInstance {
+public class RedisServer extends AbstractRedisServerInstance {
     private static final String REDIS_SERVER_READY_PATTERN = ".*(R|r)eady to accept connections.*";
 
     public RedisServer() {

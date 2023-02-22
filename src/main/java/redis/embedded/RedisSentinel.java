@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class RedisSentinel extends AbstractRedisInstance {
+public class RedisSentinel extends AbstractRedisServerInstance {
     private static final String REDIS_SENTINEL_READY_PATTERN = ".*Sentinel (runid|ID) is.*";
 
     public RedisSentinel() {

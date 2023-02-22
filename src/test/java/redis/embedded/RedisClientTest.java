@@ -82,7 +82,7 @@ public class RedisClientTest {
     public void testAwaitRedisClientReady() {
 
         try {
-            String readyPattern = RedisClient.builder().build().redisReadyPattern();
+            String readyPattern = RedisClient.builder().build().redisInstanceReadyPattern();
 
             assertReadyPattern(
                     new BufferedReader(
