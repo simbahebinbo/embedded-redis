@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 
 @Slf4j
 public class RedisClient implements IRedisClient {
-    private static final String REDIS_CLIENT_READY_PATTERN = "All 16384 slots covered";
+    private static final String REDIS_CLIENT_READY_PATTERN = ".*All 16384 slots covered.*";
 
     protected List<String> args;
     private Process redisProcess;
@@ -29,6 +29,10 @@ public class RedisClient implements IRedisClient {
     RedisClient(List<String> args) {
         this.args = new ArrayList<>(args);
         log.debug("args: " + this.args);
+    }
+
+    public static RedisClientBuilder builder() {
+        return new RedisClientBuilder();
     }
 
     public boolean isActive() {
@@ -85,7 +89,7 @@ public class RedisClient implements IRedisClient {
                     outputStringBuffer.append(outputLine);
                 }
                 log.debug(outputLine);
-            } while (!outputLine.contains(redisReadyPattern()));
+            } while (!outputLine.matches(redisReadyPattern()));
         } finally {
             IOUtils.closeQuietly(reader, null);
         }

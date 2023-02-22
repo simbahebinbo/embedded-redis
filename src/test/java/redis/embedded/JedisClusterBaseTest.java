@@ -7,15 +7,9 @@ import redis.clients.jedis.JedisCluster;
 
 @Slf4j
 public class JedisClusterBaseTest {
-    String key1;
-    String key2;
-    String key3;
     String key4;
     String key5;
     String key6;
-    String value1;
-    String value2;
-    String value3;
     String value4;
     String value5;
     String value6;
