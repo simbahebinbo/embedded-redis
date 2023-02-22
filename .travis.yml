@@ -6,7 +6,7 @@ jdk:
   - oraclejdk8
 
 install:
-    true
+  true
 
 before_script:
   - pip install --user codecov
@@ -19,5 +19,5 @@ after_success:
   - codecov --build "$TRAVIS_JOB_NUMBER-jdk8"
 
 notifications:
-    email:
-      on_failure: change
+  email:
+    on_failure: change

@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-public class RedisServerTest {
+public class RedisClientTest {
 
     private RedisServer redisServer;
     private int port;

@@ -53,13 +53,13 @@ abstract class AbstractRedisInstance implements IRedisServer {
             awaitRedisServerReady();
             active = true;
         } catch (IOException e) {
-            log.warn("Failed to start Redis instance. exception: {}", e.getMessage(), e);
-            throw new EmbeddedRedisException("Failed to start Redis instance", e);
+            log.warn("Failed to start Redis Server instance. exception: {}", e.getMessage(), e);
+            throw new EmbeddedRedisException("Failed to start Redis Server instance", e);
         }
     }
 
     private void installExitHook() {
-        Runtime.getRuntime().addShutdownHook(new Thread(this::stop, "RedisInstanceCleaner"));
+        Runtime.getRuntime().addShutdownHook(new Thread(this::stop, "RedisServerInstanceCleaner"));
     }
 
     private void logStandardError() {
@@ -121,8 +121,8 @@ abstract class AbstractRedisInstance implements IRedisServer {
         try {
             redisProcess.waitFor();
         } catch (InterruptedException e) {
-            log.warn("Failed to stop redis instance. exception: {}", e.getMessage(), e);
-            throw new EmbeddedRedisException("Failed to stop redis instance", e);
+            log.warn("Failed to stop redis server instance. exception: {}", e.getMessage(), e);
+            throw new EmbeddedRedisException("Failed to stop redis server instance", e);
         }
     }
 

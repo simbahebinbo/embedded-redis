@@ -35,7 +35,7 @@ public class ModeBunchTest extends JedisBaseTest {
         masterName2 = RandomStringUtils.randomAlphabetic(50, 100);
         masterName3 = RandomStringUtils.randomAlphabetic(50, 100);
         sentinelHost = CommonConstant.DEFAULT_REDIS_HOST;
-        sentinelPort = RandomUtils.nextInt(10000, 60000);
+        sentinelPort = RandomUtils.nextInt(10001, 11000);
     }
 
     @Test

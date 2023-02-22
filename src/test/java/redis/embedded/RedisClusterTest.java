@@ -20,19 +20,22 @@ public class RedisClusterTest {
     private RedisServer redisServer2;
     private RedisServer redisServer3;
 
+    private RedisClient redisClient;
+
 
     @BeforeEach
     public void setUp() {
         redisServer1 = mock(RedisServer.class);
         redisServer2 = mock(RedisServer.class);
         redisServer3 = mock(RedisServer.class);
+        redisClient = mock(RedisClient.class);
     }
 
     @Test
     @Timeout(value = 3000, unit = TimeUnit.MILLISECONDS)
     public void testSimpleRun() {
         List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2, redisServer3);
-        redisCluster = new RedisCluster(redisServers);
+        redisCluster = new RedisCluster(redisServers, redisClient);
         redisCluster.start();
         TimeTool.sleep(1000L);
         redisCluster.stop();
@@ -41,7 +44,7 @@ public class RedisClusterTest {
     @Test
     public void shouldAllowSubsequentRuns() {
         List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2, redisServer3);
-        redisCluster = new RedisCluster(redisServers);
+        redisCluster = new RedisCluster(redisServers, redisClient);
         redisCluster.start();
         redisCluster.stop();
 
@@ -56,14 +59,14 @@ public class RedisClusterTest {
     //集群模式 集群停止
     @Test
     public void stopShouldStopEntireCluster() throws Exception {
-        //given
-        List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2, redisServer3);
-        redisCluster = new RedisCluster(redisServers);
 
-        //when
+        List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2, redisServer3);
+        redisCluster = new RedisCluster(redisServers, redisClient);
+
+
         redisCluster.stop();
 
-        //then
+
         for (RedisServer redisServer : redisServers) {
             verify(redisServer).stop();
         }
@@ -72,14 +75,14 @@ public class RedisClusterTest {
     //集群模式 集群启动
     @Test
     public void startShouldStartEntireCluster() throws Exception {
-        //given
-        List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2, redisServer3);
-        redisCluster = new RedisCluster(redisServers);
 
-        //when
+        List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2, redisServer3);
+        redisCluster = new RedisCluster(redisServers, redisClient);
+
+
         redisCluster.start();
 
-        //then
+
         for (RedisServer redisServer : redisServers) {
             verify(redisServer).start();
         }
@@ -88,18 +91,18 @@ public class RedisClusterTest {
     //集群模式 集群判活
     @Test
     public void isActiveShouldCheckEntireClusterIfAllActive() throws Exception {
-        //given
+
         given(redisServer1.isActive()).willReturn(true);
         given(redisServer2.isActive()).willReturn(true);
         given(redisServer3.isActive()).willReturn(true);
 
         List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2, redisServer3);
-        redisCluster = new RedisCluster(redisServers);
+        redisCluster = new RedisCluster(redisServers, redisClient);
 
-        //when
+
         redisCluster.isActive();
 
-        //then
+
         for (RedisServer redisServer : redisServers) {
             verify(redisServer).isActive();
         }

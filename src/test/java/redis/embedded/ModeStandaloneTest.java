@@ -21,7 +21,7 @@ public class ModeStandaloneTest extends JedisBaseTest {
     public void setUp() {
         super.setUp();
         host = CommonConstant.DEFAULT_REDIS_HOST;
-        port = RandomUtils.nextInt(10000, 60000);
+        port = RandomUtils.nextInt(10001, 11000);
     }
 
     // 单机模式

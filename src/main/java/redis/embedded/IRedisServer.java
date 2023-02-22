@@ -1,14 +1,15 @@
 package redis.embedded;
 
-import java.util.List;
 import redis.embedded.exceptions.EmbeddedRedisException;
 
+import java.util.List;
+
 public interface IRedisServer {
-  boolean isActive();
+    boolean isActive();
 
-  void start() throws EmbeddedRedisException;
+    void start() throws EmbeddedRedisException;
 
-  void stop() throws EmbeddedRedisException;
+    void stop() throws EmbeddedRedisException;
 
-  List<Integer> ports();
+    List<Integer> ports();
 }
