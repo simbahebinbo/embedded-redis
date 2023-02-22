@@ -37,8 +37,9 @@ abstract class RedisExecProvider {
         OSArchitecture osArch = OSArchitecture.detect();
 
         if (!executables.containsKey(osArch)) {
-            log.warn("No Redis executable found for " + osArch);
-            throw new IllegalArgumentException("No Redis executable found for " + osArch);
+            String msg = "No Redis executable found for " + osArch;
+            log.warn(msg);
+            throw new IllegalArgumentException(msg);
         }
 
         String executablePath = executables.get(osArch);

@@ -21,8 +21,9 @@ public class EphemeralPortProvider implements PortProvider {
             return port;
         } catch (IOException e) {
             // should not ever happen
-            log.warn("Could not provide ephemeral port. exception: {}", e.getMessage(), e);
-            throw new RedisBuildingException("Could not provide ephemeral port", e);
+            String msg = "Could not provide ephemeral port";
+            log.warn("{}. exception: {}", msg, e.getMessage(), e);
+            throw new RedisBuildingException(msg, e);
         }
     }
 }

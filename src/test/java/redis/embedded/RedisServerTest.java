@@ -34,7 +34,7 @@ public class RedisServerTest {
     @Test
     @Timeout(value = 3000, unit = TimeUnit.MILLISECONDS)
     public void testSimpleRun() {
-        redisServer = new RedisServer(port);
+        redisServer = RedisServer.builder().port(port).build();
         redisServer.start();
         TimeTool.sleep(1000L);
         redisServer.stop();
@@ -46,7 +46,7 @@ public class RedisServerTest {
         Assertions.assertThrows(
                 Exception.class,
                 () -> {
-                    redisServer = new RedisServer(port);
+                    redisServer = RedisServer.builder().port(port).build();
                     redisServer.start();
                     redisServer.start();
                     redisServer.stop();
@@ -55,7 +55,7 @@ public class RedisServerTest {
 
     @Test
     public void shouldAllowSubsequentRuns() {
-        redisServer = new RedisServer(port);
+        redisServer = RedisServer.builder().port(port).build();
         redisServer.start();
         redisServer.stop();
 
@@ -68,13 +68,13 @@ public class RedisServerTest {
 
     @Test
     public void shouldIndicateInactiveBeforeStart() {
-        redisServer = new RedisServer(port);
+        redisServer = RedisServer.builder().port(port).build();
         Assertions.assertFalse(redisServer.isActive());
     }
 
     @Test
     public void shouldIndicateActiveAfterStart() {
-        redisServer = new RedisServer(port);
+        redisServer = RedisServer.builder().port(port).build();
         redisServer.start();
         Assertions.assertTrue(redisServer.isActive());
         redisServer.stop();
@@ -82,7 +82,7 @@ public class RedisServerTest {
 
     @Test
     public void shouldIndicateInactiveAfterStop() {
-        redisServer = new RedisServer(port);
+        redisServer = RedisServer.builder().port(port).build();
         redisServer.start();
         redisServer.stop();
         Assertions.assertFalse(redisServer.isActive());
@@ -126,7 +126,7 @@ public class RedisServerTest {
     public void testAwaitRedisServerReady() {
 
         try {
-            String readyPattern = RedisServer.builder().build().redisReadyPattern();
+            String readyPattern = RedisServer.builder().build().redisInstanceReadyPattern();
 
             assertReadyPattern(
                     new BufferedReader(

@@ -6,9 +6,10 @@ import redis.embedded.ports.PredefinedPortProvider;
 import redis.embedded.ports.SequencePortProvider;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class RedisBunchBuilder {
     private final List<ReplicationGroup> groups = new LinkedList<>();
@@ -31,13 +32,13 @@ public class RedisBunchBuilder {
         return this;
     }
 
-    public RedisBunchBuilder sentinelPorts(Collection<Integer> ports) {
+    public RedisBunchBuilder sentinelPorts(Set<Integer> ports) {
         this.sentinelPortProvider = new PredefinedPortProvider(ports);
         this.sentinelCount = ports.size();
         return this;
     }
 
-    public RedisBunchBuilder serverPorts(Collection<Integer> ports) {
+    public RedisBunchBuilder serverPorts(Set<Integer> ports) {
         this.replicationGroupPortProvider = new PredefinedPortProvider(ports);
         return this;
     }
@@ -137,7 +138,7 @@ public class RedisBunchBuilder {
     private static class ReplicationGroup {
         private final String masterName;
         private final int masterPort;
-        private final List<Integer> slavePorts = new LinkedList<>();
+        private final Set<Integer> slavePorts = new LinkedHashSet<>();
 
         private ReplicationGroup(String masterName, int slaveCount, PortProvider portProvider) {
             this.masterName = masterName;

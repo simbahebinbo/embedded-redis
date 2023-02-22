@@ -9,7 +9,7 @@ import java.util.List;
 
 @Slf4j
 public class RedisClusterBuilder {
-    private Collection<Integer> serverPorts = new LinkedList<>();
+    private final Collection<Integer> serverPorts = new LinkedList<>();
     private RedisServerBuilder serverBuilder = new RedisServerBuilder();
     private RedisClientBuilder clientBuilder = new RedisClientBuilder();
 

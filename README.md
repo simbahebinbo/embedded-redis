@@ -6,7 +6,7 @@ Redis embedded server for Java integration testing
 Fork Notes
 ==============
 This repository is a fork of https://github.com/ozimov/embedded-redis, which is in turn a fork
-of https://github.com/kstyrc/embedded-redis. We've updated the embedded Redis binaries to version 6.0.5 so we can write
+of https://github.com/kstyrc/embedded-redis. We've updated the embedded Redis binaries to version 7.0.8 so we can write
 tests that use recent Redis features without imposing dependencies that are not well-encapsulated by a single
 Maven/Gradle build.
 
@@ -15,11 +15,12 @@ Maven dependency
 
 Maven Central:
 
-```xml
+```
+
 <dependency>
-  <groupId>org.signal</groupId>
-  <artifactId>embedded-redis</artifactId>
-  <version>7.0.8</version>
+    <groupId>org.signal</groupId>
+    <artifactId>embedded-redis</artifactId>
+    <version>7.0.8</version>
 </dependency>
 ```
 
@@ -29,7 +30,7 @@ Usage
 Running RedisServer is as simple as:
 
 ```
-RedisServer redisServer = new RedisServer(6379);
+RedisServer redisServer = RedisServer.builder().port(6379).build();
 redisServer.start();
 // do some work
 redisServer.stop();
@@ -135,9 +136,9 @@ public class SomeIntegrationTestThatRequiresRedis {
 
     @Before
     public void setup() throws Exception {
-        final List<Integer> sentinels = Arrays.asList(26739, 26912);
-        final List<Integer> group1 = Arrays.asList(6667, 6668);
-        final List<Integer> group2 = Arrays.asList(6387, 6379);
+        final Set<Integer> sentinels = Set.of(26739, 26912);
+        final Set<Integer> group1 = Set.of(6667, 6668);
+        final Set<Integer> group2 = Set.of(6387, 6379);
         //creates a cluster with 3 sentinels, quorum size of 2 and 3 replication groups, each with one master and one slave
         cluster = RedisCluster.builder().sentinelPorts(sentinels).quorumSize(2)
                 .serverPorts(group1).replicationGroup("master1", 1)

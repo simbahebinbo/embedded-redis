@@ -35,7 +35,7 @@ public class RedisSentinelTest {
     @Test
     @Timeout(value = 3000, unit = TimeUnit.MILLISECONDS)
     public void testSimpleRun() {
-        redisSentinel = new RedisSentinel(sentinelPort, masterPort);
+        redisSentinel = RedisSentinel.builder().sentinelPort(sentinelPort).masterPort(masterPort).build();
         redisSentinel.start();
         TimeTool.sleep(1000L);
         redisSentinel.stop();
@@ -60,7 +60,7 @@ public class RedisSentinelTest {
         try {
             redisSentinel =
                     RedisSentinel.builder().sentinelPort(sentinelPort).masterPort(masterPort).build();
-            String readyPattern = redisSentinel.redisReadyPattern();
+            String readyPattern = redisSentinel.redisInstanceReadyPattern();
 
             assertReadyPattern(
                     new BufferedReader(

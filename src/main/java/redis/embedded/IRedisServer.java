@@ -2,7 +2,7 @@ package redis.embedded;
 
 import redis.embedded.exceptions.EmbeddedRedisException;
 
-import java.util.List;
+import java.util.Set;
 
 public interface IRedisServer {
     boolean isActive();
@@ -11,5 +11,5 @@ public interface IRedisServer {
 
     void stop() throws EmbeddedRedisException;
 
-    List<Integer> ports();
+    Set<Integer> ports();
 }

@@ -3,9 +3,10 @@ package redis.embedded;
 import com.google.common.collect.Lists;
 import redis.embedded.exceptions.EmbeddedRedisException;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class RedisCluster implements IRedisServer {
     private final List<RedisServer> redisServers = new LinkedList<>();
@@ -47,16 +48,16 @@ public class RedisCluster implements IRedisServer {
     }
 
     @Override
-    public List<Integer> ports() {
-        return new ArrayList<>(serverPorts());
+    public Set<Integer> ports() {
+        return new HashSet<>(serverPorts());
     }
 
     public List<RedisServer> servers() {
         return Lists.newLinkedList(redisServers);
     }
 
-    public List<Integer> serverPorts() {
-        List<Integer> ports = new ArrayList<>();
+    public Set<Integer> serverPorts() {
+        Set<Integer> ports = new HashSet<>();
         for (RedisServer redisServer : redisServers) {
             ports.addAll(redisServer.ports());
         }

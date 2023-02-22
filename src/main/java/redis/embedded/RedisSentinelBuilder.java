@@ -83,9 +83,9 @@ public class RedisSentinelBuilder {
 
     public RedisSentinelBuilder configFile(String redisConf) {
         if (redisConfigBuilder != null) {
-            log.warn("Redis configuration is already partially build using setting(String) method!");
-            throw new RedisBuildingException(
-                    "Redis configuration is already partially build using setting(String) method!");
+            String msg = "Redis configuration is already partially build using setting(String) method!";
+            log.warn(msg);
+            throw new RedisBuildingException(msg);
         }
         this.sentinelConf = redisConf;
         return this;
@@ -93,8 +93,9 @@ public class RedisSentinelBuilder {
 
     public RedisSentinelBuilder setting(String configLine) {
         if (sentinelConf != null) {
-            log.warn("Redis configuration is already set using redis conf file!");
-            throw new RedisBuildingException("Redis configuration is already set using redis conf file!");
+            String msg = "Redis configuration is already set using redis conf file!";
+            log.warn(msg);
+            throw new RedisBuildingException(msg);
         }
 
         if (redisConfigBuilder == null) {
@@ -119,8 +120,9 @@ public class RedisSentinelBuilder {
             }
             executable = redisExecProvider.get();
         } catch (Exception e) {
-            log.warn("Could not build sentinel instance. exception: {}", e.getMessage(), e);
-            throw new RedisBuildingException("Could not build sentinel instance", e);
+            String msg = "Could not build sentinel instance";
+            log.warn("{}. exception: {}", msg, e.getMessage(), e);
+            throw new RedisBuildingException(msg, e);
         }
     }
 

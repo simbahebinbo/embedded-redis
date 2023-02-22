@@ -49,8 +49,9 @@ public class RedisClientBuilder {
         try {
             resolveConfAndExec();
         } catch (IOException e) {
-            log.warn("Could not build client instance. exception: {}", e.getMessage(), e);
-            throw new RedisBuildingException("Could not build client instance", e);
+            String msg = "Could not build client instance";
+            log.warn("{}. exception: {}", msg, e.getMessage(), e);
+            throw new RedisBuildingException(msg, e);
         }
     }
 
@@ -59,8 +60,9 @@ public class RedisClientBuilder {
         try {
             executable = redisExecProvider.get();
         } catch (Exception e) {
-            log.warn("Failed to resolve executable. exception: {}", e.getMessage(), e);
-            throw new RedisBuildingException("Failed to resolve executable", e);
+            String msg = "Failed to resolve executable";
+            log.warn("{}. exception: {}", msg, e.getMessage(), e);
+            throw new RedisBuildingException(msg, e);
         }
     }
 

@@ -20,21 +20,26 @@ public class OSDetector {
         } else if (CommonConstant.OS_MAC_OSX.equalsIgnoreCase(osName)) {
             return OS.MAC_OSX;
         } else {
-            log.warn("Unrecognized OS: " + osName);
-            throw new OsDetectionException("Unrecognized OS: " + osName);
+            String msg = "Unrecognized OS: " + osName;
+            log.warn(msg);
+            throw new OsDetectionException(msg);
         }
     }
 
     public static Architecture getArchitecture() {
         OS os = getOS();
         switch (os) {
-            case UNIX:
+            case UNIX -> {
                 return getUnixArchitecture();
-            case MAC_OSX:
+            }
+            case MAC_OSX -> {
                 return getMacOSXArchitecture();
-            default:
-                log.warn("Unrecognized OS: " + os);
-                throw new OsDetectionException("Unrecognized OS: " + os);
+            }
+            default -> {
+                String msg = "Unrecognized OS: " + os;
+                log.warn(msg);
+                throw new OsDetectionException(msg);
+            }
         }
     }
 
@@ -52,8 +57,9 @@ public class OSDetector {
                 }
             }
         } catch (Exception e) {
-            log.warn("get unix architecture fail. exception: {}", e.getMessage(), e);
-            throw new OsDetectionException(e);
+            String msg = "get unix architecture fail";
+            log.warn("{}. exception: {}", msg, e.getMessage(), e);
+            throw new OsDetectionException(msg, e);
         } finally {
             try {
                 if (input != null) {
@@ -81,15 +87,17 @@ public class OSDetector {
                 }
             }
         } catch (Exception e) {
-            log.warn("get mac os x architecture fail. exception: {}", e.getMessage(), e);
-            throw new OsDetectionException(e);
+            String msg = "get mac os x architecture fail";
+            log.warn("{}. exception: {}", msg, e.getMessage(), e);
+            throw new OsDetectionException(msg, e);
         } finally {
             try {
                 if (input != null) {
                     input.close();
                 }
             } catch (Exception e) {
-                log.warn("get mac os x architecture fail. exception: {}", e.getMessage(), e);
+                String msg = "get mac os x architecture fail";
+                log.warn("{}. exception: {}", msg, e.getMessage(), e);
             }
         }
 

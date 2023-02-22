@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Slf4j
 public class EphemeralPortProviderTest {
@@ -15,7 +15,7 @@ public class EphemeralPortProviderTest {
         final int portCount = 20;
         final EphemeralPortProvider provider = new EphemeralPortProvider();
 
-        final List<Integer> ports = new ArrayList<>();
+        final Set<Integer> ports = new HashSet<>();
         for (int i = 0; i < portCount; i++) {
             ports.add(provider.next());
         }

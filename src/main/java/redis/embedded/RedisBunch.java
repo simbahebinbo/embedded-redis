@@ -3,9 +3,10 @@ package redis.embedded;
 import com.google.common.collect.Lists;
 import redis.embedded.exceptions.EmbeddedRedisException;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class RedisBunch implements IRedisServer {
     private final List<RedisSentinel> redisSentinels = new LinkedList<>();
@@ -56,8 +57,8 @@ public class RedisBunch implements IRedisServer {
     }
 
     @Override
-    public List<Integer> ports() {
-        List<Integer> ports = new ArrayList<>();
+    public Set<Integer> ports() {
+        Set<Integer> ports = new HashSet<>();
         ports.addAll(sentinelPorts());
         ports.addAll(serverPorts());
         return ports;
@@ -67,8 +68,8 @@ public class RedisBunch implements IRedisServer {
         return Lists.newLinkedList(redisSentinels);
     }
 
-    public List<Integer> sentinelPorts() {
-        List<Integer> ports = new ArrayList<>();
+    public Set<Integer> sentinelPorts() {
+        Set<Integer> ports = new HashSet<>();
         for (RedisSentinel redisSentinel : redisSentinels) {
             ports.addAll(redisSentinel.ports());
         }
@@ -79,8 +80,8 @@ public class RedisBunch implements IRedisServer {
         return Lists.newLinkedList(redisServers);
     }
 
-    public List<Integer> serverPorts() {
-        List<Integer> ports = new ArrayList<>();
+    public Set<Integer> serverPorts() {
+        Set<Integer> ports = new HashSet<>();
         for (RedisServer redisServer : redisServers) {
             ports.addAll(redisServer.ports());
         }

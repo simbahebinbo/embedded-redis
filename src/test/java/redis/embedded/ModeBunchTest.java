@@ -11,16 +11,13 @@ import redis.embedded.common.CommonConstant;
 import redis.embedded.util.JedisUtil;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 // 集合模式
 @Slf4j
 @NotThreadSafe
 public class ModeBunchTest extends JedisBaseTest {
-    private int sentinelPort;
+    private Integer sentinelPort;
     private String sentinelHost;
     private String masterName;
     private String masterName1;
@@ -40,7 +37,7 @@ public class ModeBunchTest extends JedisBaseTest {
 
     @Test
     public void testSimpleOperationsAfterRunWithSingleMasterNoSlave() {
-        List<Integer> sentinelPorts = Collections.singletonList(sentinelPort);
+        Set<Integer> sentinelPorts = Set.of(sentinelPort);
 
         RedisBunch redisBunch =
                 RedisBunch.builder()
@@ -62,7 +59,7 @@ public class ModeBunchTest extends JedisBaseTest {
 
     @Test
     public void testSimpleOperationsAfterRunWithSingleMasterSingleSlave() {
-        List<Integer> sentinelPorts = Collections.singletonList(sentinelPort);
+        Set<Integer> sentinelPorts = Set.of(sentinelPort);
 
         RedisBunch redisBunch =
                 RedisBunch.builder()
@@ -84,7 +81,7 @@ public class ModeBunchTest extends JedisBaseTest {
 
     @Test
     public void testSimpleOperationsAfterRunWithSingleMasterMultipleSlaves() {
-        List<Integer> sentinelPorts = Collections.singletonList(sentinelPort);
+        Set<Integer> sentinelPorts = Set.of(sentinelPort);
 
         RedisBunch redisBunch =
                 RedisBunch.builder()
@@ -109,7 +106,7 @@ public class ModeBunchTest extends JedisBaseTest {
         Integer sentinelPort1 = sentinelPort;
         Integer sentinelPort2 = sentinelPort + 1;
 
-        List<Integer> sentinelPorts = Arrays.asList(sentinelPort1, sentinelPort2);
+        Set<Integer> sentinelPorts = Set.of(sentinelPort1, sentinelPort2);
 
         RedisBunch redisBunch =
                 RedisBunch.builder()
@@ -134,7 +131,7 @@ public class ModeBunchTest extends JedisBaseTest {
         Integer sentinelPort1 = sentinelPort;
         Integer sentinelPort2 = sentinelPort + 1;
 
-        List<Integer> sentinelPorts = Arrays.asList(sentinelPort1, sentinelPort2);
+        Set<Integer> sentinelPorts = Set.of(sentinelPort1, sentinelPort2);
 
         RedisBunch redisBunch =
                 RedisBunch.builder()
@@ -160,7 +157,7 @@ public class ModeBunchTest extends JedisBaseTest {
         Integer sentinelPort2 = sentinelPort + 1;
         Integer sentinelPort3 = sentinelPort + 2;
 
-        List<Integer> sentinelPorts = Arrays.asList(sentinelPort1, sentinelPort2, sentinelPort3);
+        Set<Integer> sentinelPorts = Set.of(sentinelPort1, sentinelPort2, sentinelPort3);
 
         RedisBunch redisBunch =
                 RedisBunch.builder()
@@ -201,7 +198,7 @@ public class ModeBunchTest extends JedisBaseTest {
         Integer sentinelPort2 = sentinelPort + 1;
         Integer sentinelPort3 = sentinelPort + 2;
 
-        List<Integer> sentinelPorts = Arrays.asList(sentinelPort1, sentinelPort2, sentinelPort3);
+        Set<Integer> sentinelPorts = Set.of(sentinelPort1, sentinelPort2, sentinelPort3);
 
         RedisBunch redisBunch =
                 RedisBunch.builder()

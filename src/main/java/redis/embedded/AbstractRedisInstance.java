@@ -1,11 +1,9 @@
 package redis.embedded;
 
-import cn.hutool.core.util.StrUtil;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import redis.embedded.enums.RedisInstanceModeEnum;
 import redis.embedded.exceptions.EmbeddedRedisException;
 
 import java.io.BufferedReader;
@@ -13,46 +11,47 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Slf4j
-abstract class AbstractRedisInstance implements IRedisInstance {
+@NoArgsConstructor
+abstract class AbstractRedisInstance {
+    @Getter
+    private List<String> arguments;
     private Process redisProcess;
-    @Setter
+
     @Getter
     private volatile boolean active = false;
-
-    @Getter
-    private List<String> args = new ArrayList<>();
     private ExecutorService executor;
 
-
-    protected void doUpdateArgs(List<String> args) {
-        this.args.addAll(args);
+    AbstractRedisInstance(List<String> args) {
+        arguments = args;
+        log.debug("args: " + arguments);
     }
 
-    public void doStart(RedisInstanceModeEnum instanceMode) throws EmbeddedRedisException {
+    public void doStart() throws EmbeddedRedisException {
         if (active) {
-            log.warn("This redis client instance is already running...");
-            throw new EmbeddedRedisException("This redis client instance is already running...");
+            String msg = "This redis client instance is already running...";
+            log.warn(msg);
+            throw new EmbeddedRedisException(msg);
         }
         try {
             redisProcess = createRedisProcessBuilder().start();
-            installExitHook(instanceMode.getValue());
+            installExitHook();
             logStandardError();
             awaitRedisInstanceReady();
             active = true;
         } catch (IOException e) {
-            log.warn("Failed to start Redis Client instance. exception: {}", e.getMessage(), e);
-            throw new EmbeddedRedisException("Failed to start Redis Client instance", e);
+            String msg = "Failed to start Redis Client instance";
+            log.warn("{}. exception: {}", msg, e.getMessage(), e);
+            throw new EmbeddedRedisException(msg, e);
         }
     }
 
-    public void installExitHook(String mode) {
-        String name = String.format("Redis%sInstanceCleaner", StrUtil.upperFirst(mode));
+    public void installExitHook() {
+        String name = "RedisInstanceCleaner";
         Runtime.getRuntime().addShutdownHook(new Thread(this::doStop, name));
     }
 
@@ -74,13 +73,11 @@ abstract class AbstractRedisInstance implements IRedisInstance {
             do {
                 outputLine = reader.readLine();
                 if (outputLine == null) {
-                    log.warn(
-                            "Can't start redis client. Check logs for details. Redis process log: "
-                                    + outputStringBuffer);
+                    String msg = "Can't start redis client. Check logs for details. Redis process log: "
+                            + outputStringBuffer;
+                    log.warn(msg);
                     // Something goes wrong. Stream is ended before server was activated.
-                    throw new RuntimeException(
-                            "Can't start redis client. Check logs for details. Redis process log: "
-                                    + outputStringBuffer);
+                    throw new RuntimeException(msg);
                 } else {
                     outputStringBuffer.append("\n");
                     outputStringBuffer.append(outputLine);
@@ -96,9 +93,8 @@ abstract class AbstractRedisInstance implements IRedisInstance {
 
 
     public ProcessBuilder createRedisProcessBuilder() {
-        List<String> args = getArgs();
-        File executable = new File(args.get(0));
-        ProcessBuilder pb = new ProcessBuilder(args);
+        File executable = new File(arguments.get(0));
+        ProcessBuilder pb = new ProcessBuilder(arguments);
         pb.directory(executable.getParentFile());
         return pb;
     }

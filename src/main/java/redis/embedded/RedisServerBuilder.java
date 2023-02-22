@@ -79,9 +79,9 @@ public class RedisServerBuilder {
 
     public RedisServerBuilder configFile(String redisConf) {
         if (redisConfigBuilder != null) {
-            log.warn("Redis configuration is already partially build using setting(String) method!");
-            throw new RedisBuildingException(
-                    "Redis configuration is already partially build using setting(String) method!");
+            String msg = "Redis configuration is already partially build using setting(String) method!";
+            log.warn(msg);
+            throw new RedisBuildingException(msg);
         }
         this.redisConf = redisConf;
         return this;
@@ -89,8 +89,9 @@ public class RedisServerBuilder {
 
     public RedisServerBuilder setting(String configLine) {
         if (redisConf != null) {
-            log.warn("Redis configuration is already set using redis conf file!");
-            throw new RedisBuildingException("Redis configuration is already set using redis conf file!");
+            String msg = "Redis configuration is already set using redis conf file!";
+            log.warn(msg);
+            throw new RedisBuildingException(msg);
         }
 
         if (redisConfigBuilder == null) {
@@ -123,8 +124,9 @@ public class RedisServerBuilder {
         try {
             resolveConfAndExec();
         } catch (IOException e) {
-            log.warn("Could not build server instance. exception: {}", e.getMessage(), e);
-            throw new RedisBuildingException("Could not build server instance", e);
+            String msg = "Could not build server instance";
+            log.warn("{}. exception: {}", msg, e.getMessage(), e);
+            throw new RedisBuildingException(msg, e);
         }
     }
 
@@ -141,8 +143,9 @@ public class RedisServerBuilder {
         try {
             executable = redisExecProvider.get();
         } catch (Exception e) {
-            log.warn("Failed to resolve executable. exception: {}", e.getMessage(), e);
-            throw new RedisBuildingException("Failed to resolve executable", e);
+            String msg = "Failed to resolve executable";
+            log.warn("{}. exception: {}", msg, e.getMessage(), e);
+            throw new RedisBuildingException(msg, e);
         }
     }
 

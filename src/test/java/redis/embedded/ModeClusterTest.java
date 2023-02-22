@@ -12,7 +12,6 @@ import redis.embedded.util.TimeTool;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 //集群模式
@@ -64,7 +63,7 @@ public class ModeClusterTest extends JedisClusterBaseTest {
     //一共三个节点  三个主节点 没有从节点
     @Test
     public void testSimpleOperationsAfterRunWithThreeMastersNoSlavesCluster() {
-        List<Integer> slavePorts = List.of(slavePort1, slavePort2, slavePort3);
+        Set<Integer> slavePorts = Set.of(slavePort1, slavePort2, slavePort3);
 
         RedisCluster redisCluster =
                 RedisCluster.builder()
@@ -95,7 +94,7 @@ public class ModeClusterTest extends JedisClusterBaseTest {
         Assertions.assertThrows(
                 Exception.class,
                 () -> {
-                    List<Integer> slavePorts = List.of(slavePort1, slavePort2, slavePort3, slavePort4);
+                    Set<Integer> slavePorts = Set.of(slavePort1, slavePort2, slavePort3, slavePort4);
 
                     RedisCluster redisCluster =
                             RedisCluster.builder()
@@ -114,7 +113,7 @@ public class ModeClusterTest extends JedisClusterBaseTest {
         Assertions.assertThrows(
                 Exception.class,
                 () -> {
-                    List<Integer> slavePorts = List.of(slavePort1, slavePort2, slavePort3, slavePort4, slavePort5);
+                    Set<Integer> slavePorts = Set.of(slavePort1, slavePort2, slavePort3, slavePort4, slavePort5);
 
                     RedisCluster redisCluster =
                             RedisCluster.builder()
@@ -129,7 +128,7 @@ public class ModeClusterTest extends JedisClusterBaseTest {
     //一共六个节点  三个主节点 三个从节点
     @Test
     public void testSimpleOperationsAfterRunWithThreeMastersThreeSlavesCluster() {
-        List<Integer> slavePorts = List.of(slavePort1, slavePort2, slavePort3, slavePort4, slavePort5, slavePort6);
+        Set<Integer> slavePorts = Set.of(slavePort1, slavePort2, slavePort3, slavePort4, slavePort5, slavePort6);
 
         RedisCluster redisCluster =
                 RedisCluster.builder()
@@ -159,7 +158,7 @@ public class ModeClusterTest extends JedisClusterBaseTest {
     //一共七个节点  个主节点 四个从节点
     @Test
     public void testSimpleOperationsAfterRunWithThreeMastersFourSlavesCluster() {
-        List<Integer> slavePorts = List.of(slavePort1, slavePort2, slavePort3, slavePort4, slavePort5, slavePort6, slavePort7);
+        Set<Integer> slavePorts = Set.of(slavePort1, slavePort2, slavePort3, slavePort4, slavePort5, slavePort6, slavePort7);
 
         RedisCluster redisCluster =
                 RedisCluster.builder()
@@ -195,7 +194,7 @@ public class ModeClusterTest extends JedisClusterBaseTest {
         Assertions.assertThrows(
                 Exception.class,
                 () -> {
-                    List<Integer> slavePorts = List.of(slavePort1, slavePort2, slavePort3, slavePort4, slavePort5, slavePort6, slavePort7);
+                    Set<Integer> slavePorts = Set.of(slavePort1, slavePort2, slavePort3, slavePort4, slavePort5, slavePort6, slavePort7);
 
                     RedisCluster redisCluster =
                             RedisCluster.builder()
@@ -214,7 +213,7 @@ public class ModeClusterTest extends JedisClusterBaseTest {
         Assertions.assertThrows(
                 Exception.class,
                 () -> {
-                    List<Integer> slavePorts = List.of(slavePort1, slavePort2);
+                    Set<Integer> slavePorts = Set.of(slavePort1, slavePort2);
 
                     RedisCluster redisCluster =
                             RedisCluster.builder()
@@ -232,7 +231,7 @@ public class ModeClusterTest extends JedisClusterBaseTest {
         Assertions.assertThrows(
                 Exception.class,
                 () -> {
-                    List<Integer> slavePorts = List.of(slavePort1);
+                    Set<Integer> slavePorts = Set.of(slavePort1);
 
                     RedisCluster redisCluster =
                             RedisCluster.builder()
