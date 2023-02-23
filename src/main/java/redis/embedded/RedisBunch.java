@@ -3,7 +3,6 @@ package redis.embedded;
 import com.google.common.collect.Lists;
 import redis.embedded.exceptions.EmbeddedRedisException;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -65,14 +64,6 @@ public class RedisBunch implements IRedisServer {
         return ports;
     }
 
-    @Override
-    public Set<Integer> tlsPorts() {
-        Set<Integer> tlsPorts = new HashSet<>();
-        tlsPorts.addAll(sentinelTlsPorts());
-        tlsPorts.addAll(serverTlsPorts());
-        return tlsPorts;
-    }
-
     public List<RedisSentinel> sentinels() {
         return Lists.newLinkedList(redisSentinels);
     }
@@ -85,15 +76,6 @@ public class RedisBunch implements IRedisServer {
         return ports;
     }
 
-    public Set<Integer> sentinelTlsPorts() {
-        Set<Integer> tlsPorts = new HashSet<>();
-        for (RedisSentinel redisSentinel : redisSentinels) {
-            tlsPorts.addAll(redisSentinel.tlsPorts());
-        }
-        return tlsPorts;
-    }
-
-
     public List<RedisServer> servers() {
         return Lists.newLinkedList(redisServers);
     }
@@ -104,13 +86,5 @@ public class RedisBunch implements IRedisServer {
             ports.addAll(redisServer.ports());
         }
         return ports;
-    }
-
-    public List<Integer> serverTlsPorts() {
-        List<Integer> tlsPorts = new ArrayList<>();
-        for (RedisServer redisServer : redisServers) {
-            tlsPorts.addAll(redisServer.tlsPorts());
-        }
-        return tlsPorts;
     }
 }

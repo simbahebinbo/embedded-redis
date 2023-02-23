@@ -12,8 +12,6 @@ abstract class AbstractRedisServerInstance extends AbstractRedisInstance impleme
 
     private final Set<Integer> ports = Sets.newHashSet();
 
-    private final Set<Integer> tlsPorts = Sets.newHashSet();
-
     private final Set<Integer> sentinelPorts = Sets.newHashSet();
     private final Set<Integer> masterPorts = Sets.newHashSet();
 
@@ -24,12 +22,6 @@ abstract class AbstractRedisServerInstance extends AbstractRedisInstance impleme
     protected AbstractRedisServerInstance(int port) {
         super();
         this.ports.add(port);
-    }
-
-    protected AbstractRedisServerInstance(int port, int tlsPort, List<String> args) {
-        super(args);
-        this.ports.add(port);
-        this.tlsPorts.add(tlsPort);
     }
 
     AbstractRedisServerInstance(List<String> args, int port) {
@@ -75,10 +67,6 @@ abstract class AbstractRedisServerInstance extends AbstractRedisInstance impleme
         return ports;
     }
 
-    @Override
-    public Set<Integer> tlsPorts() {
-        return tlsPorts;
-    }
 
     public Set<Integer> sentinelPorts() {
         return sentinelPorts;

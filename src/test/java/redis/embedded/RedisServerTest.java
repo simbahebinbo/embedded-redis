@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -70,6 +71,12 @@ public class RedisServerTest {
     public void shouldIndicateInactiveBeforeStart() {
         redisServer = RedisServer.builder().port(port).build();
         Assertions.assertFalse(redisServer.isActive());
+    }
+
+    @Test
+    public void testPorts() {
+        redisServer = RedisServer.builder().port(port).build();
+        Assertions.assertEquals(redisServer.ports(), Set.of(port));
     }
 
     @Test

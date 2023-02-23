@@ -23,11 +23,6 @@ public class RedisServer extends AbstractRedisServerInstance {
         super(args, port);
     }
 
-    RedisServer(List<String> args, int port, int tlsPort) {
-        super(port, tlsPort, args);
-    }
-
-
     public static RedisServerBuilder builder() {
         return new RedisServerBuilder();
     }

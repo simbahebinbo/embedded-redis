@@ -24,10 +24,13 @@ public class ModeSentinelTest extends JedisBaseTest {
     private RedisServer masterServer;
     private RedisServer slaveServer;
     private int masterPort;
+
     private String masterHost;
     private int slavePort;
+
     private String slaveHost;
     private int sentinelPort;
+
     private String sentinelHost;
     private String masterName;
 
@@ -76,6 +79,7 @@ public class ModeSentinelTest extends JedisBaseTest {
         masterServer.stop();
         slaveServer.stop();
     }
+
 
     // 哨兵模式
     // 正常启动

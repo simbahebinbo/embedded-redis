@@ -15,6 +15,7 @@ public class ModeStandaloneTest extends JedisBaseTest {
 
     private RedisServer redisServer;
     private int port;
+
     private String host;
 
     @BeforeEach

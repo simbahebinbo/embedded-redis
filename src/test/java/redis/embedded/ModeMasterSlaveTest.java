@@ -20,8 +20,10 @@ public class ModeMasterSlaveTest extends JedisBaseTest {
     private RedisServer slaveServer;
     private RedisServer masterServer;
     private int masterPort;
+
     private String masterHost;
     private int slavePort;
+
     private String slaveHost;
 
     @BeforeEach
@@ -66,6 +68,7 @@ public class ModeMasterSlaveTest extends JedisBaseTest {
         slaveServer.stop();
         masterServer.stop();
     }
+
 
     // 主从模式
     // 正常启动

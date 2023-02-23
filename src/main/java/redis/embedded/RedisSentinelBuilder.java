@@ -28,7 +28,8 @@ public class RedisSentinelBuilder {
     private RedisExecProvider redisExecProvider = RedisSentinelExecProvider.defaultProvider();
     private String bind = CommonConstant.ALL_REDIS_HOST;
     private Integer sentinelPort = CommonConstant.DEFAULT_REDIS_STANDALONE_PORT;
-    private int masterPort = CommonConstant.DEFAULT_REDIS_MASTER_PORT;
+    private Integer masterPort = CommonConstant.DEFAULT_REDIS_MASTER_PORT;
+
     private String masterName = "embedded-master-name";
     private long downAfterMilliseconds = 60000L;
     private long failoverTimeout = 180000L;
@@ -48,8 +49,8 @@ public class RedisSentinelBuilder {
         return this;
     }
 
-    public RedisSentinelBuilder sentinelPort(Integer port) {
-        this.sentinelPort = port;
+    public RedisSentinelBuilder sentinelPort(Integer sentinelPort) {
+        this.sentinelPort = sentinelPort;
         return this;
     }
 
@@ -166,10 +167,8 @@ public class RedisSentinelBuilder {
         args.add(executable.getAbsolutePath());
         args.add(sentinelConf);
 
-        if (sentinelPort != null) {
-            args.add("--port");
-            args.add(Integer.toString(sentinelPort));
-        }
+        args.add("--port");
+        args.add(Integer.toString(sentinelPort));
 
         args.add("--loglevel");
         args.add("debug");
