@@ -1,6 +1,7 @@
 package redis.embedded;
 
 import com.google.common.io.Files;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import redis.embedded.common.CommonConstant;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
+@NoArgsConstructor
 public class RedisServerBuilder {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
     private static final String CONF_FILENAME = "embedded-redis-server";
@@ -21,12 +23,19 @@ public class RedisServerBuilder {
     private RedisExecProvider redisExecProvider = RedisServerExecProvider.defaultProvider();
     private String bind = CommonConstant.ALL_REDIS_HOST;
     private int port = CommonConstant.DEFAULT_REDIS_STANDALONE_PORT;
-    private InetSocketAddress replicaOf;
+    private int tlsPort = 0;
+
+    //主从模式参数
+    private InetSocketAddress slaveOf;
+
     //集群模式参数
     private Boolean clusterEnable = false;
-    private InetSocketAddress slaveOf;
+
     //哨兵模式参数
     private Boolean sentinelEnable = false;
+
+    private InetSocketAddress replicaOf;
+
     private String redisConf;
 
     private StringBuilder redisConfigBuilder;
@@ -43,6 +52,11 @@ public class RedisServerBuilder {
 
     public RedisServerBuilder port(int port) {
         this.port = port;
+        return this;
+    }
+
+    public RedisServerBuilder tlsPort(int tlsPort) {
+        this.tlsPort = tlsPort;
         return this;
     }
 
@@ -107,7 +121,7 @@ public class RedisServerBuilder {
         setting("bind " + bind);
         tryResolveConfAndExec();
         List<String> args = buildCommandArgs();
-        return new RedisServer(args, port);
+        return new RedisServer(args, port, tlsPort);
     }
 
     public void reset() {
@@ -163,6 +177,11 @@ public class RedisServerBuilder {
 
         args.add("--port");
         args.add(Integer.toString(port));
+
+        if (tlsPort > 0) {
+            args.add("--tls-port");
+            args.add(Integer.toString(tlsPort));
+        }
 
         if (replicaOf != null) {
             args.add("--replicaof");

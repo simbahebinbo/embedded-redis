@@ -50,15 +50,20 @@ public class RedisClientTest {
                 RedisCliExecProvider.defaultProvider()
                         .override(
                                 OS.UNIX,
-                                Architecture.X86,
-                                Resources.getResource(CommonConstant.REDIS_SERVER_EXEC_UNIX_X86).getFile())
-                        .override(
-                                OS.UNIX,
                                 Architecture.AMD64,
                                 Resources.getResource(CommonConstant.REDIS_SERVER_EXEC_UNIX_AMD64).getFile())
                         .override(
+                                OS.UNIX,
+                                Architecture.ARM64,
+                                Resources.getResource(CommonConstant.REDIS_SERVER_EXEC_UNIX_ARM64).getFile())
+                        .override(
                                 OS.MAC_OSX,
-                                Resources.getResource(CommonConstant.REDIS_SERVER_EXEC_MAC_OSX).getFile());
+                                Architecture.AMD64,
+                                Resources.getResource(CommonConstant.REDIS_SERVER_EXEC_MAC_OSX_AMD64).getFile())
+                        .override(
+                                OS.MAC_OSX,
+                                Architecture.ARM64,
+                                Resources.getResource(CommonConstant.REDIS_SERVER_EXEC_MAC_OSX_ARM64).getFile());
 
         redisClient = new RedisClientBuilder().redisExecProvider(customProvider).ports(Collections.singletonList(port)).build();
     }

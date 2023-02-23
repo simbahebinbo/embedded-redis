@@ -9,8 +9,8 @@ import java.util.List;
 public class RedisSentinel extends AbstractRedisServerInstance {
     private static final String REDIS_SENTINEL_READY_PATTERN = ".*Sentinel (runid|ID) is.*";
 
-    RedisSentinel(List<String> args, int port) {
-        super(args, port, CommonConstant.DEFAULT_REDIS_MASTER_PORT);
+    RedisSentinel(List<String> args, int sentinelPort) {
+        super(args, sentinelPort, CommonConstant.DEFAULT_REDIS_MASTER_PORT);
     }
 
     public static RedisSentinelBuilder builder() {

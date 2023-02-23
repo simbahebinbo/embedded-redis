@@ -1,5 +1,6 @@
 package redis.embedded;
 
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Slf4j
+@NoArgsConstructor
 public class RedisClusterBuilder {
     private final Collection<Integer> serverPorts = new LinkedList<>();
     private RedisServerBuilder serverBuilder = new RedisServerBuilder();

@@ -29,11 +29,8 @@ public class OSDetector {
     public static Architecture getArchitecture() {
         OS os = getOS();
         switch (os) {
-            case UNIX -> {
-                return getUnixArchitecture();
-            }
-            case MAC_OSX -> {
-                return getMacOSXArchitecture();
+            case UNIX, MAC_OSX -> {
+                return detectionArchitecture();
             }
             default -> {
                 String msg = "Unrecognized OS: " + os;
@@ -43,64 +40,33 @@ public class OSDetector {
         }
     }
 
-    private static Architecture getUnixArchitecture() {
-        BufferedReader input = null;
+    private static Architecture detectionArchitecture() {
         try {
-            String line;
             Process proc = Runtime.getRuntime().exec("uname -m");
-            input = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-            while ((line = input.readLine()) != null) {
-                if (line.length() > 0) {
-                    if (line.contains("64")) {
+            try (BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()))) {
+                String machine = input.readLine();
+                log.debug("machine: " + machine);
+                switch (machine) {
+                    case CommonConstant.ARCHITECTURE_AARCH64, CommonConstant.ARCHITECTURE_ARM64 -> {
+                        return Architecture.ARM64;
+                    }
+                    case CommonConstant.ARCHITECTURE_X86_64 -> {
                         return Architecture.AMD64;
+                    }
+                    default -> {
+                        String msg = "unsupported architecture: " + machine;
+                        log.warn(msg);
+                        throw new OsDetectionException(msg);
                     }
                 }
             }
         } catch (Exception e) {
             String msg = "get unix architecture fail";
             log.warn("{}. exception: {}", msg, e.getMessage(), e);
+            if (e instanceof OsDetectionException) {
+                throw (OsDetectionException) e;
+            }
             throw new OsDetectionException(msg, e);
-        } finally {
-            try {
-                if (input != null) {
-                    input.close();
-                }
-            } catch (Exception e) {
-                log.warn("get unix architecture fail. exception: {}", e.getMessage(), e);
-            }
         }
-
-        return Architecture.X86;
-    }
-
-    private static Architecture getMacOSXArchitecture() {
-        BufferedReader input = null;
-        try {
-            String line;
-            Process proc = Runtime.getRuntime().exec("sysctl hw");
-            input = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-            while ((line = input.readLine()) != null) {
-                if (line.length() > 0) {
-                    if ((line.contains("cpu64bit_capable")) && (line.trim().endsWith("1"))) {
-                        return Architecture.AMD64;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            String msg = "get mac os x architecture fail";
-            log.warn("{}. exception: {}", msg, e.getMessage(), e);
-            throw new OsDetectionException(msg, e);
-        } finally {
-            try {
-                if (input != null) {
-                    input.close();
-                }
-            } catch (Exception e) {
-                String msg = "get mac os x architecture fail";
-                log.warn("{}. exception: {}", msg, e.getMessage(), e);
-            }
-        }
-
-        return Architecture.X86;
     }
 }

@@ -1,5 +1,7 @@
 package redis.embedded;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,7 +30,7 @@ abstract class AbstractRedisInstance {
     private ExecutorService executor;
 
     AbstractRedisInstance(List<String> args) {
-        arguments = args;
+        arguments = new ArrayList<>(args);
         log.debug("args: " + arguments);
     }
 
@@ -121,13 +124,11 @@ abstract class AbstractRedisInstance {
     }
 
 
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
     private static class PrintReaderRunnable implements Runnable {
         private final BufferedReader reader;
 
-        private PrintReaderRunnable(BufferedReader reader) {
-            this.reader = reader;
-        }
-
+        @Override
         public void run() {
             try {
                 readLines();

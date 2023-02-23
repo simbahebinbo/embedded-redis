@@ -1,5 +1,6 @@
 package redis.embedded;
 
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import redis.embedded.common.CommonConstant;
 import redis.embedded.exceptions.RedisBuildingException;
@@ -11,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Slf4j
+@NoArgsConstructor
 public class RedisClientBuilder {
     private final Collection<Integer> ports = new ArrayList<>();
     private File executable;

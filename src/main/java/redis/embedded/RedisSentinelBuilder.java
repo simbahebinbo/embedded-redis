@@ -2,6 +2,7 @@ package redis.embedded;
 
 import com.google.common.base.Preconditions;
 import com.google.common.io.Files;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import redis.embedded.common.CommonConstant;
 import redis.embedded.exceptions.RedisBuildingException;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
+@NoArgsConstructor
 public class RedisSentinelBuilder {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
     private static final String CONF_FILENAME = "embedded-redis-sentinel";
@@ -145,10 +147,11 @@ public class RedisSentinelBuilder {
         setting("bind " + bind);
         setting(String.format(PORT_LINE, sentinelPort));
 
+        final String configString = redisConfigBuilder.toString();
         File redisConfigFile =
                 File.createTempFile(resolveConfigName(), CommonConstant.CONFIG_FILE_SUFFIX);
         redisConfigFile.deleteOnExit();
-        Files.asCharSink(redisConfigFile, StandardCharsets.UTF_8).write(redisConfigBuilder.toString());
+        Files.asCharSink(redisConfigFile, StandardCharsets.UTF_8).write(configString);
         sentinelConf = redisConfigFile.getAbsolutePath();
     }
 

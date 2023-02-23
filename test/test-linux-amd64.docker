@@ -1,0 +1,14 @@
+ARG ALPINE_VERSION=3.9.0
+FROM maven:${ALPINE_VERSION}
+
+RUN apt update -y && apt upgrade -y
+RUN apt install zip unzip -y
+RUN wget https://github.com/simbahebinbo/embedded-redis/archive/refs/heads/master.zip
+RUN unzip master.zip
+RUN cd embedded-redis-master
+RUN pwd
+RUN ls
+RUN mvn clean package
+RUN cd ..
+
+CMD [ "/bin/sh" ]

@@ -12,4 +12,6 @@ public interface IRedisServer {
     void stop() throws EmbeddedRedisException;
 
     Set<Integer> ports();
+
+    Set<Integer> tlsPorts();
 }

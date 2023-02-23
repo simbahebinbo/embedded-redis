@@ -52,6 +52,11 @@ public class RedisCluster implements IRedisServer {
         return new HashSet<>(serverPorts());
     }
 
+    @Override
+    public Set<Integer> tlsPorts() {
+        return new HashSet<>(serverTlsPorts());
+    }
+
     public List<RedisServer> servers() {
         return Lists.newLinkedList(redisServers);
     }
@@ -62,5 +67,13 @@ public class RedisCluster implements IRedisServer {
             ports.addAll(redisServer.ports());
         }
         return ports;
+    }
+
+    public Set<Integer> serverTlsPorts() {
+        Set<Integer> tlsPorts = new HashSet<>();
+        for (RedisServer redisServer : redisServers) {
+            tlsPorts.addAll(redisServer.tlsPorts());
+        }
+        return tlsPorts;
     }
 }

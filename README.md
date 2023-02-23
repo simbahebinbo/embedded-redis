@@ -45,8 +45,6 @@ RedisServer redisServer = new RedisServer("/path/to/your/redis", 6379);
 // 2) given os-independent matrix
 RedisExecProvider customProvider = RedisExecProvider.defaultProvider()
   .override(OS.UNIX, "/path/to/unix/redis")
-  .override(OS.WINDOWS, Architecture.x86, "/path/to/windows/redis")
-  .override(OS.Windows, Architecture.x86_64, "/path/to/windows/redis")
   .override(OS.MAC_OS_X, Architecture.x86, "/path/to/macosx/redis")
   .override(OS.MAC_OS_X, Architecture.x86_64, "/path/to/macosx/redis")
   
@@ -78,32 +76,32 @@ RedisServer redisServer = RedisServer.builder()
   .build();
 ```
 
-## Setting up a cluster
+## Setting up a bunch
 
-Our Embedded Redis has support for HA Redis clusters with Sentinels and master-slave replication
+Our Embedded Redis has support for HA Redis bunchs with Sentinels and master-slave replication
 
 #### Using ephemeral ports
 
-A simple redis integration test with Redis cluster on ephemeral ports, with setup similar to that from production would
+A simple redis integration test with Redis bunch on ephemeral ports, with setup similar to that from production would
 look like this:
 
 ```
 public class SomeIntegrationTestThatRequiresRedis {
-  private RedisCluster cluster;
+  private RedisBunch bunch;
   private Set<String> jedisSentinelHosts;
 
   @Before
   public void setup() throws Exception {
-    //creates a cluster with 3 sentinels, quorum size of 2 and 3 replication groups, each with one master and one slave
-    cluster = RedisCluster.builder().ephemeral().sentinelCount(3).quorumSize(2)
+    //creates a bunch with 3 sentinels, quorum size of 2 and 3 replication groups, each with one master and one slave
+    bunch = RedisBunch.builder().ephemeral().sentinelCount(3).quorumSize(2)
                     .replicationGroup("master1", 1)
                     .replicationGroup("master2", 1)
                     .replicationGroup("master3", 1)
                     .build();
-    cluster.start();
+    bunch.start();
 
     //retrieve ports on which sentinels have been started, using a simple Jedis utility class
-    jedisSentinelHosts = JedisUtil.sentinelHosts(cluster);
+    jedisBunchHosts = JedisUtil.bunchJedisHosts(bunch);
   }
   
   @Test
@@ -121,50 +119,99 @@ public class SomeIntegrationTestThatRequiresRedis {
 
 #### Retrieving ports
 
-The above example starts Redis cluster on ephemeral ports, which you can later get with ```cluster.ports()```,
-which will return a list of all ports of the cluster. You can also get ports of sentinels
-with ```cluster.sentinelPorts()```
-or servers with ```cluster.serverPorts()```. ```JedisUtil``` class contains utility methods for use with Jedis client.
+The above example starts Redis bunch on ephemeral ports, which you can later get with ```bunch.ports()```,
+which will return a list of all ports of the bunch. You can also get ports of sentinels
+with ```bunch.sentinelPorts()```
+or servers with ```bunch.serverPorts()```. ```JedisUtil``` class contains utility methods for use with Jedis client.
 
 #### Using predefined ports
 
-You can also start Redis cluster on predefined ports and even mix both approaches:
+You can also start Redis bunch on predefined ports and even mix both approaches:
 
 ```
 public class SomeIntegrationTestThatRequiresRedis {
-    private RedisCluster cluster;
+    private RedisBunch bunch;
 
     @Before
     public void setup() throws Exception {
         final Set<Integer> sentinels = Set.of(26739, 26912);
         final Set<Integer> group1 = Set.of(6667, 6668);
         final Set<Integer> group2 = Set.of(6387, 6379);
-        //creates a cluster with 3 sentinels, quorum size of 2 and 3 replication groups, each with one master and one slave
-        cluster = RedisCluster.builder().sentinelPorts(sentinels).quorumSize(2)
+        //creates a bunch with 3 sentinels, quorum size of 2 and 3 replication groups, each with one master and one slave
+        bunch = RedisBunch.builder().sentinelPorts(sentinels).quorumSize(2)
                 .serverPorts(group1).replicationGroup("master1", 1)
                 .serverPorts(group2).replicationGroup("master2", 1)
                 .ephemeralServers().replicationGroup("master3", 1)
                 .build();
-        cluster.start();
+        bunch.start();
     }
     //(...)
 }
 
 ```
 
-The above will create and start a cluster with sentinels on ports ```26739, 26912```, first replication group
+The above will create and start a bunch with sentinels on ports ```26739, 26912```, first replication group
 on ```6667, 6668```,
 second replication group on ```6387, 6379``` and third replication group on ephemeral ports.
+
+## Setting up a cluster
+
+Our Embedded Redis has support for HA Redis clusters
+
+#### Using ephemeral ports
+
+A simple redis integration test with Redis cluster on ephemeral ports, with setup similar to that from production would
+look like this:
+
+```
+public class SomeIntegrationTestThatRequiresRedis {
+  private RedisCluster cluster;
+  private Set<String> jedisSentinelHosts;
+
+  @Before
+  public void setup() throws Exception {
+    //creates a cluster with 3 nodes, each with one master and one slave
+    Set<Integer> slavePorts = Set.of(16379, 16380, 16381, 16382, 16383, 16384);
+
+    cluster =
+                RedisCluster.builder()
+                        .serverPorts(slavePorts)
+                        .clusterReplicas(1)
+                        .build();
+    cluster.start();
+        
+    jedisClusterHosts = JedisUtil.clusterJedisHosts(bunch);
+  }
+  
+  @Test
+  public void test() throws Exception {
+    Set<HostAndPort> nodes = new HashSet<>();
+        nodes.add(new HostAndPort("127.0.0.1", 16379));
+        nodes.add(new HostAndPort("127.0.0.1", 16380));
+        nodes.add(new HostAndPort("127.0.0.1", 16381));
+        nodes.add(new HostAndPort("127.0.0.1", 16382));
+        nodes.add(new HostAndPort("127.0.0.1", 16383));
+        nodes.add(new HostAndPort("127.0.0.1", 16384));
+
+        JedisCluster jedisCluster = new JedisCluster(nodes);
+  }
+  
+  @After
+  public void tearDown() throws Exception {
+    cluster.stop();
+  }
+}
+```
 
 Redis version
 ==============
 
 By default, RedisServer runs an OS-specific executable enclosed in in the `embedded-redis` jar. The jar includes:
 
-- Redis 6.0.5 for Linux/Unix (amd64 and x86)
-- Redis 6.0.5 for macOS (amd64)
+- Redis 7.0.8 for Linux/Unix (amd64 and x86)
+- Redis 7.0.8 for macOS (amd64)
 
-The enclosed binaries are built from source from the [`6.0.5` tag](https://github.com/antirez/redis/releases/tag/6.0.5)
+The enclosed binaries are built from source from the [`7.0.8` tag](https://github.com/antirez/redis/releases/tag/7.0.8)
 in the official Redis repository. The Linux binaries are statically-linked amd64 and x86 executables built using
 the `build-server-binaries.sh` script included in this repository at `/src/main/docker`. The macOS binaries are built
 according to
@@ -179,62 +226,3 @@ License
 Licensed under the Apache License, Version 2.0
 
 
-Contributors
-==============
-
-* Krzysztof Styrc ([@kstyrc](https://github.com/kstyrc))
-* Piotr Turek ([@turu](https://github.com/turu))
-* anthonyu ([@anthonyu](https://github.com/anthonyu))
-* Artem Orobets ([@enisher](https://github.com/enisher))
-* Sean Simonsen ([@SeanSimonsen](https://github.com/SeanSimonsen))
-* Rob Winch ([@rwinch](https://github.com/rwinch))
-* Jon Chambers ([@jchambers](https://github.com/jchambers))
-
-Changelog
-==============
-
-### 0.8.1
-
-* Include statically-linked Redis binaries
-* Update still more dependencies
-
-### 0.8
-
-* Updated to Redis 6.0.5
-* Dropped support for Windows
-* Updated to Guava 29
-
-### 0.7
-
-* Updated dependencies
-* Fixed an incorrect maximum memory setting
-* Add support for more Redis versions
-* Bind to 127.0.0.1 by default
-* Clean up gracefully at JVM exit
-
-### 0.6
-
-* Support JDK 6 +
-
-### 0.5
-
-* OS detection fix
-* redis binary per OS/arch pair
-* Updated to 2.8.19 binary for Windows
-
-### 0.4
-
-* Updated for Java 8
-* Added Sentinel support
-* Ability to create arbitrary clusters on arbitrary (ephemeral) ports
-* Updated to latest guava
-* Throw an exception if redis has not been started
-* Redis errorStream logged to System.out
-
-### 0.3
-
-* Fluent API for RedisServer creation
-
-### 0.2
-
-* Initial decent release

@@ -1,5 +1,6 @@
 package redis.embedded;
 
+import lombok.NoArgsConstructor;
 import redis.embedded.common.CommonConstant;
 import redis.embedded.ports.EphemeralPortProvider;
 import redis.embedded.ports.PredefinedPortProvider;
@@ -11,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+@NoArgsConstructor
 public class RedisBunchBuilder {
     private final List<ReplicationGroup> groups = new LinkedList<>();
     private RedisSentinelBuilder sentinelBuilder = new RedisSentinelBuilder();

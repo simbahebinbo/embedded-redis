@@ -5,11 +5,11 @@ public class OsDetectionException extends RuntimeException {
         super(message);
     }
 
-    public OsDetectionException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
     public OsDetectionException(Throwable cause) {
         super(cause);
+    }
+
+    public OsDetectionException(String message, Throwable cause) {
+        super(message, cause);
     }
 }
