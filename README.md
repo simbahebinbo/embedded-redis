@@ -57,7 +57,7 @@ You can also use fluent API to create RedisServer:
 RedisServer redisServer = RedisServer.builder()
   .redisExecProvider(customRedisProvider)
   .port(6379)
-  .slaveOf("locahost", 6378)
+  .replicaOf("locahost", 6378)
   .configFile("/path/to/your/redis.conf")
   .build();
 ```
@@ -68,8 +68,8 @@ Or even create simple redis.conf file from scratch:
 RedisServer redisServer = RedisServer.builder()
   .redisExecProvider(customRedisProvider)
   .port(6379)
-  .setting("bind 127.0.0.1") // good for local development on Windows to prevent security popups
-  .slaveOf("locahost", 6378)
+  .setting("bind 127.0.0.1")
+  .replicaOf("locahost", 6378)
   .setting("daemonize no")
   .setting("appendonly no")
   .setting("maxmemory 128M")

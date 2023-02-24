@@ -101,7 +101,7 @@ public class RedisBunchBuilder {
         for (Integer slavePort : group.slavePorts) {
             serverBuilder.reset();
             serverBuilder.port(slavePort);
-            serverBuilder.slaveOf(group.masterPort);
+            serverBuilder.replicaOf(group.masterPort);
             final RedisServer slave = serverBuilder.build();
             redisServers.add(slave);
         }

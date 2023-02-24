@@ -232,4 +232,47 @@ public class ModeBunchTest extends JedisBaseTest {
         sentinelPool3.close();
         redisBunch.stop();
     }
+
+
+//    @Test
+//    public void
+//    testSimpleOperationsAfterRunWithThreeSentinelsThreeMastersSingleSlavePerMasterEphemeral() {
+//        Integer sentinelPort1 = sentinelPort;
+//        Integer sentinelPort2 = sentinelPort + 1;
+//        Integer sentinelPort3 = sentinelPort + 2;
+//
+//        Set<Integer> sentinelPorts = Set.of(sentinelPort1, sentinelPort2, sentinelPort3);
+//
+//        RedisBunch redisBunch =
+//                RedisBunch.builder()
+//                        .ephemeral()
+//                        .sentinelPorts(sentinelPorts)
+//                        .quorumSize(2)
+//                        .replicationGroup(masterName1, 1)
+//                        .replicationGroup(masterName2, 1)
+//                        .replicationGroup(masterName3, 1)
+//                        .build();
+//        redisBunch.start();
+//
+//        Set<String> sentinelJedisHosts = JedisUtil.sentinelJedisHosts(redisBunch);
+//        JedisSentinelPool sentinelPool1 = new JedisSentinelPool(masterName1, sentinelJedisHosts);
+//        JedisSentinelPool sentinelPool2 = new JedisSentinelPool(masterName2, sentinelJedisHosts);
+//        JedisSentinelPool sentinelPool3 = new JedisSentinelPool(masterName3, sentinelJedisHosts);
+//
+//        Jedis sentinelJedis1 = sentinelPool1.getResource();
+//        Jedis sentinelJedis2 = sentinelPool2.getResource();
+//        Jedis sentinelJedis3 = sentinelPool3.getResource();
+//
+//        writeSuccess(sentinelJedis1);
+//        readSuccess(sentinelJedis1);
+//        writeSuccess(sentinelJedis2);
+//        readSuccess(sentinelJedis2);
+//        writeSuccess(sentinelJedis3);
+//        readSuccess(sentinelJedis3);
+//
+//        sentinelPool1.close();
+//        sentinelPool2.close();
+//        sentinelPool3.close();
+//        redisBunch.stop();
+//    }
 }

@@ -52,7 +52,7 @@ public class ModeSentinelTest extends JedisBaseTest {
     @Test
     public void testOperate() {
         masterServer = RedisServer.builder().port(masterPort).build();
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build();
 
         masterServer.start();
         slaveServer.start();
@@ -88,7 +88,7 @@ public class ModeSentinelTest extends JedisBaseTest {
     @Test
     public void testOperateThenMasterDown() {
         masterServer = RedisServer.builder().port(masterPort).build();
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build();
 
         masterServer.start();
         slaveServer.start();
@@ -114,7 +114,7 @@ public class ModeSentinelTest extends JedisBaseTest {
         // 主节点宕机
         masterServer.stop();
         // 等待故障转移
-        TimeTool.sleep(30000);
+        TimeTool.sleep(10000);
 
         // 重新获取链接
         Jedis newSentinelJedis = sentinelPool.getResource();
@@ -135,7 +135,7 @@ public class ModeSentinelTest extends JedisBaseTest {
     @Test
     public void testOperateThenMasterDownUp() {
         masterServer = RedisServer.builder().port(masterPort).build();
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build();
 
         masterServer.start();
         slaveServer.start();
@@ -185,7 +185,7 @@ public class ModeSentinelTest extends JedisBaseTest {
     @Test
     public void testOperateThenSlaveDown() {
         masterServer = RedisServer.builder().port(masterPort).build();
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build();
 
         masterServer.start();
         slaveServer.start();
@@ -231,7 +231,7 @@ public class ModeSentinelTest extends JedisBaseTest {
     @Test
     public void testOperateThenSlaveDownUp() {
         masterServer = RedisServer.builder().port(masterPort).build();
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build();
 
         masterServer.start();
         slaveServer.start();
@@ -280,7 +280,7 @@ public class ModeSentinelTest extends JedisBaseTest {
     @Test
     public void testOperateThenMasterDownAndSlaveDown() {
         masterServer = RedisServer.builder().port(masterPort).build();
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build();
 
         masterServer.start();
         slaveServer.start();
@@ -330,7 +330,7 @@ public class ModeSentinelTest extends JedisBaseTest {
     @Test
     public void testOperateThenMasterDownUpAndSlaveDownUp() {
         masterServer = RedisServer.builder().port(masterPort).build();
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build();
 
         masterServer.start();
         slaveServer.start();
@@ -385,7 +385,7 @@ public class ModeSentinelTest extends JedisBaseTest {
     @Test
     public void testOperateThenMasterDownAndSlaveDownUp() {
         masterServer = RedisServer.builder().port(masterPort).build();
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build();
 
         masterServer.start();
         slaveServer.start();
@@ -437,7 +437,7 @@ public class ModeSentinelTest extends JedisBaseTest {
     @Test
     public void testOperateThenMasterDownUpAndSlaveDown() {
         masterServer = RedisServer.builder().port(masterPort).build();
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build();
 
         masterServer.start();
         slaveServer.start();
@@ -489,7 +489,7 @@ public class ModeSentinelTest extends JedisBaseTest {
     @Test
     public void testOperateThenSentinelDown() {
         masterServer = RedisServer.builder().port(masterPort).build();
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build();
 
         masterServer.start();
         slaveServer.start();
@@ -534,7 +534,7 @@ public class ModeSentinelTest extends JedisBaseTest {
     @Test
     public void testOperateThenSentinelDownUp() {
         masterServer = RedisServer.builder().port(masterPort).build();
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterPort).build();
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build();
 
         masterServer.start();
         slaveServer.start();

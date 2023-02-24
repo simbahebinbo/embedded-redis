@@ -36,7 +36,7 @@ abstract class AbstractRedisInstance {
 
     public void doStart() throws EmbeddedRedisException {
         if (active) {
-            String msg = "This redis client instance is already running...";
+            String msg = "This redis instance is already running...";
             log.warn(msg);
             throw new EmbeddedRedisException(msg);
         }
@@ -47,7 +47,7 @@ abstract class AbstractRedisInstance {
             awaitRedisInstanceReady();
             active = true;
         } catch (IOException e) {
-            String msg = "Failed to start Redis Client instance";
+            String msg = "Failed to start Redis instance";
             log.warn("{}. exception: {}", msg, e.getMessage(), e);
             throw new EmbeddedRedisException(msg, e);
         }
@@ -76,7 +76,7 @@ abstract class AbstractRedisInstance {
             do {
                 outputLine = reader.readLine();
                 if (outputLine == null) {
-                    String msg = "Can't start redis client. Check logs for details. Redis process log: "
+                    String msg = "Can't start redis instance. Check logs for details. Redis process log: "
                             + outputStringBuffer;
                     log.warn(msg);
                     // Something goes wrong. Stream is ended before server was activated.
@@ -117,7 +117,7 @@ abstract class AbstractRedisInstance {
         try {
             redisProcess.waitFor();
         } catch (InterruptedException e) {
-            String msg = "Failed to stop redis client instance";
+            String msg = "Failed to stop redis instance";
             log.warn("{}. exception: {}", msg, e.getMessage(), e);
             throw new EmbeddedRedisException(msg, e);
         }

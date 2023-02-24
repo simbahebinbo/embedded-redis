@@ -8,18 +8,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-public class RedisCluster implements IRedisServer {
+
+public class RedisMultiple implements IRedisServer {
     private final List<RedisServer> redisServers = new LinkedList<>();
 
-    private final RedisClient redisClient;
-
-    RedisCluster(List<RedisServer> redisServers, RedisClient redisClient) {
+    RedisMultiple(List<RedisServer> redisServers) {
         this.redisServers.addAll(redisServers);
-        this.redisClient = redisClient;
     }
 
-    public static RedisClusterBuilder builder() {
-        return new RedisClusterBuilder();
+    public static RedisMultipleBuilder builder() {
+        return new RedisMultipleBuilder();
     }
 
     @Override
@@ -37,7 +35,6 @@ public class RedisCluster implements IRedisServer {
         for (RedisServer redisServer : redisServers) {
             redisServer.start();
         }
-        redisClient.run();
     }
 
     @Override
@@ -49,14 +46,15 @@ public class RedisCluster implements IRedisServer {
 
     @Override
     public Set<Integer> ports() {
-        return new HashSet<>(nodePorts());
+        Set<Integer> ports = new HashSet<>(serverPorts());
+        return ports;
     }
 
-    public List<RedisServer> nodes() {
+    public List<RedisServer> servers() {
         return Lists.newLinkedList(redisServers);
     }
 
-    public Set<Integer> nodePorts() {
+    public Set<Integer> serverPorts() {
         Set<Integer> ports = new HashSet<>();
         for (RedisServer redisServer : redisServers) {
             ports.addAll(redisServer.ports());
@@ -64,3 +62,4 @@ public class RedisCluster implements IRedisServer {
         return ports;
     }
 }
+
