@@ -114,7 +114,7 @@ public class ModeSentinelTest extends JedisBaseTest {
         // 主节点宕机
         masterServer.stop();
         // 等待故障转移
-        TimeTool.sleep(30000);
+        TimeTool.sleep(10000);
 
         // 重新获取链接
         Jedis newSentinelJedis = sentinelPool.getResource();
@@ -161,7 +161,7 @@ public class ModeSentinelTest extends JedisBaseTest {
         // 主节点宕机
         masterServer.stop();
         // 等待故障转移
-        TimeTool.sleep(30000);
+        TimeTool.sleep(10000);
         // 主节点重启
         masterServer.start();
         TimeTool.sleep(5000);

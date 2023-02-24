@@ -71,7 +71,7 @@ public class ModeClusterTest extends JedisClusterBaseTest {
                         .build();
         redisCluster.start();
         // 等待主从同步
-        TimeTool.sleep(30000);
+        TimeTool.sleep(10000);
 
         Set<HostAndPort> nodes = new HashSet<>();
         nodes.add(new HostAndPort(nodeHost1, nodePort1));
@@ -137,7 +137,7 @@ public class ModeClusterTest extends JedisClusterBaseTest {
                         .build();
         redisCluster.start();
         // 等待主从同步
-        TimeTool.sleep(30000);
+        TimeTool.sleep(10000);
 
         Set<HostAndPort> nodes = new HashSet<>();
         nodes.add(new HostAndPort(nodeHost1, nodePort1));
@@ -167,7 +167,7 @@ public class ModeClusterTest extends JedisClusterBaseTest {
                         .build();
         redisCluster.start();
         // 等待主从同步
-        TimeTool.sleep(30000);
+        TimeTool.sleep(10000);
 
         Set<HostAndPort> nodes = new HashSet<>();
         nodes.add(new HostAndPort(nodeHost1, nodePort1));
