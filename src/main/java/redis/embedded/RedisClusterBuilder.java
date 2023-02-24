@@ -11,7 +11,7 @@ import java.util.List;
 @Slf4j
 @NoArgsConstructor
 public class RedisClusterBuilder {
-    private final Collection<Integer> serverPorts = new LinkedList<>();
+    private final Collection<Integer> nodePorts = new LinkedList<>();
     private RedisServerBuilder serverBuilder = new RedisServerBuilder();
     private RedisClientBuilder clientBuilder = new RedisClientBuilder();
 
@@ -28,8 +28,8 @@ public class RedisClusterBuilder {
         return this;
     }
 
-    public RedisClusterBuilder serverPorts(Collection<Integer> ports) {
-        this.serverPorts.addAll(ports);
+    public RedisClusterBuilder nodePorts(Collection<Integer> ports) {
+        this.nodePorts.addAll(ports);
         return this;
     }
 
@@ -46,9 +46,9 @@ public class RedisClusterBuilder {
 
     private List<RedisServer> buildServers() {
         List<RedisServer> servers = new ArrayList<>();
-        for (Integer serverPort : serverPorts) {
+        for (Integer nodePort : nodePorts) {
             serverBuilder.reset();
-            serverBuilder.port(serverPort);
+            serverBuilder.port(nodePort);
             serverBuilder.clusterEnable(true);
             final RedisServer server = serverBuilder.build();
             servers.add(server);
@@ -58,7 +58,7 @@ public class RedisClusterBuilder {
 
     private RedisClient buildClient() {
         clientBuilder.reset();
-        clientBuilder.ports(serverPorts);
+        clientBuilder.ports(nodePorts);
         clientBuilder.clusterReplicas(clusterReplicas);
         RedisClient client = clientBuilder.build();
         return client;

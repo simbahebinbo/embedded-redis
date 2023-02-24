@@ -166,21 +166,21 @@ look like this:
 ```
 public class SomeIntegrationTestThatRequiresRedis {
   private RedisCluster cluster;
-  private Set<String> jedisSentinelHosts;
+  private Set<String> jedisClusterHosts;
 
   @Before
   public void setup() throws Exception {
     //creates a cluster with 3 nodes, each with one master and one slave
-    Set<Integer> slavePorts = Set.of(16379, 16380, 16381, 16382, 16383, 16384);
+    Set<Integer> nodePorts = Set.of(16379, 16380, 16381, 16382, 16383, 16384);
 
     cluster =
                 RedisCluster.builder()
-                        .serverPorts(slavePorts)
+                        .nodePorts(nodePorts)
                         .clusterReplicas(1)
                         .build();
     cluster.start();
         
-    jedisClusterHosts = JedisUtil.clusterJedisHosts(bunch);
+    jedisClusterHosts = JedisUtil.clusterJedisHosts(cluster);
   }
   
   @Test

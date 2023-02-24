@@ -18,65 +18,65 @@ import java.util.Set;
 @Slf4j
 @NotThreadSafe
 public class ModeClusterTest extends JedisClusterBaseTest {
-    private int slavePort1;
-    private String slaveHost1;
+    private int nodePort1;
+    private String nodeHost1;
 
-    private int slavePort2;
-    private String slaveHost2;
+    private int nodePort2;
+    private String nodeHost2;
 
-    private int slavePort3;
-    private String slaveHost3;
+    private int nodePort3;
+    private String nodeHost3;
 
-    private int slavePort4;
-    private String slaveHost4;
+    private int nodePort4;
+    private String nodeHost4;
 
-    private int slavePort5;
-    private String slaveHost5;
+    private int nodePort5;
+    private String nodeHost5;
 
-    private int slavePort6;
-    private String slaveHost6;
+    private int nodePort6;
+    private String nodeHost6;
 
-    private int slavePort7;
-    private String slaveHost7;
+    private int nodePort7;
+    private String nodeHost7;
 
 
     @BeforeEach
     public void setUp() {
         super.setUp();
-        slaveHost1 = CommonConstant.DEFAULT_REDIS_HOST;
-        slavePort1 = RandomUtils.nextInt(10001, 11000);
-        slaveHost2 = CommonConstant.DEFAULT_REDIS_HOST;
-        slavePort2 = RandomUtils.nextInt(11001, 12000);
-        slaveHost3 = CommonConstant.DEFAULT_REDIS_HOST;
-        slavePort3 = RandomUtils.nextInt(12001, 13000);
-        slaveHost4 = CommonConstant.DEFAULT_REDIS_HOST;
-        slavePort4 = RandomUtils.nextInt(13001, 14000);
-        slaveHost5 = CommonConstant.DEFAULT_REDIS_HOST;
-        slavePort5 = RandomUtils.nextInt(14001, 15000);
-        slaveHost6 = CommonConstant.DEFAULT_REDIS_HOST;
-        slavePort6 = RandomUtils.nextInt(15001, 16000);
-        slaveHost7 = CommonConstant.DEFAULT_REDIS_HOST;
-        slavePort7 = RandomUtils.nextInt(16001, 17000);
+        nodeHost1 = CommonConstant.DEFAULT_REDIS_HOST;
+        nodePort1 = RandomUtils.nextInt(10001, 11000);
+        nodeHost2 = CommonConstant.DEFAULT_REDIS_HOST;
+        nodePort2 = RandomUtils.nextInt(11001, 12000);
+        nodeHost3 = CommonConstant.DEFAULT_REDIS_HOST;
+        nodePort3 = RandomUtils.nextInt(12001, 13000);
+        nodeHost4 = CommonConstant.DEFAULT_REDIS_HOST;
+        nodePort4 = RandomUtils.nextInt(13001, 14000);
+        nodeHost5 = CommonConstant.DEFAULT_REDIS_HOST;
+        nodePort5 = RandomUtils.nextInt(14001, 15000);
+        nodeHost6 = CommonConstant.DEFAULT_REDIS_HOST;
+        nodePort6 = RandomUtils.nextInt(15001, 16000);
+        nodeHost7 = CommonConstant.DEFAULT_REDIS_HOST;
+        nodePort7 = RandomUtils.nextInt(16001, 17000);
     }
 
 
     //一共三个节点  三个主节点 没有从节点
     @Test
     public void testSimpleOperationsAfterRunWithThreeMastersNoSlavesCluster() {
-        Set<Integer> slavePorts = Set.of(slavePort1, slavePort2, slavePort3);
+        Set<Integer> nodePorts = Set.of(nodePort1, nodePort2, nodePort3);
 
         RedisCluster redisCluster =
                 RedisCluster.builder()
-                        .serverPorts(slavePorts)
+                        .nodePorts(nodePorts)
                         .build();
         redisCluster.start();
         // 等待主从同步
         TimeTool.sleep(30000);
 
         Set<HostAndPort> nodes = new HashSet<>();
-        nodes.add(new HostAndPort(slaveHost1, slavePort1));
-        nodes.add(new HostAndPort(slaveHost2, slavePort2));
-        nodes.add(new HostAndPort(slaveHost3, slavePort3));
+        nodes.add(new HostAndPort(nodeHost1, nodePort1));
+        nodes.add(new HostAndPort(nodeHost2, nodePort2));
+        nodes.add(new HostAndPort(nodeHost3, nodePort3));
 
         JedisCluster jedisCluster = new JedisCluster(nodes);
 
@@ -94,11 +94,11 @@ public class ModeClusterTest extends JedisClusterBaseTest {
         Assertions.assertThrows(
                 Exception.class,
                 () -> {
-                    Set<Integer> slavePorts = Set.of(slavePort1, slavePort2, slavePort3, slavePort4);
+                    Set<Integer> nodePorts = Set.of(nodePort1, nodePort2, nodePort3, nodePort4);
 
                     RedisCluster redisCluster =
                             RedisCluster.builder()
-                                    .serverPorts(slavePorts)
+                                    .nodePorts(nodePorts)
                                     .clusterReplicas(1)
                                     .build();
                     redisCluster.start();
@@ -113,11 +113,11 @@ public class ModeClusterTest extends JedisClusterBaseTest {
         Assertions.assertThrows(
                 Exception.class,
                 () -> {
-                    Set<Integer> slavePorts = Set.of(slavePort1, slavePort2, slavePort3, slavePort4, slavePort5);
+                    Set<Integer> nodePorts = Set.of(nodePort1, nodePort2, nodePort3, nodePort4, nodePort5);
 
                     RedisCluster redisCluster =
                             RedisCluster.builder()
-                                    .serverPorts(slavePorts)
+                                    .nodePorts(nodePorts)
                                     .clusterReplicas(1)
                                     .build();
                     redisCluster.start();
@@ -128,11 +128,11 @@ public class ModeClusterTest extends JedisClusterBaseTest {
     //一共六个节点  三个主节点 三个从节点
     @Test
     public void testSimpleOperationsAfterRunWithThreeMastersThreeSlavesCluster() {
-        Set<Integer> slavePorts = Set.of(slavePort1, slavePort2, slavePort3, slavePort4, slavePort5, slavePort6);
+        Set<Integer> nodePorts = Set.of(nodePort1, nodePort2, nodePort3, nodePort4, nodePort5, nodePort6);
 
         RedisCluster redisCluster =
                 RedisCluster.builder()
-                        .serverPorts(slavePorts)
+                        .nodePorts(nodePorts)
                         .clusterReplicas(1)
                         .build();
         redisCluster.start();
@@ -140,12 +140,12 @@ public class ModeClusterTest extends JedisClusterBaseTest {
         TimeTool.sleep(30000);
 
         Set<HostAndPort> nodes = new HashSet<>();
-        nodes.add(new HostAndPort(slaveHost1, slavePort1));
-        nodes.add(new HostAndPort(slaveHost2, slavePort2));
-        nodes.add(new HostAndPort(slaveHost3, slavePort3));
-        nodes.add(new HostAndPort(slaveHost4, slavePort4));
-        nodes.add(new HostAndPort(slaveHost5, slavePort5));
-        nodes.add(new HostAndPort(slaveHost6, slavePort6));
+        nodes.add(new HostAndPort(nodeHost1, nodePort1));
+        nodes.add(new HostAndPort(nodeHost2, nodePort2));
+        nodes.add(new HostAndPort(nodeHost3, nodePort3));
+        nodes.add(new HostAndPort(nodeHost4, nodePort4));
+        nodes.add(new HostAndPort(nodeHost5, nodePort5));
+        nodes.add(new HostAndPort(nodeHost6, nodePort6));
 
         JedisCluster jedisCluster = new JedisCluster(nodes);
 
@@ -158,11 +158,11 @@ public class ModeClusterTest extends JedisClusterBaseTest {
     //一共七个节点  个主节点 四个从节点
     @Test
     public void testSimpleOperationsAfterRunWithThreeMastersFourSlavesCluster() {
-        Set<Integer> slavePorts = Set.of(slavePort1, slavePort2, slavePort3, slavePort4, slavePort5, slavePort6, slavePort7);
+        Set<Integer> nodePorts = Set.of(nodePort1, nodePort2, nodePort3, nodePort4, nodePort5, nodePort6, nodePort7);
 
         RedisCluster redisCluster =
                 RedisCluster.builder()
-                        .serverPorts(slavePorts)
+                        .nodePorts(nodePorts)
                         .clusterReplicas(1)
                         .build();
         redisCluster.start();
@@ -170,13 +170,13 @@ public class ModeClusterTest extends JedisClusterBaseTest {
         TimeTool.sleep(30000);
 
         Set<HostAndPort> nodes = new HashSet<>();
-        nodes.add(new HostAndPort(slaveHost1, slavePort1));
-        nodes.add(new HostAndPort(slaveHost2, slavePort2));
-        nodes.add(new HostAndPort(slaveHost3, slavePort3));
-        nodes.add(new HostAndPort(slaveHost4, slavePort4));
-        nodes.add(new HostAndPort(slaveHost5, slavePort5));
-        nodes.add(new HostAndPort(slaveHost6, slavePort6));
-        nodes.add(new HostAndPort(slaveHost7, slavePort7));
+        nodes.add(new HostAndPort(nodeHost1, nodePort1));
+        nodes.add(new HostAndPort(nodeHost2, nodePort2));
+        nodes.add(new HostAndPort(nodeHost3, nodePort3));
+        nodes.add(new HostAndPort(nodeHost4, nodePort4));
+        nodes.add(new HostAndPort(nodeHost5, nodePort5));
+        nodes.add(new HostAndPort(nodeHost6, nodePort6));
+        nodes.add(new HostAndPort(nodeHost7, nodePort7));
 
         JedisCluster jedisCluster = new JedisCluster(nodes);
 
@@ -194,11 +194,11 @@ public class ModeClusterTest extends JedisClusterBaseTest {
         Assertions.assertThrows(
                 Exception.class,
                 () -> {
-                    Set<Integer> slavePorts = Set.of(slavePort1, slavePort2, slavePort3, slavePort4, slavePort5, slavePort6, slavePort7);
+                    Set<Integer> nodePorts = Set.of(nodePort1, nodePort2, nodePort3, nodePort4, nodePort5, nodePort6, nodePort7);
 
                     RedisCluster redisCluster =
                             RedisCluster.builder()
-                                    .serverPorts(slavePorts)
+                                    .nodePorts(nodePorts)
                                     .clusterReplicas(2)
                                     .build();
                     redisCluster.start();
@@ -213,11 +213,11 @@ public class ModeClusterTest extends JedisClusterBaseTest {
         Assertions.assertThrows(
                 Exception.class,
                 () -> {
-                    Set<Integer> slavePorts = Set.of(slavePort1, slavePort2);
+                    Set<Integer> nodePorts = Set.of(nodePort1, nodePort2);
 
                     RedisCluster redisCluster =
                             RedisCluster.builder()
-                                    .serverPorts(slavePorts)
+                                    .nodePorts(nodePorts)
                                     .build();
                     redisCluster.start();
                     redisCluster.stop();
@@ -231,11 +231,11 @@ public class ModeClusterTest extends JedisClusterBaseTest {
         Assertions.assertThrows(
                 Exception.class,
                 () -> {
-                    Set<Integer> slavePorts = Set.of(slavePort1);
+                    Set<Integer> nodePorts = Set.of(nodePort1);
 
                     RedisCluster redisCluster =
                             RedisCluster.builder()
-                                    .serverPorts(slavePorts)
+                                    .nodePorts(nodePorts)
                                     .build();
                     redisCluster.start();
                     redisCluster.stop();
