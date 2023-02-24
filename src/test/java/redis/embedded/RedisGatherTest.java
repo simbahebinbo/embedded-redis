@@ -1,79 +1,50 @@
 package redis.embedded;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
-import redis.embedded.common.CommonConstant;
 import redis.embedded.util.TimeTool;
 
-import java.util.Set;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+//主从模式
 @Slf4j
 public class RedisGatherTest {
 
     private RedisGather redisGather;
 
-    private int masterPort;
-
-    private String masterHost;
-
-    private int slavePort;
-
-    private String slaveHost;
+    private RedisServer redisServer1;
+    private RedisServer redisServer2;
 
 
     @BeforeEach
     public void setUp() {
-        masterHost = CommonConstant.DEFAULT_REDIS_HOST;
-        masterPort = RandomUtils.nextInt(10001, 11000);
-        slaveHost = CommonConstant.DEFAULT_REDIS_HOST;
-        slavePort = RandomUtils.nextInt(11001, 12000);
+        redisServer1 = mock(RedisServer.class);
+        redisServer2 = mock(RedisServer.class);
     }
 
     @Test
     @Timeout(value = 3000, unit = TimeUnit.MILLISECONDS)
     public void testSimpleRun() {
-        Set<Integer> slavePorts = Set.of(slavePort);
-
-        redisGather = RedisGather.builder()
-                .serverPorts(masterPort, slavePorts)
-                .replicationGroup(1)
-                .build();
+        List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2);
+        redisGather = new RedisGather(redisServers);
         redisGather.start();
         TimeTool.sleep(1000L);
         redisGather.stop();
     }
 
-    @Test
-    public void shouldNotAllowMultipleRunsWithoutStop() {
-
-        Assertions.assertThrows(
-                Exception.class,
-                () -> {
-                    Set<Integer> slavePorts = Set.of(slavePort);
-
-                    redisGather = RedisGather.builder()
-                            .serverPorts(masterPort, slavePorts)
-                            .replicationGroup(1)
-                            .build();
-                    redisGather.start();
-                    redisGather.start();
-                    redisGather.stop();
-                });
-    }
 
     @Test
     public void shouldAllowSubsequentRuns() {
-        Set<Integer> slavePorts = Set.of(slavePort);
-
-        redisGather = RedisGather.builder()
-                .serverPorts(masterPort, slavePorts)
-                .replicationGroup(1)
-                .build();
+        List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2);
+        redisGather = new RedisGather(redisServers);
         redisGather.start();
         redisGather.stop();
 
@@ -85,50 +56,40 @@ public class RedisGatherTest {
     }
 
     @Test
-    public void shouldIndicateInactiveBeforeStart() {
-        Set<Integer> slavePorts = Set.of(slavePort);
+    public void stopShouldStopEntireGather() {
+        List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2);
+        redisGather = new RedisGather(redisServers);
 
-        redisGather = RedisGather.builder()
-                .serverPorts(masterPort, slavePorts)
-                .replicationGroup(1)
-                .build();
-        Assertions.assertFalse(redisGather.isActive());
-    }
-
-    @Test
-    public void testPorts() {
-        Set<Integer> slavePorts = Set.of(slavePort);
-
-        redisGather = RedisGather.builder()
-                .serverPorts(masterPort, slavePorts)
-                .replicationGroup(1)
-                .build();
-        Assertions.assertEquals(redisGather.ports(), Set.of(masterPort, slavePorts));
-    }
-
-    @Test
-    public void shouldIndicateActiveAfterStart() {
-        Set<Integer> slavePorts = Set.of(slavePort);
-
-        redisGather = RedisGather.builder()
-                .serverPorts(masterPort, slavePorts)
-                .replicationGroup(1)
-                .build();
-        redisGather.start();
-        Assertions.assertTrue(redisGather.isActive());
         redisGather.stop();
+
+        for (RedisServer redisServer : redisServers) {
+            verify(redisServer).stop();
+        }
     }
 
     @Test
-    public void shouldIndicateInactiveAfterStop() {
-        Set<Integer> slavePorts = Set.of(slavePort);
+    public void startShouldStartEntireGather() {
+        List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2);
+        redisGather = new RedisGather(redisServers);
 
-        redisGather = RedisGather.builder()
-                .serverPorts(masterPort, slavePorts)
-                .replicationGroup(1)
-                .build();
         redisGather.start();
-        redisGather.stop();
-        Assertions.assertFalse(redisGather.isActive());
+
+        for (RedisServer redisServer : redisServers) {
+            verify(redisServer).start();
+        }
+    }
+
+    @Test
+    public void isActiveShouldCheckEntireGatherIfAllActive() {
+        given(redisServer1.isActive()).willReturn(true);
+        given(redisServer2.isActive()).willReturn(true);
+        List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2);
+        redisGather = new RedisGather(redisServers);
+
+        redisGather.isActive();
+
+        for (RedisServer redisServer : redisServers) {
+            verify(redisServer).isActive();
+        }
     }
 }

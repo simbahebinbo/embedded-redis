@@ -2,14 +2,14 @@ package redis.embedded;
 
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
 public class RedisMultipleBuilder {
-    private final Set<Integer> serverPorts = new HashSet<>();
+    private final Set<Integer> masterPorts = new LinkedHashSet<>();
 
     private RedisServerBuilder serverBuilder = new RedisServerBuilder();
 
@@ -18,19 +18,19 @@ public class RedisMultipleBuilder {
         return this;
     }
 
-    public RedisMultipleBuilder serverPorts(Set<Integer> ports) {
-        this.serverPorts.addAll(ports);
+    public RedisMultipleBuilder masterPorts(Set<Integer> ports) {
+        this.masterPorts.addAll(ports);
         return this;
     }
 
     public RedisMultiple build() {
-        final List<RedisServer> redisServers = buildServers();
+        final List<RedisServer> redisServers = buildMasters();
         return new RedisMultiple(redisServers);
     }
 
-    private List<RedisServer> buildServers() {
-        List<RedisServer> servers = new ArrayList<>();
-        for (Integer serverPort : serverPorts) {
+    private List<RedisServer> buildMasters() {
+        List<RedisServer> servers = new LinkedList<>();
+        for (Integer serverPort : masterPorts) {
             serverBuilder.reset();
             serverBuilder.port(serverPort);
             final RedisServer server = serverBuilder.build();

@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -30,7 +30,7 @@ abstract class AbstractRedisInstance {
     private ExecutorService executor;
 
     AbstractRedisInstance(List<String> args) {
-        arguments = new ArrayList<>(args);
+        arguments = new LinkedList<>(args);
         log.debug("args: " + arguments);
     }
 

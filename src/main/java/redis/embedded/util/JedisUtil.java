@@ -6,7 +6,7 @@ import redis.embedded.RedisSentinel;
 import redis.embedded.RedisServer;
 import redis.embedded.common.CommonConstant;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class JedisUtil {
@@ -46,7 +46,7 @@ public class JedisUtil {
     }
 
     public static Set<String> portsToJedisHosts(Set<Integer> ports) {
-        Set<String> hosts = new HashSet<>();
+        Set<String> hosts = new LinkedHashSet<>();
         for (Integer port : ports) {
             hosts.add(CommonConstant.DEFAULT_REDIS_HOST + CommonConstant.SEPARATOR_COLON + port);
         }

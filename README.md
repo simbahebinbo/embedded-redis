@@ -185,7 +185,7 @@ public class SomeIntegrationTestThatRequiresRedis {
   
   @Test
   public void test() throws Exception {
-    Set<HostAndPort> nodes = new HashSet<>();
+    Set<HostAndPort> nodes = new LinkedHashSet<>();
         nodes.add(new HostAndPort("127.0.0.1", 16379));
         nodes.add(new HostAndPort("127.0.0.1", 16380));
         nodes.add(new HostAndPort("127.0.0.1", 16381));

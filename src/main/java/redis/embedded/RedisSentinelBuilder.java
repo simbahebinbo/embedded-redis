@@ -10,7 +10,7 @@ import redis.embedded.exceptions.RedisBuildingException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Slf4j
@@ -163,7 +163,7 @@ public class RedisSentinelBuilder {
     private List<String> buildCommandArgs() {
         Preconditions.checkNotNull(sentinelConf);
 
-        List<String> args = new ArrayList<>();
+        List<String> args = new LinkedList<>();
         args.add(executable.getAbsolutePath());
         args.add(sentinelConf);
 

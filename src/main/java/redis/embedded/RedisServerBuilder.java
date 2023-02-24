@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Slf4j
@@ -149,7 +149,7 @@ public class RedisServerBuilder {
     }
 
     private List<String> buildCommandArgs() {
-        List<String> args = new ArrayList<>();
+        List<String> args = new LinkedList<>();
         args.add(executable.getAbsolutePath());
 
         if (StringUtils.isNotEmpty(redisConf)) {

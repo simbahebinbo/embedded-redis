@@ -3,8 +3,8 @@ package redis.embedded;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -45,7 +45,7 @@ public class RedisClusterBuilder {
     }
 
     private List<RedisServer> buildServers() {
-        List<RedisServer> servers = new ArrayList<>();
+        List<RedisServer> servers = new LinkedList<>();
         for (Integer nodePort : nodePorts) {
             serverBuilder.reset();
             serverBuilder.port(nodePort);

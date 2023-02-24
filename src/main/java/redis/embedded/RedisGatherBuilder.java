@@ -6,7 +6,6 @@ import redis.embedded.ports.EphemeralPortProvider;
 import redis.embedded.ports.PredefinedPortProvider;
 import redis.embedded.ports.SequencePortProvider;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -60,7 +59,7 @@ public class RedisGatherBuilder {
     }
 
     private List<RedisServer> buildServers() {
-        List<RedisServer> redisServers = new ArrayList<>();
+        List<RedisServer> redisServers = new LinkedList<>();
         for (ReplicationGroup group : groups) {
             redisServers.add(buildMaster(group));
             buildSlaves(redisServers, group);

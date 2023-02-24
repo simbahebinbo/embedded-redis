@@ -1,6 +1,6 @@
 package redis.embedded;
 
-
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
@@ -14,13 +14,14 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class RedisClusterTest {
-    private RedisCluster redisCluster;
+@Slf4j
+public class RedisMultipleTest {
+
+    private RedisMultiple redisMultiple;
+
     private RedisServer redisServer1;
     private RedisServer redisServer2;
     private RedisServer redisServer3;
-
-    private RedisClient redisClient;
 
 
     @BeforeEach
@@ -28,44 +29,41 @@ public class RedisClusterTest {
         redisServer1 = mock(RedisServer.class);
         redisServer2 = mock(RedisServer.class);
         redisServer3 = mock(RedisServer.class);
-        redisClient = mock(RedisClient.class);
     }
 
     @Test
     @Timeout(value = 3000, unit = TimeUnit.MILLISECONDS)
     public void testSimpleRun() {
         List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2, redisServer3);
-        redisCluster = new RedisCluster(redisServers, redisClient);
-        redisCluster.start();
+        redisMultiple = new RedisMultiple(redisServers);
+        redisMultiple.start();
         TimeTool.sleep(1000L);
-        redisCluster.stop();
+        redisMultiple.stop();
     }
 
     @Test
     public void shouldAllowSubsequentRuns() {
         List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2, redisServer3);
-        redisCluster = new RedisCluster(redisServers, redisClient);
-        redisCluster.start();
-        redisCluster.stop();
+        redisMultiple = new RedisMultiple(redisServers);
+        redisMultiple.start();
+        redisMultiple.stop();
 
-        redisCluster.start();
-        redisCluster.stop();
+        redisMultiple.start();
+        redisMultiple.stop();
 
-        redisCluster.start();
-        redisCluster.stop();
+        redisMultiple.start();
+        redisMultiple.stop();
     }
 
 
     //集群模式 集群停止
     @Test
-    public void stopShouldStopEntireCluster() {
+    public void stopShouldStopEntireMultiple() {
 
         List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2, redisServer3);
-        redisCluster = new RedisCluster(redisServers, redisClient);
+        redisMultiple = new RedisMultiple(redisServers);
 
-
-        redisCluster.stop();
-
+        redisMultiple.stop();
 
         for (RedisServer redisServer : redisServers) {
             verify(redisServer).stop();
@@ -74,14 +72,11 @@ public class RedisClusterTest {
 
     //集群模式 集群启动
     @Test
-    public void startShouldStartEntireCluster() {
-
+    public void startShouldStartEntireMultiple() {
         List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2, redisServer3);
-        redisCluster = new RedisCluster(redisServers, redisClient);
+        redisMultiple = new RedisMultiple(redisServers);
 
-
-        redisCluster.start();
-
+        redisMultiple.start();
 
         for (RedisServer redisServer : redisServers) {
             verify(redisServer).start();
@@ -90,18 +85,15 @@ public class RedisClusterTest {
 
     //集群模式 集群判活
     @Test
-    public void isActiveShouldCheckEntireClusterIfAllActive() {
-
+    public void isActiveShouldCheckEntireMultipleIfAllActive() {
         given(redisServer1.isActive()).willReturn(true);
         given(redisServer2.isActive()).willReturn(true);
         given(redisServer3.isActive()).willReturn(true);
 
         List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2, redisServer3);
-        redisCluster = new RedisCluster(redisServers, redisClient);
+        redisMultiple = new RedisMultiple(redisServers);
 
-
-        redisCluster.isActive();
-
+        redisMultiple.isActive();
 
         for (RedisServer redisServer : redisServers) {
             verify(redisServer).isActive();

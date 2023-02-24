@@ -3,7 +3,7 @@ package redis.embedded;
 import com.google.common.collect.Lists;
 import redis.embedded.exceptions.EmbeddedRedisException;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -46,7 +46,7 @@ public class RedisMultiple implements IRedisServer {
 
     @Override
     public Set<Integer> ports() {
-        Set<Integer> ports = new HashSet<>(serverPorts());
+        Set<Integer> ports = new LinkedHashSet<>(serverPorts());
         return ports;
     }
 
@@ -55,7 +55,7 @@ public class RedisMultiple implements IRedisServer {
     }
 
     public Set<Integer> serverPorts() {
-        Set<Integer> ports = new HashSet<>();
+        Set<Integer> ports = new LinkedHashSet<>();
         for (RedisServer redisServer : redisServers) {
             ports.addAll(redisServer.ports());
         }
