@@ -206,10 +206,10 @@ public class SomeIntegrationTestThatRequiresRedis {
 Redis version
 ==============
 
-By default, RedisServer runs an OS-specific executable enclosed in in the `embedded-redis` jar. The jar includes:
+By default, RedisServer runs an OS-specific executable enclosed in the `embedded-redis` jar. The jar includes:
 
-- Redis 7.0.8 for Linux/Unix (amd64 and x86)
-- Redis 7.0.8 for macOS (amd64)
+- Redis 7.0.8 for Linux/Unix (amd64 and arm64)
+- Redis 7.0.8 for macOS (amd64 and arm64)
 
 The enclosed binaries are built from source from the [`7.0.8` tag](https://github.com/antirez/redis/releases/tag/7.0.8)
 in the official Redis repository. The Linux binaries are statically-linked amd64 and x86 executables built using
