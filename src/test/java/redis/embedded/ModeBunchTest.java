@@ -258,19 +258,18 @@ public class ModeBunchTest extends JedisBaseTest {
 
 
         Set<Integer> sentinelPorts = Set.of(sentinelPort1, sentinelPort2, sentinelPort3);
-        Set<Integer> serverPorts = Set.of(serverPort1, serverPort2, serverPort3,
-                serverPort4, serverPort5, serverPort6,
-                serverPort7, serverPort8, serverPort9);
+        final Set<Integer> group1 = Set.of(serverPort1, serverPort2, serverPort3);
+        final Set<Integer> group2 = Set.of(serverPort4, serverPort5, serverPort6);
+        final Set<Integer> group3 = Set.of(serverPort7, serverPort8, serverPort9);
 
         RedisBunch redisBunch =
                 RedisBunch.builder()
                         .ephemeral()
                         .sentinelPorts(sentinelPorts)
-                        .serverPorts(serverPorts)
                         .quorumSize(2)
-                        .replicationGroup(masterName1, 2)
-                        .replicationGroup(masterName2, 2)
-                        .replicationGroup(masterName3, 2)
+                        .serverPorts(group1).replicationGroup(masterName1, 2)
+                        .serverPorts(group2).replicationGroup(masterName2, 2)
+                        .serverPorts(group3).replicationGroup(masterName3, 2)
                         .build();
         redisBunch.start();
 
