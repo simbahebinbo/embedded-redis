@@ -62,9 +62,7 @@ public class RedisGatherTest {
 
         redisGather.stop();
 
-        for (RedisServer redisServer : redisServers) {
-            verify(redisServer).stop();
-        }
+        redisServers.forEach(redisServer -> verify(redisServer).stop());
     }
 
     @Test
@@ -74,9 +72,7 @@ public class RedisGatherTest {
 
         redisGather.start();
 
-        for (RedisServer redisServer : redisServers) {
-            verify(redisServer).start();
-        }
+        redisServers.forEach(redisServer -> verify(redisServer).start());
     }
 
     @Test
@@ -88,8 +84,6 @@ public class RedisGatherTest {
 
         redisGather.isActive();
 
-        for (RedisServer redisServer : redisServers) {
-            verify(redisServer).isActive();
-        }
+        redisServers.forEach(redisServer -> verify(redisServer).isActive());
     }
 }

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 @Slf4j
 public class EphemeralPortProviderTest {
@@ -16,9 +17,8 @@ public class EphemeralPortProviderTest {
         final EphemeralPortProvider provider = new EphemeralPortProvider();
 
         final Set<Integer> ports = new LinkedHashSet<>();
-        for (int i = 0; i < portCount; i++) {
-            ports.add(provider.next());
-        }
+
+        IntStream.range(0, portCount).forEach(i -> ports.add(provider.next()));
 
         log.info(ports.toString());
         Assertions.assertEquals(portCount, ports.size());

@@ -63,13 +63,9 @@ public class RedisClusterTest {
         List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2, redisServer3);
         redisCluster = new RedisCluster(redisServers, redisClient);
 
-
         redisCluster.stop();
 
-
-        for (RedisServer redisServer : redisServers) {
-            verify(redisServer).stop();
-        }
+        redisServers.forEach(redisServer -> verify(redisServer).stop());
     }
 
     //集群模式 集群启动
@@ -79,19 +75,14 @@ public class RedisClusterTest {
         List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2, redisServer3);
         redisCluster = new RedisCluster(redisServers, redisClient);
 
-
         redisCluster.start();
 
-
-        for (RedisServer redisServer : redisServers) {
-            verify(redisServer).start();
-        }
+        redisServers.forEach(redisServer -> verify(redisServer).start());
     }
 
     //集群模式 集群判活
     @Test
     public void isActiveShouldCheckEntireClusterIfAllActive() {
-
         given(redisServer1.isActive()).willReturn(true);
         given(redisServer2.isActive()).willReturn(true);
         given(redisServer3.isActive()).willReturn(true);
@@ -99,12 +90,8 @@ public class RedisClusterTest {
         List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2, redisServer3);
         redisCluster = new RedisCluster(redisServers, redisClient);
 
-
         redisCluster.isActive();
 
-
-        for (RedisServer redisServer : redisServers) {
-            verify(redisServer).isActive();
-        }
+        redisServers.forEach(redisServer -> verify(redisServer).isActive());
     }
 }

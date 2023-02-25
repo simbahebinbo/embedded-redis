@@ -65,9 +65,7 @@ public class RedisMultipleTest {
 
         redisMultiple.stop();
 
-        for (RedisServer redisServer : redisServers) {
-            verify(redisServer).stop();
-        }
+        redisServers.forEach(redisServer -> verify(redisServer).stop());
     }
 
     //集群模式 集群启动
@@ -78,9 +76,7 @@ public class RedisMultipleTest {
 
         redisMultiple.start();
 
-        for (RedisServer redisServer : redisServers) {
-            verify(redisServer).start();
-        }
+        redisServers.forEach(redisServer -> verify(redisServer).start());
     }
 
     //集群模式 集群判活
@@ -95,8 +91,6 @@ public class RedisMultipleTest {
 
         redisMultiple.isActive();
 
-        for (RedisServer redisServer : redisServers) {
-            verify(redisServer).isActive();
-        }
+        redisServers.forEach(redisServer -> verify(redisServer).isActive());
     }
 }

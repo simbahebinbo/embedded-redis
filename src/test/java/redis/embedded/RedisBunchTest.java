@@ -66,12 +66,8 @@ public class RedisBunchTest {
 
         redisBunch.stop();
 
-        for (RedisSentinel redisSentinel : redisSentinels) {
-            verify(redisSentinel).stop();
-        }
-        for (RedisServer redisServer : redisServers) {
-            verify(redisServer).stop();
-        }
+        redisSentinels.forEach(redisSentinel -> verify(redisSentinel).stop());
+        redisServers.forEach(redisServer -> verify(redisServer).stop());
     }
 
     //哨兵模式 集合启动
@@ -83,12 +79,8 @@ public class RedisBunchTest {
 
         redisBunch.start();
 
-        for (RedisSentinel redisSentinel : redisSentinels) {
-            verify(redisSentinel).start();
-        }
-        for (RedisServer redisServer : redisServers) {
-            verify(redisServer).start();
-        }
+        redisSentinels.forEach(redisSentinel -> verify(redisSentinel).start());
+        redisServers.forEach(redisServer -> verify(redisServer).start());
     }
 
     //哨兵模式 集合判活
@@ -104,11 +96,7 @@ public class RedisBunchTest {
 
         redisBunch.isActive();
 
-        for (RedisSentinel redisSentinel : redisSentinels) {
-            verify(redisSentinel).isActive();
-        }
-        for (RedisServer redisServer : redisServers) {
-            verify(redisServer).isActive();
-        }
+        redisSentinels.forEach(redisSentinel -> verify(redisSentinel).isActive());
+        redisServers.forEach(redisServer -> verify(redisServer).isActive());
     }
 }

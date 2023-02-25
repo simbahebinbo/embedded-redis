@@ -46,13 +46,13 @@ public class RedisClusterBuilder {
 
     private List<RedisServer> buildServers() {
         List<RedisServer> servers = new LinkedList<>();
-        for (Integer nodePort : nodePorts) {
+        nodePorts.forEach(nodePort -> {
             serverBuilder.reset();
             serverBuilder.port(nodePort);
             serverBuilder.clusterEnable(true);
             final RedisServer server = serverBuilder.build();
             servers.add(server);
-        }
+        });
         return servers;
     }
 

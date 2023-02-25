@@ -24,27 +24,18 @@ public class RedisCluster implements IRedisServer {
 
     @Override
     public boolean isActive() {
-        for (RedisServer redisServer : redisServers) {
-            if (!redisServer.isActive()) {
-                return false;
-            }
-        }
-        return true;
+        return redisServers.stream().allMatch(AbstractRedisInstance::isActive);
     }
 
     @Override
     public void start() throws EmbeddedRedisException {
-        for (RedisServer redisServer : redisServers) {
-            redisServer.start();
-        }
+        redisServers.stream().parallel().forEach(AbstractRedisServerInstance::start);
         redisClient.run();
     }
 
     @Override
     public void stop() throws EmbeddedRedisException {
-        for (RedisServer redisServer : redisServers) {
-            redisServer.stop();
-        }
+        redisServers.stream().parallel().forEach(AbstractRedisServerInstance::stop);
     }
 
     @Override
@@ -58,9 +49,7 @@ public class RedisCluster implements IRedisServer {
 
     public Set<Integer> nodePorts() {
         Set<Integer> ports = new LinkedHashSet<>();
-        for (RedisServer redisServer : redisServers) {
-            ports.addAll(redisServer.ports());
-        }
+        redisServers.forEach(redisServer -> ports.addAll(redisServer.ports()));
         return ports;
     }
 }

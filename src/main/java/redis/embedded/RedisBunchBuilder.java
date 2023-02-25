@@ -89,26 +89,29 @@ public class RedisBunchBuilder {
 
     private List<RedisServer> buildServers() {
         List<RedisServer> redisServers = new LinkedList<>();
-        for (ReplicationGroup group : groups) {
+        groups.forEach(group -> {
             redisServers.add(buildMaster(group));
-            buildSlaves(redisServers, group);
-        }
+            redisServers.addAll(buildSlaves(group));
+        });
         return redisServers;
     }
 
-    private void buildSlaves(List<RedisServer> redisServers, ReplicationGroup group) {
-        for (Integer slavePort : group.slavePorts) {
+    private List<RedisServer> buildSlaves(ReplicationGroup group) {
+        List<RedisServer> redisServers = new LinkedList<>();
+        group.slavePorts.forEach(slavePort -> {
             serverBuilder.reset();
             serverBuilder.port(slavePort);
             serverBuilder.replicaOf(group.masterPort);
             final RedisServer slave = serverBuilder.build();
             redisServers.add(slave);
-        }
+        });
+        return redisServers;
     }
 
     private RedisServer buildMaster(ReplicationGroup group) {
         serverBuilder.reset();
-        return serverBuilder.port(group.masterPort).build();
+        final RedisServer master = serverBuilder.port(group.masterPort).build();
+        return master;
     }
 
     private List<RedisSentinel> buildSentinels() {
@@ -123,12 +126,12 @@ public class RedisBunchBuilder {
     private RedisSentinel buildSentinel() {
         sentinelBuilder.reset();
         sentinelBuilder.sentinelPort(nextSentinelPort());
-        for (ReplicationGroup group : groups) {
+        groups.forEach(group -> {
             sentinelBuilder.masterName(group.masterName);
             sentinelBuilder.masterPort(group.masterPort);
             sentinelBuilder.quorumSize(quorumSize);
             sentinelBuilder.addDefaultReplicationGroup();
-        }
+        });
         return sentinelBuilder.build();
     }
 

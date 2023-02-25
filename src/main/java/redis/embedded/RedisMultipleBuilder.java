@@ -30,12 +30,12 @@ public class RedisMultipleBuilder {
 
     private List<RedisServer> buildMasters() {
         List<RedisServer> servers = new LinkedList<>();
-        for (Integer serverPort : masterPorts) {
+        masterPorts.forEach(masterPort -> {
             serverBuilder.reset();
-            serverBuilder.port(serverPort);
+            serverBuilder.port(masterPort);
             final RedisServer server = serverBuilder.build();
             servers.add(server);
-        }
+        });
         return servers;
     }
 }

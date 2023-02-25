@@ -69,16 +69,13 @@ public class JedisUtil {
 
     public static Set<String> portsToJedisHosts(Set<Integer> ports) {
         Set<String> hosts = new LinkedHashSet<>();
-        for (Integer port : ports) {
-            hosts.add(CommonConstant.DEFAULT_REDIS_HOST + CommonConstant.SEPARATOR_COLON + port);
-        }
+        ports.forEach(port -> hosts.add(CommonConstant.DEFAULT_REDIS_HOST + CommonConstant.SEPARATOR_COLON + port));
         return hosts;
     }
 
     public static Set<String> portsToJedisHost(Integer port) {
         Set<String> hosts = new LinkedHashSet<>();
         hosts.add(CommonConstant.DEFAULT_REDIS_HOST + CommonConstant.SEPARATOR_COLON + port);
-
         return hosts;
     }
 }

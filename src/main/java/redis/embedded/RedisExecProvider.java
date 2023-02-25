@@ -10,6 +10,7 @@ import redis.embedded.util.OSArchitecture;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 
 @Slf4j
@@ -21,9 +22,7 @@ abstract class RedisExecProvider {
 
     public RedisExecProvider override(OS os, String executable) {
         Preconditions.checkNotNull(executable);
-        for (Architecture arch : Architecture.values()) {
-            override(os, arch, executable);
-        }
+        Arrays.stream(Architecture.values()).forEach(arch -> override(os, arch, executable));
         return this;
     }
 

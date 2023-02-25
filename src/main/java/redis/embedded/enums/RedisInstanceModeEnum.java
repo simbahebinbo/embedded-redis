@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,10 +26,10 @@ public enum RedisInstanceModeEnum {
         Map<Integer, RedisInstanceModeEnum> codeMap = new HashMap<>();
 
         RedisInstanceModeEnum[] values = RedisInstanceModeEnum.values();
-        for (RedisInstanceModeEnum value : values) {
+        Arrays.stream(values).forEach(value -> {
             valueMap.put(value.getValue(), value);
             codeMap.put(value.getCode(), value);
-        }
+        });
 
         valueMapping = ImmutableMap.copyOf(valueMap);
         codeMapping = ImmutableMap.copyOf(codeMap);
