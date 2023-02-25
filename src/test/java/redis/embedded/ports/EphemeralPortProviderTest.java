@@ -4,8 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 @Slf4j
 public class EphemeralPortProviderTest {
@@ -15,10 +16,9 @@ public class EphemeralPortProviderTest {
         final int portCount = 20;
         final EphemeralPortProvider provider = new EphemeralPortProvider();
 
-        final Set<Integer> ports = new HashSet<>();
-        for (int i = 0; i < portCount; i++) {
-            ports.add(provider.next());
-        }
+        final Set<Integer> ports = new LinkedHashSet<>();
+
+        IntStream.range(0, portCount).forEach(i -> ports.add(provider.next()));
 
         log.info(ports.toString());
         Assertions.assertEquals(portCount, ports.size());

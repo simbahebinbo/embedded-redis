@@ -7,14 +7,14 @@ import redis.embedded.exceptions.RedisBuildingException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 @Slf4j
 @NoArgsConstructor
 public class RedisClientBuilder {
-    private final Collection<Integer> ports = new ArrayList<>();
+    private final Collection<Integer> ports = new LinkedList<>();
     private File executable;
     private RedisExecProvider redisExecProvider = RedisCliExecProvider.defaultProvider();
     private Integer clusterReplicas = 0;
@@ -69,7 +69,7 @@ public class RedisClientBuilder {
     }
 
     private List<String> buildCommandArgs() {
-        List<String> args = new ArrayList<>();
+        List<String> args = new LinkedList<>();
         args.add(executable.getAbsolutePath());
 
         args.add("--cluster");

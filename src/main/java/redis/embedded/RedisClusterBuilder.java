@@ -3,15 +3,15 @@ package redis.embedded;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @NoArgsConstructor
 public class RedisClusterBuilder {
-    private final Collection<Integer> nodePorts = new LinkedList<>();
+    private final Set<Integer> nodePorts = new LinkedHashSet<>();
     private RedisServerBuilder serverBuilder = new RedisServerBuilder();
     private RedisClientBuilder clientBuilder = new RedisClientBuilder();
 
@@ -28,7 +28,7 @@ public class RedisClusterBuilder {
         return this;
     }
 
-    public RedisClusterBuilder nodePorts(Collection<Integer> ports) {
+    public RedisClusterBuilder nodePorts(Set<Integer> ports) {
         this.nodePorts.addAll(ports);
         return this;
     }
@@ -45,14 +45,14 @@ public class RedisClusterBuilder {
     }
 
     private List<RedisServer> buildServers() {
-        List<RedisServer> servers = new ArrayList<>();
-        for (Integer nodePort : nodePorts) {
+        List<RedisServer> servers = new LinkedList<>();
+        nodePorts.forEach(nodePort -> {
             serverBuilder.reset();
             serverBuilder.port(nodePort);
             serverBuilder.clusterEnable(true);
             final RedisServer server = serverBuilder.build();
             servers.add(server);
-        }
+        });
         return servers;
     }
 

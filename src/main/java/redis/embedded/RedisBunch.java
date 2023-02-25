@@ -3,7 +3,7 @@ package redis.embedded;
 import com.google.common.collect.Lists;
 import redis.embedded.exceptions.EmbeddedRedisException;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -23,42 +23,25 @@ public class RedisBunch implements IRedisServer {
 
     @Override
     public boolean isActive() {
-        for (RedisSentinel redisSentinel : redisSentinels) {
-            if (!redisSentinel.isActive()) {
-                return false;
-            }
-        }
-        for (RedisServer redisServer : redisServers) {
-            if (!redisServer.isActive()) {
-                return false;
-            }
-        }
-        return true;
+        return redisSentinels.stream().allMatch(AbstractRedisInstance::isActive)
+                && redisServers.stream().allMatch(AbstractRedisInstance::isActive);
     }
 
     @Override
     public void start() throws EmbeddedRedisException {
-        for (RedisSentinel redisSentinel : redisSentinels) {
-            redisSentinel.start();
-        }
-        for (RedisServer redisServer : redisServers) {
-            redisServer.start();
-        }
+        redisSentinels.stream().parallel().forEach(AbstractRedisServerInstance::start);
+        redisServers.stream().parallel().forEach(AbstractRedisServerInstance::start);
     }
 
     @Override
     public void stop() throws EmbeddedRedisException {
-        for (RedisSentinel redisSentinel : redisSentinels) {
-            redisSentinel.stop();
-        }
-        for (RedisServer redisServer : redisServers) {
-            redisServer.stop();
-        }
+        redisSentinels.stream().parallel().forEach(AbstractRedisServerInstance::stop);
+        redisServers.stream().parallel().forEach(AbstractRedisServerInstance::stop);
     }
 
     @Override
     public Set<Integer> ports() {
-        Set<Integer> ports = new HashSet<>();
+        Set<Integer> ports = new LinkedHashSet<>();
         ports.addAll(sentinelPorts());
         ports.addAll(serverPorts());
         return ports;
@@ -69,10 +52,8 @@ public class RedisBunch implements IRedisServer {
     }
 
     public Set<Integer> sentinelPorts() {
-        Set<Integer> ports = new HashSet<>();
-        for (RedisSentinel redisSentinel : redisSentinels) {
-            ports.addAll(redisSentinel.ports());
-        }
+        Set<Integer> ports = new LinkedHashSet<>();
+        redisSentinels.forEach(redisSentinel -> ports.addAll(redisSentinel.ports()));
         return ports;
     }
 
@@ -81,10 +62,8 @@ public class RedisBunch implements IRedisServer {
     }
 
     public Set<Integer> serverPorts() {
-        Set<Integer> ports = new HashSet<>();
-        for (RedisServer redisServer : redisServers) {
-            ports.addAll(redisServer.ports());
-        }
+        Set<Integer> ports = new LinkedHashSet<>();
+        redisServers.forEach(redisServer -> ports.addAll(redisServer.ports()));
         return ports;
     }
 }

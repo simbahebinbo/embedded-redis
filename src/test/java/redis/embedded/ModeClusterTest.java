@@ -11,7 +11,7 @@ import redis.embedded.common.CommonConstant;
 import redis.embedded.util.TimeTool;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 //集群模式
@@ -73,7 +73,7 @@ public class ModeClusterTest extends JedisClusterBaseTest {
         // 等待主从同步
         TimeTool.sleep(10000);
 
-        Set<HostAndPort> nodes = new HashSet<>();
+        Set<HostAndPort> nodes = new LinkedHashSet<>();
         nodes.add(new HostAndPort(nodeHost1, nodePort1));
         nodes.add(new HostAndPort(nodeHost2, nodePort2));
         nodes.add(new HostAndPort(nodeHost3, nodePort3));
@@ -139,7 +139,7 @@ public class ModeClusterTest extends JedisClusterBaseTest {
         // 等待主从同步
         TimeTool.sleep(10000);
 
-        Set<HostAndPort> nodes = new HashSet<>();
+        Set<HostAndPort> nodes = new LinkedHashSet<>();
         nodes.add(new HostAndPort(nodeHost1, nodePort1));
         nodes.add(new HostAndPort(nodeHost2, nodePort2));
         nodes.add(new HostAndPort(nodeHost3, nodePort3));
@@ -169,7 +169,7 @@ public class ModeClusterTest extends JedisClusterBaseTest {
         // 等待主从同步
         TimeTool.sleep(10000);
 
-        Set<HostAndPort> nodes = new HashSet<>();
+        Set<HostAndPort> nodes = new LinkedHashSet<>();
         nodes.add(new HostAndPort(nodeHost1, nodePort1));
         nodes.add(new HostAndPort(nodeHost2, nodePort2));
         nodes.add(new HostAndPort(nodeHost3, nodePort3));

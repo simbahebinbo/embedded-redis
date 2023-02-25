@@ -16,11 +16,10 @@ Maven dependency
 Maven Central:
 
 ```
-
 <dependency>
     <groupId>org.signal</groupId>
     <artifactId>embedded-redis</artifactId>
-    <version>7.0.8</version>
+    <version>7.0.8.1</version>
 </dependency>
 ```
 
@@ -57,7 +56,7 @@ You can also use fluent API to create RedisServer:
 RedisServer redisServer = RedisServer.builder()
   .redisExecProvider(customRedisProvider)
   .port(6379)
-  .slaveOf("locahost", 6378)
+  .replicaOf("locahost", 6378)
   .configFile("/path/to/your/redis.conf")
   .build();
 ```
@@ -68,8 +67,8 @@ Or even create simple redis.conf file from scratch:
 RedisServer redisServer = RedisServer.builder()
   .redisExecProvider(customRedisProvider)
   .port(6379)
-  .setting("bind 127.0.0.1") // good for local development on Windows to prevent security popups
-  .slaveOf("locahost", 6378)
+  .setting("bind 127.0.0.1")
+  .replicaOf("locahost", 6378)
   .setting("daemonize no")
   .setting("appendonly no")
   .setting("maxmemory 128M")
@@ -185,7 +184,7 @@ public class SomeIntegrationTestThatRequiresRedis {
   
   @Test
   public void test() throws Exception {
-    Set<HostAndPort> nodes = new HashSet<>();
+        Set<HostAndPort> nodes = new LinkedHashSet<>();
         nodes.add(new HostAndPort("127.0.0.1", 16379));
         nodes.add(new HostAndPort("127.0.0.1", 16380));
         nodes.add(new HostAndPort("127.0.0.1", 16381));
@@ -199,6 +198,98 @@ public class SomeIntegrationTestThatRequiresRedis {
   @After
   public void tearDown() throws Exception {
     cluster.stop();
+  }
+}
+```
+
+## Setting up a multiple
+
+Our Embedded Redis has support for HA Redis multiples
+
+#### Using ephemeral ports
+
+A simple redis integration test with Redis cluster on ephemeral ports, with setup similar to that from production would
+look like this:
+
+```
+public class SomeIntegrationTestThatRequiresRedis {
+  private RedisMultiple multiple;
+  private Set<String> jedisMultipleHosts;
+
+  @Before
+  public void setup() throws Exception {
+    //creates a multiple with 3 masters
+    Set<Integer> masterPorts = Set.of(masterPort1, masterPort2, masterPort3);
+
+    multiple = RedisMultiple.builder()
+                .masterPorts(masterPorts)
+                .build();
+    multiple.start();
+        
+    jedisMultipleHosts = JedisUtil.multipleJedisHosts(multiple);
+  }
+  
+  @Test
+  public void test() throws Exception {
+       JedisPool masterPool1 = new JedisPool(masterHost1, masterPort1);
+        JedisPool masterPool2 = new JedisPool(masterHost2, masterPort2);
+        JedisPool masterPool3 = new JedisPool(masterHost3, masterPort3);
+
+        Jedis masterJedis1 = masterPool1.getResource();
+        Jedis masterJedis2 = masterPool2.getResource();
+        Jedis masterJedis3 = masterPool3.getResource();
+
+  }
+  
+  @After
+  public void tearDown() throws Exception {
+    multiple.stop();
+  }
+}
+```
+
+## Setting up a gather
+
+Our Embedded Redis has support for HA Redis gathers
+
+#### Using ephemeral ports
+
+A simple redis integration test with Redis gather on ephemeral ports, with setup similar to that from production would
+look like this:
+
+```
+public class SomeIntegrationTestThatRequiresRedis {
+  private RedisGather gather;
+  private Set<String> jedisGatherHosts;
+
+  @Before
+  public void setup() throws Exception {
+    //creates a gather with 1 gather, each with one master and two slave
+   Set<Integer> slavePorts = Set.of(slavePort1, slavePort2);
+
+   gather = RedisGather.builder()
+                .serverPorts(masterPort, slavePorts)
+                .replicationGroup(2)
+                .build();
+    gather.start();
+        
+    jedisGatherHosts = JedisUtil.gatherJedisHosts(gather);
+  }
+  
+  @Test
+  public void test() throws Exception {
+    JedisPool masterPool = new JedisPool(masterHost, masterPort);
+        JedisPool slavePool1 = new JedisPool(slaveHost1, slavePort1);
+        JedisPool slavePool2 = new JedisPool(slaveHost2, slavePort2);
+
+        Jedis masterJedis = masterPool.getResource();
+        Jedis slaveJedis1 = slavePool1.getResource();
+        Jedis slaveJedis2 = slavePool2.getResource();
+  }
+  
+  @After
+  public void tearDown() throws Exception {
+    gather.stop();
   }
 }
 ```

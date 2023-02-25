@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Slf4j
@@ -24,15 +24,13 @@ public class RedisServerBuilder {
     private String bind = CommonConstant.ALL_REDIS_HOST;
     private int port = CommonConstant.DEFAULT_REDIS_STANDALONE_PORT;
 
-    //主从模式参数
-    private InetSocketAddress slaveOf;
-
     //集群模式参数
     private Boolean clusterEnable = false;
 
     //哨兵模式参数
     private Boolean sentinelEnable = false;
 
+    //主从模式参数
     private InetSocketAddress replicaOf;
 
     private String redisConf;
@@ -61,16 +59,6 @@ public class RedisServerBuilder {
 
     public RedisServerBuilder sentinelEnable(boolean enable) {
         this.sentinelEnable = enable;
-        return this;
-    }
-
-    public RedisServerBuilder slaveOf(int port) {
-        this.slaveOf = new InetSocketAddress(CommonConstant.DEFAULT_REDIS_HOST, port);
-        return this;
-    }
-
-    public RedisServerBuilder slaveOf(InetSocketAddress slaveOf) {
-        this.slaveOf = slaveOf;
         return this;
     }
 
@@ -124,7 +112,6 @@ public class RedisServerBuilder {
         this.replicaOf = null;
         this.redisConf = null;
         this.clusterEnable = false;
-        this.slaveOf = null;
         this.sentinelEnable = false;
     }
 
@@ -162,7 +149,7 @@ public class RedisServerBuilder {
     }
 
     private List<String> buildCommandArgs() {
-        List<String> args = new ArrayList<>();
+        List<String> args = new LinkedList<>();
         args.add(executable.getAbsolutePath());
 
         if (StringUtils.isNotEmpty(redisConf)) {
@@ -181,12 +168,6 @@ public class RedisServerBuilder {
         if (clusterEnable) {
             args.add("--cluster-enabled");
             args.add("yes");
-        }
-
-        if (slaveOf != null) {
-            args.add("--slaveof");
-            args.add(slaveOf.getHostName());
-            args.add(Integer.toString(slaveOf.getPort()));
         }
 
         if (sentinelEnable) {
