@@ -1,11 +1,11 @@
 5230:C 20 Feb 2023 10:54:46.143 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
-5230:C 20 Feb 2023 10:54:46.143 # Redis version=7.0.8, bits=64, commit=0588a4d6, modified=1, pid=5230, just started
+5230:C 20 Feb 2023 10:54:46.143 # Redis version=7.0.9, bits=64, commit=0588a4d6, modified=1, pid=5230, just started
 5230:C 20 Feb 2023 10:54:46.143 # Configuration loaded
 5230:M 20 Feb 2023 10:54:46.144 * monotonic clock: POSIX clock_gettime
 5230:M 20 Feb 2023 10:54:46.146 * No cluster configuration found, I'm ae610b2f5801054b8e625a8d0ae836f9cb1bb7fb
                 _._                                                  
            _.-``__ ''-._                                             
-      _.-``    `.  `_.  ''-._           Redis 7.0.8 (0588a4d6/1) 64 bit
+      _.-``    `.  `_.  ''-._           Redis 7.0.9 (0588a4d6/1) 64 bit
   .-`` .-```.  ```\/    _.,_ ''-._                                  
  (    '      ,       .-`  | `,    )     Running in cluster mode
  |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
@@ -23,7 +23,7 @@
 
 5230:M 20 Feb 2023 10:54:46.149 # WARNING: The TCP backlog setting of 511 cannot be enforced because kern.ipc.somaxconn is set to the lower value of 128.
 5230:M 20 Feb 2023 10:54:46.149 # Server initialized
-5230:M 20 Feb 2023 10:54:46.150 * Loading RDB produced by version 7.0.8
+5230:M 20 Feb 2023 10:54:46.150 * Loading RDB produced by version 7.0.9
 5230:M 20 Feb 2023 10:54:46.150 * RDB age 2901 seconds
 5230:M 20 Feb 2023 10:54:46.150 * RDB memory usage when created 1.04 Mb
 5230:M 20 Feb 2023 10:54:46.150 * Done loading RDB, keys loaded: 0, keys expired: 0.

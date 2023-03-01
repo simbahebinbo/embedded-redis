@@ -6,7 +6,7 @@ Redis embedded server for Java integration testing
 Fork Notes
 ==============
 This repository is a fork of https://github.com/ozimov/embedded-redis, which is in turn a fork
-of https://github.com/kstyrc/embedded-redis. We've updated the embedded Redis binaries to version 7.0.8 so we can write
+of https://github.com/kstyrc/embedded-redis. We've updated the embedded Redis binaries to version 7.0.9 so we can write
 tests that use recent Redis features without imposing dependencies that are not well-encapsulated by a single
 Maven/Gradle build.
 
@@ -19,7 +19,7 @@ Maven Central:
 <dependency>
     <groupId>org.signal</groupId>
     <artifactId>embedded-redis</artifactId>
-    <version>7.0.8.1</version>
+    <version>7.0.9</version>
 </dependency>
 ```
 
@@ -299,10 +299,10 @@ Redis version
 
 By default, RedisServer runs an OS-specific executable enclosed in the `embedded-redis` jar. The jar includes:
 
-- Redis 7.0.8 for Linux/Unix (amd64 and arm64)
-- Redis 7.0.8 for macOS (amd64 and arm64)
+- Redis 7.0.9 for Linux/Unix (amd64 and arm64)
+- Redis 7.0.9 for macOS (amd64 and arm64)
 
-The enclosed binaries are built from source from the [`7.0.8` tag](https://github.com/antirez/redis/releases/tag/7.0.8)
+The enclosed binaries are built from source from the [`7.0.9` tag](https://github.com/antirez/redis/releases/tag/7.0.9)
 in the official Redis repository. The Linux binaries are statically-linked amd64 and x86 executables built using
 the `build-server-binaries.sh` script included in this repository at `/src/main/docker`. The macOS binaries are built
 according to

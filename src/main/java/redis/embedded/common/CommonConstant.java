@@ -94,7 +94,7 @@ public class CommonConstant {
     public static final String REDIS_SENTINEL = "redis-sentinel";
     public static final String REDIS_CLI = "redis-cli";
 
-    public static final String REDIS_VERSION = "7.0.8";
+    public static final String REDIS_VERSION = "7.0.9";
 
     public static final String REDIS_SERVER_EXEC_UNIX_AMD64 =
             REDIS_SERVER + SEPARATOR_HYPHEN + REDIS_VERSION + SEPARATOR_HYPHEN + OS_NAME_LINUX + SEPARATOR_HYPHEN + ARCHITECTURE_NAME_AMD64;
