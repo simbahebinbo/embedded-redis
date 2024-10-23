@@ -1,10 +1,10 @@
 5306:C 20 Feb 2023 10:56:17.713 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
-5306:C 20 Feb 2023 10:56:17.713 # Redis version=7.0.9, bits=64, commit=0588a4d6, modified=1, pid=5306, just started
-5306:C 20 Feb 2023 10:56:17.713 # Warning: no config file specified, using the default config. In order to specify a config file use ./redis-server-7.0.9.app /path/to/redis.conf
+5306:C 20 Feb 2023 10:56:17.713 # Redis version=7.4.1, bits=64, commit=a3134a4f, modified=1, pid=5306, just started
+5306:C 20 Feb 2023 10:56:17.713 # Warning: no config file specified, using the default config. In order to specify a config file use ./redis-server-7.4.1.app /path/to/redis.conf
 5306:M 20 Feb 2023 10:56:17.714 * monotonic clock: POSIX clock_gettime
                 _._
            _.-``__ ''-._
-      _.-``    `.  `_.  ''-._           Redis 7.0.9 (0588a4d6/1) 64 bit
+      _.-``    `.  `_.  ''-._           Redis 7.4.1 (a3134a4f/1) 64 bit
   .-`` .-```.  ```\/    _.,_ ''-._
  (    '      ,       .-`  | `,    )     Running in standalone mode
  |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
@@ -22,7 +22,7 @@
 
 5306:M 20 Feb 2023 10:56:17.719 # WARNING: The TCP backlog setting of 511 cannot be enforced because kern.ipc.somaxconn is set to the lower value of 128.
 5306:M 20 Feb 2023 10:56:17.719 # Server initialized
-5306:M 20 Feb 2023 10:56:17.719 * Loading RDB produced by version 7.0.9
+5306:M 20 Feb 2023 10:56:17.719 * Loading RDB produced by version 7.4.1
 5306:M 20 Feb 2023 10:56:17.719 * RDB age 5 seconds
 5306:M 20 Feb 2023 10:56:17.719 * RDB memory usage when created 1.70 Mb
 5306:M 20 Feb 2023 10:56:17.719 * Done loading RDB, keys loaded: 0, keys expired: 0.

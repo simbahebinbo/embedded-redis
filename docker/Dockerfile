@@ -1,5 +1,4 @@
-ARG ALPINE_VERSION=3.17.2
-FROM alpine:${ALPINE_VERSION}
+FROM alpine:3.20.3
 RUN apk add --no-cache gcc musl-dev openssl-dev openssl-libs-static make pkgconfig linux-headers
 
 WORKDIR /build
