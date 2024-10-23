@@ -1,5 +1,4 @@
-ARG ALPINE_VERSION=3.9.9-amazoncorretto-21-al2023
-FROM maven:${ALPINE_VERSION}
+FROM maven:3.9.9-amazoncorretto-21-al2023
 
 RUN apt update -y && apt upgrade -y
 RUN apt install zip unzip -y
