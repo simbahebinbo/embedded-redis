@@ -1,4 +1,4 @@
-FROM alpine:3.20.3
+FROM alpine:3.21.0
 RUN apk add --no-cache gcc musl-dev openssl-dev openssl-libs-static make pkgconfig linux-headers
 
 WORKDIR /build
