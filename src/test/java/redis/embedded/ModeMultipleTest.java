@@ -19,15 +19,15 @@ import java.util.Set;
 public class ModeMultipleTest extends JedisBaseTest {
     private RedisMultiple redisMultiple;
 
-    private int masterPort1;
+    private Integer masterPort1;
 
     private String masterHost1;
 
-    private int masterPort2;
+    private Integer masterPort2;
 
     private String masterHost2;
 
-    private int masterPort3;
+    private Integer masterPort3;
 
     private String masterHost3;
 
@@ -36,11 +36,11 @@ public class ModeMultipleTest extends JedisBaseTest {
     public void setUp() {
         super.setUp();
         masterHost1 = CommonConstant.DEFAULT_REDIS_HOST;
-        masterPort1 = RandomUtils.secure().randomInt(10001, 11000);
+        masterPort1 = (Integer) RandomUtils.secure().randomInt(10001, 11000);
         masterHost2 = CommonConstant.DEFAULT_REDIS_HOST;
-        masterPort2 = RandomUtils.secure().randomInt(11001, 12000);
+        masterPort2 = (Integer) RandomUtils.secure().randomInt(11001, 12000);
         masterHost3 = CommonConstant.DEFAULT_REDIS_HOST;
-        masterPort3 = RandomUtils.secure().randomInt(12001, 13000);
+        masterPort3 = (Integer) RandomUtils.secure().randomInt(12001, 13000);
     }
 
     // 主主模式

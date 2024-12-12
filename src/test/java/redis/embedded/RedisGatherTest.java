@@ -77,8 +77,8 @@ public class RedisGatherTest {
 
     @Test
     public void isActiveShouldCheckEntireGatherIfAllActive() {
-        given(redisServer1.isActive()).willReturn(true);
-        given(redisServer2.isActive()).willReturn(true);
+        given(redisServer1.isActive()).willReturn(Boolean.TRUE);
+        given(redisServer2.isActive()).willReturn(Boolean.TRUE);
         List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2);
         redisGather = new RedisGather(redisServers);
 

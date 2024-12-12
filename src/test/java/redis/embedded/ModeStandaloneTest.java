@@ -14,7 +14,7 @@ import redis.embedded.common.CommonConstant;
 public class ModeStandaloneTest extends JedisBaseTest {
 
     private RedisServer redisServer;
-    private int port;
+    private Integer port;
 
     private String host;
 
@@ -22,7 +22,7 @@ public class ModeStandaloneTest extends JedisBaseTest {
     public void setUp() {
         super.setUp();
         host = CommonConstant.DEFAULT_REDIS_HOST;
-        port = RandomUtils.secure().randomInt(10001, 11000);
+        port = (Integer) RandomUtils.secure().randomInt(10001, 11000);
     }
 
     // 单机模式

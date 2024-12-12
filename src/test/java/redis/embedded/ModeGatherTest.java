@@ -57,7 +57,7 @@ public class ModeGatherTest extends JedisBaseTest {
 
         redisGather = RedisGather.builder()
                 .serverPorts(masterPort, slavePorts)
-                .replicationGroup(1)
+                .replicationGroup((Integer) 1)
                 .build();
 
         redisGather.start();
@@ -93,7 +93,7 @@ public class ModeGatherTest extends JedisBaseTest {
 
         redisGather = RedisGather.builder()
                 .serverPorts(masterPort, slavePorts)
-                .replicationGroup(2)
+                .replicationGroup((Integer) 2)
                 .build();
 
         redisGather.start();
@@ -141,7 +141,7 @@ public class ModeGatherTest extends JedisBaseTest {
 
         redisGather = RedisGather.builder()
                 .serverPorts(masterPort, slavePorts)
-                .replicationGroup(1)
+                .replicationGroup((Integer) 1)
                 .build();
 
         redisGather.start();
@@ -199,7 +199,7 @@ public class ModeGatherTest extends JedisBaseTest {
 
         redisGather = RedisGather.builder()
                 .serverPorts(masterPort, slavePorts)
-                .replicationGroup(1)
+                .replicationGroup((Integer) 1)
                 .build();
 
         redisGather.start();

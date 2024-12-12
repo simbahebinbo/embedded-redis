@@ -18,25 +18,25 @@ import java.util.Set;
 @Slf4j
 @NotThreadSafe
 public class ModeClusterTest extends JedisClusterBaseTest {
-    private int nodePort1;
+    private Integer nodePort1;
     private String nodeHost1;
 
-    private int nodePort2;
+    private Integer nodePort2;
     private String nodeHost2;
 
-    private int nodePort3;
+    private Integer nodePort3;
     private String nodeHost3;
 
-    private int nodePort4;
+    private Integer nodePort4;
     private String nodeHost4;
 
-    private int nodePort5;
+    private Integer nodePort5;
     private String nodeHost5;
 
-    private int nodePort6;
+    private Integer nodePort6;
     private String nodeHost6;
 
-    private int nodePort7;
+    private Integer nodePort7;
     private String nodeHost7;
 
 
@@ -44,19 +44,19 @@ public class ModeClusterTest extends JedisClusterBaseTest {
     public void setUp() {
         super.setUp();
         nodeHost1 = CommonConstant.DEFAULT_REDIS_HOST;
-        nodePort1 = RandomUtils.secure().randomInt(10001, 11000);
+        nodePort1 = (Integer) RandomUtils.secure().randomInt(10001, 11000);
         nodeHost2 = CommonConstant.DEFAULT_REDIS_HOST;
-        nodePort2 = RandomUtils.secure().randomInt(11001, 12000);
+        nodePort2 = (Integer) RandomUtils.secure().randomInt(11001, 12000);
         nodeHost3 = CommonConstant.DEFAULT_REDIS_HOST;
-        nodePort3 = RandomUtils.secure().randomInt(12001, 13000);
+        nodePort3 = (Integer) RandomUtils.secure().randomInt(12001, 13000);
         nodeHost4 = CommonConstant.DEFAULT_REDIS_HOST;
-        nodePort4 = RandomUtils.secure().randomInt(13001, 14000);
+        nodePort4 = (Integer) RandomUtils.secure().randomInt(13001, 14000);
         nodeHost5 = CommonConstant.DEFAULT_REDIS_HOST;
-        nodePort5 = RandomUtils.secure().randomInt(14001, 15000);
+        nodePort5 = (Integer) RandomUtils.secure().randomInt(14001, 15000);
         nodeHost6 = CommonConstant.DEFAULT_REDIS_HOST;
-        nodePort6 = RandomUtils.secure().randomInt(15001, 16000);
+        nodePort6 = (Integer) RandomUtils.secure().randomInt(15001, 16000);
         nodeHost7 = CommonConstant.DEFAULT_REDIS_HOST;
-        nodePort7 = RandomUtils.secure().randomInt(16001, 17000);
+        nodePort7 = (Integer) RandomUtils.secure().randomInt(16001, 17000);
     }
 
 
@@ -99,7 +99,7 @@ public class ModeClusterTest extends JedisClusterBaseTest {
                     RedisCluster redisCluster =
                             RedisCluster.builder()
                                     .nodePorts(nodePorts)
-                                    .clusterReplicas(1)
+                                    .clusterReplicas((Integer) 1)
                                     .build();
                     redisCluster.start();
                     redisCluster.stop();
@@ -118,7 +118,7 @@ public class ModeClusterTest extends JedisClusterBaseTest {
                     RedisCluster redisCluster =
                             RedisCluster.builder()
                                     .nodePorts(nodePorts)
-                                    .clusterReplicas(1)
+                                    .clusterReplicas((Integer) 1)
                                     .build();
                     redisCluster.start();
                     redisCluster.stop();
@@ -133,7 +133,7 @@ public class ModeClusterTest extends JedisClusterBaseTest {
         RedisCluster redisCluster =
                 RedisCluster.builder()
                         .nodePorts(nodePorts)
-                        .clusterReplicas(1)
+                        .clusterReplicas((Integer) 1)
                         .build();
         redisCluster.start();
         // 等待主从同步
@@ -163,7 +163,7 @@ public class ModeClusterTest extends JedisClusterBaseTest {
         RedisCluster redisCluster =
                 RedisCluster.builder()
                         .nodePorts(nodePorts)
-                        .clusterReplicas(1)
+                        .clusterReplicas((Integer) 1)
                         .build();
         redisCluster.start();
         // 等待主从同步
@@ -199,7 +199,7 @@ public class ModeClusterTest extends JedisClusterBaseTest {
                     RedisCluster redisCluster =
                             RedisCluster.builder()
                                     .nodePorts(nodePorts)
-                                    .clusterReplicas(2)
+                                    .clusterReplicas((Integer) 2)
                                     .build();
                     redisCluster.start();
                     redisCluster.stop();
@@ -242,3 +242,4 @@ public class ModeClusterTest extends JedisClusterBaseTest {
                 });
     }
 }
+

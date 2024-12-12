@@ -29,13 +29,13 @@ public class JedisBaseTest {
     }
 
     private void msetSuccess(Jedis jedis) {
-        key1 = RandomStringUtils.randomAlphabetic(5, 100);
-        key2 = RandomStringUtils.randomAlphabetic(5, 100);
-        key3 = RandomStringUtils.randomAlphabetic(5, 100);
+        key1 = RandomStringUtils.secure().nextAlphabetic(5, 100);
+        key2 = RandomStringUtils.secure().nextAlphabetic(5, 100);
+        key3 = RandomStringUtils.secure().nextAlphabetic(5, 100);
 
-        value1 = RandomStringUtils.randomAlphanumeric(5, 100);
-        value2 = RandomStringUtils.randomAlphanumeric(5, 100);
-        value3 = RandomStringUtils.randomAlphanumeric(5, 100);
+        value1 = RandomStringUtils.secure().nextAlphanumeric(5, 100);
+        value2 = RandomStringUtils.secure().nextAlphanumeric(5, 100);
+        value3 = RandomStringUtils.secure().nextAlphanumeric(5, 100);
 
         log.info("key1:" + key1 + "   value1:" + value1);
         log.info("key2:" + key2 + "   value2:" + value2);
@@ -45,13 +45,13 @@ public class JedisBaseTest {
     }
 
     private void setSuccess(Jedis jedis) {
-        key4 = RandomStringUtils.randomAlphabetic(5, 100);
-        key5 = RandomStringUtils.randomAlphabetic(5, 100);
-        key6 = RandomStringUtils.randomAlphabetic(5, 100);
+        key4 = RandomStringUtils.secure().nextAlphabetic(5, 100);
+        key5 = RandomStringUtils.secure().nextAlphabetic(5, 100);
+        key6 = RandomStringUtils.secure().nextAlphabetic(5, 100);
 
-        value4 = RandomStringUtils.randomAlphanumeric(5, 100);
-        value5 = RandomStringUtils.randomAlphanumeric(5, 100);
-        value6 = RandomStringUtils.randomAlphanumeric(5, 100);
+        value4 = RandomStringUtils.secure().nextAlphanumeric(5, 100);
+        value5 = RandomStringUtils.secure().nextAlphanumeric(5, 100);
+        value6 = RandomStringUtils.secure().nextAlphanumeric(5, 100);
 
         log.info("key4:" + key4 + "   value4:" + value4);
         log.info("key5:" + key5 + "   value5:" + value5);
@@ -67,13 +67,13 @@ public class JedisBaseTest {
     }
 
     private void msetFail(Jedis jedis) {
-        key1 = RandomStringUtils.randomAlphabetic(5, 100);
-        key2 = RandomStringUtils.randomAlphabetic(5, 100);
-        key3 = RandomStringUtils.randomAlphabetic(5, 100);
+        key1 = RandomStringUtils.secure().nextAlphabetic(5, 100);
+        key2 = RandomStringUtils.secure().nextAlphabetic(5, 100);
+        key3 = RandomStringUtils.secure().nextAlphabetic(5, 100);
 
-        value1 = RandomStringUtils.randomAlphanumeric(5, 100);
-        value2 = RandomStringUtils.randomAlphanumeric(5, 100);
-        value3 = RandomStringUtils.randomAlphanumeric(5, 100);
+        value1 = RandomStringUtils.secure().nextAlphanumeric(5, 100);
+        value2 = RandomStringUtils.secure().nextAlphanumeric(5, 100);
+        value3 = RandomStringUtils.secure().nextAlphanumeric(5, 100);
         log.info("key1:" + key1 + "   value1:" + value1);
         log.info("key2:" + key2 + "   value2:" + value2);
         log.info("key3:" + key3 + "   value3:" + value3);
@@ -81,13 +81,13 @@ public class JedisBaseTest {
     }
 
     private void setFail(Jedis jedis) {
-        key4 = RandomStringUtils.randomAlphabetic(5, 100);
-        key5 = RandomStringUtils.randomAlphabetic(5, 100);
-        key6 = RandomStringUtils.randomAlphabetic(5, 100);
+        key4 = RandomStringUtils.secure().nextAlphabetic(5, 100);
+        key5 = RandomStringUtils.secure().nextAlphabetic(5, 100);
+        key6 = RandomStringUtils.secure().nextAlphabetic(5, 100);
 
-        value4 = RandomStringUtils.randomAlphanumeric(5, 100);
-        value5 = RandomStringUtils.randomAlphanumeric(5, 100);
-        value6 = RandomStringUtils.randomAlphanumeric(5, 100);
+        value4 = RandomStringUtils.secure().nextAlphanumeric(5, 100);
+        value5 = RandomStringUtils.secure().nextAlphanumeric(5, 100);
+        value6 = RandomStringUtils.secure().nextAlphanumeric(5, 100);
         log.info("key4:" + key4 + "   value4:" + value4);
         log.info("key5:" + key5 + "   value5:" + value5);
         log.info("key6:" + key6 + "   value6:" + value6);
@@ -109,9 +109,9 @@ public class JedisBaseTest {
         log.info("key1:" + key1 + "   value1:" + value1);
         log.info("key2:" + key2 + "   value2:" + value2);
         log.info("key3:" + key3 + "   value3:" + value3);
-        String newValue1 = jedis.mget(key1).get(0);
-        String newValue2 = jedis.mget(key2).get(0);
-        String newValue3 = jedis.mget(key3).get(0);
+        String newValue1 = jedis.mget(key1).getFirst();
+        String newValue2 = jedis.mget(key2).getFirst();
+        String newValue3 = jedis.mget(key3).getFirst();
         log.info("key1:" + key1 + "   newValue1:" + newValue1);
         log.info("key2:" + key2 + "   newValue2:" + newValue2);
         log.info("key3:" + key3 + "   newValue3:" + newValue3);
@@ -176,9 +176,9 @@ public class JedisBaseTest {
         log.info("key2:" + key2 + "   value2:" + value2);
         log.info("key3:" + key3 + "   value3:" + value3);
 
-        String newValue1 = jedis.mget(key1).get(0);
-        String newValue2 = jedis.mget(key2).get(0);
-        String newValue3 = jedis.mget(key3).get(0);
+        String newValue1 = jedis.mget(key1).getFirst();
+        String newValue2 = jedis.mget(key2).getFirst();
+        String newValue3 = jedis.mget(key3).getFirst();
         log.info("key1:" + key1 + "   newValue1:" + newValue1);
         log.info("key2:" + key2 + "   newValue2:" + newValue2);
         log.info("key3:" + key3 + "   newValue3:" + newValue3);

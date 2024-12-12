@@ -19,10 +19,10 @@ public class ModeMasterSlaveTest extends JedisBaseTest {
 
     private RedisServer slaveServer;
     private RedisServer masterServer;
-    private int masterPort;
+    private Integer masterPort;
 
     private String masterHost;
-    private int slavePort;
+    private Integer slavePort;
 
     private String slaveHost;
 
@@ -30,9 +30,9 @@ public class ModeMasterSlaveTest extends JedisBaseTest {
     public void setUp() {
         super.setUp();
         masterHost = CommonConstant.DEFAULT_REDIS_HOST;
-        masterPort = RandomUtils.secure().randomInt(10001, 11000);
+        masterPort = (Integer) RandomUtils.secure().randomInt(10001, 11000);
         slaveHost = CommonConstant.DEFAULT_REDIS_HOST;
-        slavePort = RandomUtils.secure().randomInt(11001, 12000);
+        slavePort = (Integer) RandomUtils.secure().randomInt(11001, 12000);
     }
 
     // 主从模式

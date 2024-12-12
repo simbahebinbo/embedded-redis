@@ -35,9 +35,9 @@ public class ModeBunchTest extends JedisBaseTest {
         masterName2 = RandomStringUtils.secure().nextAlphabetic(50, 100);
         masterName3 = RandomStringUtils.secure().nextAlphabetic(50, 100);
         sentinelHost = CommonConstant.DEFAULT_REDIS_HOST;
-        sentinelPort = RandomUtils.secure().randomInt(10001, 11000);
+        sentinelPort = (Integer) RandomUtils.secure().randomInt(10001, 11000);
         serverHost = CommonConstant.DEFAULT_REDIS_HOST;
-        serverPort = RandomUtils.secure().randomInt(11001, 12000);
+        serverPort = (Integer) RandomUtils.secure().randomInt(11001, 12000);
     }
 
     @Test
@@ -47,7 +47,7 @@ public class ModeBunchTest extends JedisBaseTest {
         RedisBunch redisBunch =
                 RedisBunch.builder()
                         .sentinelPorts(sentinelPorts)
-                        .replicationGroup(masterName, 0)
+                        .replicationGroup(masterName, (Integer) 0)
                         .build();
         redisBunch.start();
 
@@ -69,7 +69,7 @@ public class ModeBunchTest extends JedisBaseTest {
         RedisBunch redisBunch =
                 RedisBunch.builder()
                         .sentinelPorts(sentinelPorts)
-                        .replicationGroup(masterName, 1)
+                        .replicationGroup(masterName, (Integer) 1)
                         .build();
         redisBunch.start();
 
@@ -91,7 +91,7 @@ public class ModeBunchTest extends JedisBaseTest {
         RedisBunch redisBunch =
                 RedisBunch.builder()
                         .sentinelPorts(sentinelPorts)
-                        .replicationGroup(masterName, 2)
+                        .replicationGroup(masterName, (Integer) 2)
                         .build();
         redisBunch.start();
 
@@ -109,14 +109,14 @@ public class ModeBunchTest extends JedisBaseTest {
     @Test
     public void testSimpleOperationsAfterRunWithTwoSentinelsSingleMasterMultipleSlaves() {
         Integer sentinelPort1 = sentinelPort;
-        Integer sentinelPort2 = sentinelPort + 1;
+        Integer sentinelPort2 = (Integer) (sentinelPort + 1);
 
         Set<Integer> sentinelPorts = Set.of(sentinelPort1, sentinelPort2);
 
         RedisBunch redisBunch =
                 RedisBunch.builder()
                         .sentinelPorts(sentinelPorts)
-                        .replicationGroup(masterName, 2)
+                        .replicationGroup(masterName, (Integer) 2)
                         .build();
         redisBunch.start();
 
@@ -134,14 +134,14 @@ public class ModeBunchTest extends JedisBaseTest {
     @Test
     public void testSimpleOperationsAfterRunWithTwoPredefinedSentinelsSingleMasterMultipleSlaves() {
         Integer sentinelPort1 = sentinelPort;
-        Integer sentinelPort2 = sentinelPort + 1;
+        Integer sentinelPort2 = (Integer) (sentinelPort + 1);
 
         Set<Integer> sentinelPorts = Set.of(sentinelPort1, sentinelPort2);
 
         RedisBunch redisBunch =
                 RedisBunch.builder()
                         .sentinelPorts(sentinelPorts)
-                        .replicationGroup(masterName, 2)
+                        .replicationGroup(masterName, (Integer) 2)
                         .build();
         redisBunch.start();
 
@@ -159,18 +159,18 @@ public class ModeBunchTest extends JedisBaseTest {
     @Test
     public void testSimpleOperationsAfterRunWithThreeSentinelsThreeMastersSingleSlavePerMaster() {
         Integer sentinelPort1 = sentinelPort;
-        Integer sentinelPort2 = sentinelPort + 1;
-        Integer sentinelPort3 = sentinelPort + 2;
+        Integer sentinelPort2 = (Integer) (sentinelPort + 1);
+        Integer sentinelPort3 = (Integer) (sentinelPort + 2);
 
         Set<Integer> sentinelPorts = Set.of(sentinelPort1, sentinelPort2, sentinelPort3);
 
         RedisBunch redisBunch =
                 RedisBunch.builder()
                         .sentinelPorts(sentinelPorts)
-                        .quorumSize(2)
-                        .replicationGroup(masterName1, 1)
-                        .replicationGroup(masterName2, 1)
-                        .replicationGroup(masterName3, 1)
+                        .quorumSize((Integer) 2)
+                        .replicationGroup(masterName1, (Integer) 1)
+                        .replicationGroup(masterName2, (Integer) 1)
+                        .replicationGroup(masterName3, (Integer) 1)
                         .build();
         redisBunch.start();
 
@@ -200,8 +200,8 @@ public class ModeBunchTest extends JedisBaseTest {
     public void
     testSimpleOperationsAfterRunWithThreeSentinelsThreeMastersSingleSlavePerMasterEphemeral() {
         Integer sentinelPort1 = sentinelPort;
-        Integer sentinelPort2 = sentinelPort + 1;
-        Integer sentinelPort3 = sentinelPort + 2;
+        Integer sentinelPort2 = (Integer) (sentinelPort + 1);
+        Integer sentinelPort3 = (Integer) (sentinelPort + 2);
 
         Set<Integer> sentinelPorts = Set.of(sentinelPort1, sentinelPort2, sentinelPort3);
 
@@ -209,10 +209,10 @@ public class ModeBunchTest extends JedisBaseTest {
                 RedisBunch.builder()
                         .ephemeral()
                         .sentinelPorts(sentinelPorts)
-                        .quorumSize(2)
-                        .replicationGroup(masterName1, 1)
-                        .replicationGroup(masterName2, 1)
-                        .replicationGroup(masterName3, 1)
+                        .quorumSize((Integer) 2)
+                        .replicationGroup(masterName1, (Integer) 1)
+                        .replicationGroup(masterName2, (Integer) 1)
+                        .replicationGroup(masterName3, (Integer) 1)
                         .build();
         redisBunch.start();
 
@@ -243,18 +243,18 @@ public class ModeBunchTest extends JedisBaseTest {
     public void
     testSimpleOperationsAfterRunWithThreeSentinelsThreeMastersTwoSlavePerMaster() {
         Integer sentinelPort1 = sentinelPort;
-        Integer sentinelPort2 = sentinelPort + 1;
-        Integer sentinelPort3 = sentinelPort + 2;
+        Integer sentinelPort2 = (Integer) (sentinelPort + 1);
+        Integer sentinelPort3 = (Integer) (sentinelPort + 2);
 
         Integer serverPort1 = serverPort;
-        Integer serverPort2 = serverPort + 1;
-        Integer serverPort3 = serverPort + 2;
-        Integer serverPort4 = serverPort + 3;
-        Integer serverPort5 = serverPort + 4;
-        Integer serverPort6 = serverPort + 5;
-        Integer serverPort7 = serverPort + 6;
-        Integer serverPort8 = serverPort + 7;
-        Integer serverPort9 = serverPort + 8;
+        Integer serverPort2 = (Integer) (serverPort + 1);
+        Integer serverPort3 = (Integer) (serverPort + 2);
+        Integer serverPort4 = (Integer) (serverPort + 3);
+        Integer serverPort5 = (Integer) (serverPort + 4);
+        Integer serverPort6 = (Integer) (serverPort + 5);
+        Integer serverPort7 = (Integer) (serverPort + 6);
+        Integer serverPort8 = (Integer) (serverPort + 7);
+        Integer serverPort9 = (Integer) (serverPort + 8);
 
 
         Set<Integer> sentinelPorts = Set.of(sentinelPort1, sentinelPort2, sentinelPort3);
@@ -266,10 +266,10 @@ public class ModeBunchTest extends JedisBaseTest {
                 RedisBunch.builder()
                         .ephemeral()
                         .sentinelPorts(sentinelPorts)
-                        .quorumSize(2)
-                        .serverPorts(serverPorts1).replicationGroup(masterName1, 2)
-                        .serverPorts(serverPorts2).replicationGroup(masterName2, 2)
-                        .serverPorts(serverPorts3).replicationGroup(masterName3, 2)
+                        .quorumSize((Integer) 2)
+                        .serverPorts(serverPorts1).replicationGroup(masterName1, (Integer) 2)
+                        .serverPorts(serverPorts2).replicationGroup(masterName2, (Integer) 2)
+                        .serverPorts(serverPorts3).replicationGroup(masterName3, (Integer) 2)
                         .build();
         redisBunch.start();
 

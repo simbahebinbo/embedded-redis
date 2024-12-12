@@ -23,13 +23,13 @@ public class ModeSentinelTest extends JedisBaseTest {
     private RedisSentinel redisSentinel;
     private RedisServer masterServer;
     private RedisServer slaveServer;
-    private int masterPort;
+    private Integer masterPort;
 
     private String masterHost;
-    private int slavePort;
+    private Integer slavePort;
 
     private String slaveHost;
-    private int sentinelPort;
+    private Integer sentinelPort;
 
     private String sentinelHost;
     private String masterName;
@@ -38,11 +38,11 @@ public class ModeSentinelTest extends JedisBaseTest {
     public void setUp() {
         super.setUp();
         masterHost = CommonConstant.DEFAULT_REDIS_HOST;
-        masterPort = RandomUtils.secure().randomInt(10001, 11000);
+        masterPort = (Integer) RandomUtils.secure().randomInt(10001, 11000);
         slaveHost = CommonConstant.DEFAULT_REDIS_HOST;
-        slavePort = RandomUtils.secure().randomInt(11001, 12000);
+        slavePort = (Integer) RandomUtils.secure().randomInt(11001, 12000);
         sentinelHost = CommonConstant.DEFAULT_REDIS_HOST;
-        sentinelPort = RandomUtils.secure().randomInt(12001, 13000);
+        sentinelPort = (Integer) RandomUtils.secure().randomInt(12001, 13000);
         masterName = RandomStringUtils.secure().nextAlphabetic(50, 100);
     }
 
@@ -62,9 +62,9 @@ public class ModeSentinelTest extends JedisBaseTest {
                         .sentinelPort(sentinelPort)
                         .masterPort(masterPort)
                         .masterName(masterName)
-                        .downAfterMilliseconds(1000L)
-                        .failoverTimeout(1000L)
-                        .quorumSize(1)
+                        .downAfterMilliseconds((Long) 1000L)
+                        .failoverTimeout((Long) 1000L)
+                        .quorumSize((Integer) 1)
                         .build();
         redisSentinel.start();
 
@@ -98,9 +98,9 @@ public class ModeSentinelTest extends JedisBaseTest {
                         .sentinelPort(sentinelPort)
                         .masterPort(masterPort)
                         .masterName(masterName)
-                        .downAfterMilliseconds(1000L)
-                        .failoverTimeout(1000L)
-                        .quorumSize(1)
+                        .downAfterMilliseconds((Long) 1000L)
+                        .failoverTimeout((Long) 1000L)
+                        .quorumSize((Integer) 1)
                         .build();
         redisSentinel.start();
 
@@ -145,9 +145,9 @@ public class ModeSentinelTest extends JedisBaseTest {
                         .sentinelPort(sentinelPort)
                         .masterPort(masterPort)
                         .masterName(masterName)
-                        .downAfterMilliseconds(1000L)
-                        .failoverTimeout(1000L)
-                        .quorumSize(1)
+                        .downAfterMilliseconds((Long) 1000L)
+                        .failoverTimeout((Long) 1000L)
+                        .quorumSize((Integer) 1)
                         .build();
         redisSentinel.start();
 
@@ -195,9 +195,9 @@ public class ModeSentinelTest extends JedisBaseTest {
                         .sentinelPort(sentinelPort)
                         .masterPort(masterPort)
                         .masterName(masterName)
-                        .downAfterMilliseconds(1000L)
-                        .failoverTimeout(1000L)
-                        .quorumSize(1)
+                        .downAfterMilliseconds((Long) 1000L)
+                        .failoverTimeout((Long) 1000L)
+                        .quorumSize((Integer) 1)
                         .build();
         redisSentinel.start();
 
@@ -241,9 +241,9 @@ public class ModeSentinelTest extends JedisBaseTest {
                         .sentinelPort(sentinelPort)
                         .masterPort(masterPort)
                         .masterName(masterName)
-                        .downAfterMilliseconds(1000L)
-                        .failoverTimeout(1000L)
-                        .quorumSize(1)
+                        .downAfterMilliseconds((Long) 1000L)
+                        .failoverTimeout((Long) 1000L)
+                        .quorumSize((Integer) 1)
                         .build();
         redisSentinel.start();
 
@@ -290,9 +290,9 @@ public class ModeSentinelTest extends JedisBaseTest {
                         .sentinelPort(sentinelPort)
                         .masterPort(masterPort)
                         .masterName(masterName)
-                        .downAfterMilliseconds(1000L)
-                        .failoverTimeout(1000L)
-                        .quorumSize(1)
+                        .downAfterMilliseconds((Long) 1000L)
+                        .failoverTimeout((Long) 1000L)
+                        .quorumSize((Integer) 1)
                         .build();
         redisSentinel.start();
 
@@ -340,9 +340,9 @@ public class ModeSentinelTest extends JedisBaseTest {
                         .sentinelPort(sentinelPort)
                         .masterPort(masterPort)
                         .masterName(masterName)
-                        .downAfterMilliseconds(1000L)
-                        .failoverTimeout(1000L)
-                        .quorumSize(1)
+                        .downAfterMilliseconds((Long) 1000L)
+                        .failoverTimeout((Long) 1000L)
+                        .quorumSize((Integer) 1)
                         .build();
         redisSentinel.start();
 
@@ -395,9 +395,9 @@ public class ModeSentinelTest extends JedisBaseTest {
                         .sentinelPort(sentinelPort)
                         .masterPort(masterPort)
                         .masterName(masterName)
-                        .downAfterMilliseconds(1000L)
-                        .failoverTimeout(1000L)
-                        .quorumSize(1)
+                        .downAfterMilliseconds((Long) 1000L)
+                        .failoverTimeout((Long) 1000L)
+                        .quorumSize((Integer) 1)
                         .build();
         redisSentinel.start();
 
@@ -447,9 +447,9 @@ public class ModeSentinelTest extends JedisBaseTest {
                         .sentinelPort(sentinelPort)
                         .masterPort(masterPort)
                         .masterName(masterName)
-                        .downAfterMilliseconds(1000L)
-                        .failoverTimeout(1000L)
-                        .quorumSize(1)
+                        .downAfterMilliseconds((Long) 1000L)
+                        .failoverTimeout((Long) 1000L)
+                        .quorumSize((Integer) 1)
                         .build();
         redisSentinel.start();
 
@@ -499,9 +499,9 @@ public class ModeSentinelTest extends JedisBaseTest {
                         .sentinelPort(sentinelPort)
                         .masterPort(masterPort)
                         .masterName(masterName)
-                        .downAfterMilliseconds(1000L)
-                        .failoverTimeout(1000L)
-                        .quorumSize(1)
+                        .downAfterMilliseconds((Long) 1000L)
+                        .failoverTimeout((Long) 1000L)
+                        .quorumSize((Integer) 1)
                         .build();
         redisSentinel.start();
 
@@ -544,9 +544,9 @@ public class ModeSentinelTest extends JedisBaseTest {
                         .sentinelPort(sentinelPort)
                         .masterPort(masterPort)
                         .masterName(masterName)
-                        .downAfterMilliseconds(1000L)
-                        .failoverTimeout(1000L)
-                        .quorumSize(1)
+                        .downAfterMilliseconds((Long) 1000L)
+                        .failoverTimeout((Long) 1000L)
+                        .quorumSize((Integer) 1)
                         .build();
         redisSentinel.start();
 

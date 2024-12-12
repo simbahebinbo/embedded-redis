@@ -86,10 +86,10 @@ public class RedisBunchTest {
     //哨兵模式 集合判活
     @Test
     public void isActiveShouldCheckEntireBunchIfAllActive() {
-        given(redisSentinel1.isActive()).willReturn(true);
-        given(redisSentinel2.isActive()).willReturn(true);
-        given(redisServer1.isActive()).willReturn(true);
-        given(redisServer2.isActive()).willReturn(true);
+        given(redisSentinel1.isActive()).willReturn(Boolean.TRUE);
+        given(redisSentinel2.isActive()).willReturn(Boolean.TRUE);
+        given(redisServer1.isActive()).willReturn(Boolean.TRUE);
+        given(redisServer2.isActive()).willReturn(Boolean.TRUE);
         List<RedisSentinel> redisSentinels = Arrays.asList(redisSentinel1, redisSentinel2);
         List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2);
         redisBunch = new RedisBunch(redisSentinels, redisServers);

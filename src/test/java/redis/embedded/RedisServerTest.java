@@ -23,13 +23,13 @@ import java.util.concurrent.TimeUnit;
 public class RedisServerTest {
 
     private RedisServer redisServer;
-    private int port;
+    private Integer port;
     private String host;
 
     @BeforeEach
     public void setUp() {
         host = CommonConstant.DEFAULT_REDIS_HOST;
-        port = RandomUtils.secure().randomInt(10001, 11000);
+        port = (Integer) RandomUtils.secure().randomInt(10001, 11000);
     }
 
     @Test

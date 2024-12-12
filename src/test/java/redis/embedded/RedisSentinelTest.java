@@ -19,17 +19,17 @@ import java.util.concurrent.TimeUnit;
 public class RedisSentinelTest {
     private RedisSentinel redisSentinel;
     private RedisServer masterServer;
-    private int masterPort;
+    private Integer masterPort;
     private String masterHost;
-    private int sentinelPort;
+    private Integer sentinelPort;
     private String sentinelHost;
 
     @BeforeEach
     public void setUp() {
         masterHost = CommonConstant.DEFAULT_REDIS_HOST;
-        masterPort = RandomUtils.secure().randomInt(10001, 11000);
+        masterPort = (Integer) RandomUtils.secure().randomInt(10001, 11000);
         sentinelHost = CommonConstant.DEFAULT_REDIS_HOST;
-        sentinelPort = RandomUtils.secure().randomInt(11001, 12000);
+        sentinelPort = (Integer) RandomUtils.secure().randomInt(11001, 12000);
     }
 
     @Test

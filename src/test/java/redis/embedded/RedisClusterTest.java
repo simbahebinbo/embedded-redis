@@ -83,9 +83,9 @@ public class RedisClusterTest {
     //集群模式 集群判活
     @Test
     public void isActiveShouldCheckEntireClusterIfAllActive() {
-        given(redisServer1.isActive()).willReturn(true);
-        given(redisServer2.isActive()).willReturn(true);
-        given(redisServer3.isActive()).willReturn(true);
+        given(redisServer1.isActive()).willReturn(Boolean.TRUE);
+        given(redisServer2.isActive()).willReturn(Boolean.TRUE);
+        given(redisServer3.isActive()).willReturn(Boolean.TRUE);
 
         List<RedisServer> redisServers = Arrays.asList(redisServer1, redisServer2, redisServer3);
         redisCluster = new RedisCluster(redisServers, redisClient);
