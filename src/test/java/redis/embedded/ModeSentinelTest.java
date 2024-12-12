@@ -38,12 +38,12 @@ public class ModeSentinelTest extends JedisBaseTest {
     public void setUp() {
         super.setUp();
         masterHost = CommonConstant.DEFAULT_REDIS_HOST;
-        masterPort = RandomUtils.nextInt(10001, 11000);
+        masterPort = RandomUtils.secure().randomInt(10001, 11000);
         slaveHost = CommonConstant.DEFAULT_REDIS_HOST;
-        slavePort = RandomUtils.nextInt(11001, 12000);
+        slavePort = RandomUtils.secure().randomInt(11001, 12000);
         sentinelHost = CommonConstant.DEFAULT_REDIS_HOST;
-        sentinelPort = RandomUtils.nextInt(12001, 13000);
-        masterName = RandomStringUtils.randomAlphabetic(50, 100);
+        sentinelPort = RandomUtils.secure().randomInt(12001, 13000);
+        masterName = RandomStringUtils.secure().nextAlphabetic(50, 100);
     }
 
     // 哨兵模式

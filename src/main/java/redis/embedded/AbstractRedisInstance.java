@@ -24,14 +24,17 @@ abstract class AbstractRedisInstance {
     @Getter
     private List<String> arguments;
     private Process redisProcess;
-
-    @Getter
-    private volatile boolean active = false;
+    
+    private volatile Boolean active = Boolean.FALSE;
     private ExecutorService executor;
 
     AbstractRedisInstance(List<String> args) {
         arguments = new LinkedList<>(args);
-        log.debug("args: " + arguments);
+        log.debug("args: {}", arguments);
+    }
+
+    public Boolean isActive() {
+        return active;
     }
 
     public void doStart() throws EmbeddedRedisException {
@@ -45,7 +48,7 @@ abstract class AbstractRedisInstance {
             installExitHook();
             logStandardError();
             awaitRedisInstanceReady();
-            active = true;
+            active = Boolean.TRUE;
         } catch (IOException e) {
             String msg = "Failed to start Redis instance";
             log.warn("{}. exception: {}", msg, e.getMessage(), e);
@@ -96,7 +99,7 @@ abstract class AbstractRedisInstance {
 
 
     public ProcessBuilder createRedisProcessBuilder() {
-        File executable = new File(arguments.get(0));
+        File executable = new File(arguments.getFirst());
         ProcessBuilder pb = new ProcessBuilder(arguments);
         pb.directory(executable.getParentFile());
         return pb;
@@ -109,7 +112,7 @@ abstract class AbstractRedisInstance {
             }
             redisProcess.destroy();
             tryWaitFor();
-            active = false;
+            active = Boolean.FALSE;
         }
     }
 

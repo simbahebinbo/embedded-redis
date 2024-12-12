@@ -11,14 +11,14 @@ import java.net.ServerSocket;
 @Slf4j
 public class EphemeralPortProvider implements PortProvider {
     @Override
-    public int next() {
+    public Integer next() {
         try {
             final ServerSocket socket = new ServerSocket(0);
             //选择一个当前可用的端口
             socket.setReuseAddress(false);
             int port = socket.getLocalPort();
             socket.close();
-            return port;
+            return (Integer) port;
         } catch (IOException e) {
             // should not ever happen
             String msg = "Could not provide ephemeral port";

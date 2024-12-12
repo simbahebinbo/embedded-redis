@@ -23,8 +23,8 @@ public class RedisGather implements IRedisServer {
     }
 
     @Override
-    public boolean isActive() {
-        return redisServers.stream().allMatch(AbstractRedisInstance::isActive);
+    public Boolean isActive() {
+        return (Boolean) redisServers.stream().allMatch(AbstractRedisInstance::isActive);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class RedisGather implements IRedisServer {
 
     public Integer masterPort() {
         LinkedHashSet<Integer> ports = new LinkedHashSet<>(serverPorts());
-        Integer masterPort = 0;
+        Integer masterPort = (Integer) 0;
         Optional<Integer> portOptional = ports.stream().findFirst();
         if (portOptional.isPresent()) {
             masterPort = portOptional.get();

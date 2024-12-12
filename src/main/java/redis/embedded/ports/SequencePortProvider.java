@@ -14,16 +14,16 @@ public class SequencePortProvider implements PortProvider {
     private final AtomicInteger currentPort =
             new AtomicInteger(CommonConstant.DEFAULT_REDIS_SENTINEL_PORT);
 
-    public SequencePortProvider(int currentPort) {
+    public SequencePortProvider(Integer currentPort) {
         this.currentPort.set(currentPort);
     }
 
-    public void setCurrentPort(int port) {
+    public void setCurrentPort(Integer port) {
         this.currentPort.set(port);
     }
 
     @Override
-    public int next() {
-        return this.currentPort.getAndIncrement();
+    public Integer next() {
+        return (Integer) this.currentPort.getAndIncrement();
     }
 }

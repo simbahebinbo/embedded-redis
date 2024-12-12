@@ -47,7 +47,7 @@ public class RedisGatherBuilder {
         return this;
     }
 
-    public RedisGatherBuilder replicationGroup(int slaveCount) {
+    public RedisGatherBuilder replicationGroup(Integer slaveCount) {
         this.groups.add(
                 new ReplicationGroup(slaveCount, this.replicationGroupPortProvider));
         return this;
@@ -86,10 +86,10 @@ public class RedisGatherBuilder {
     }
 
     private static class ReplicationGroup {
-        private final int masterPort;
+        private final Integer masterPort;
         private final Set<Integer> slavePorts = new LinkedHashSet<>();
 
-        private ReplicationGroup(int slaveCount, PortProvider portProvider) {
+        private ReplicationGroup(Integer slaveCount, PortProvider portProvider) {
             masterPort = portProvider.next();
             while (slaveCount-- > 0) {
                 slavePorts.add(portProvider.next());

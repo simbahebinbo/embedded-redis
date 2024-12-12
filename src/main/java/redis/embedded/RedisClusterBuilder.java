@@ -15,7 +15,7 @@ public class RedisClusterBuilder {
     private RedisServerBuilder serverBuilder = new RedisServerBuilder();
     private RedisClientBuilder clientBuilder = new RedisClientBuilder();
 
-    private Integer clusterReplicas = 0;
+    private Integer clusterReplicas = (Integer) 0;
 
 
     public RedisClusterBuilder withServerBuilder(RedisServerBuilder serverBuilder) {

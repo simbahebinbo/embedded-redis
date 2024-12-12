@@ -22,13 +22,13 @@ public class JedisClusterBaseTest {
     }
 
     private void setSuccess(JedisCluster jedis) {
-        key4 = RandomStringUtils.randomAlphabetic(5, 100);
-        key5 = RandomStringUtils.randomAlphabetic(5, 100);
-        key6 = RandomStringUtils.randomAlphabetic(5, 100);
+        key4 = RandomStringUtils.secure().nextAlphabetic(5, 100);
+        key5 = RandomStringUtils.secure().nextAlphabetic(5, 100);
+        key6 = RandomStringUtils.secure().nextAlphabetic(5, 100);
 
-        value4 = RandomStringUtils.randomAlphanumeric(5, 100);
-        value5 = RandomStringUtils.randomAlphanumeric(5, 100);
-        value6 = RandomStringUtils.randomAlphanumeric(5, 100);
+        value4 = RandomStringUtils.secure().nextAlphanumeric(5, 100);
+        value5 = RandomStringUtils.secure().nextAlphanumeric(5, 100);
+        value6 = RandomStringUtils.secure().nextAlphanumeric(5, 100);
 
         log.info("key4:" + key4 + "   value4:" + value4);
         log.info("key5:" + key5 + "   value5:" + value5);
@@ -43,13 +43,13 @@ public class JedisClusterBaseTest {
     }
 
     private void setFail(JedisCluster jedis) {
-        key4 = RandomStringUtils.randomAlphabetic(5, 100);
-        key5 = RandomStringUtils.randomAlphabetic(5, 100);
-        key6 = RandomStringUtils.randomAlphabetic(5, 100);
+        key4 = RandomStringUtils.secure().nextAlphabetic(5, 100);
+        key5 = RandomStringUtils.secure().nextAlphabetic(5, 100);
+        key6 = RandomStringUtils.secure().nextAlphabetic(5, 100);
 
-        value4 = RandomStringUtils.randomAlphanumeric(5, 100);
-        value5 = RandomStringUtils.randomAlphanumeric(5, 100);
-        value6 = RandomStringUtils.randomAlphanumeric(5, 100);
+        value4 = RandomStringUtils.secure().nextAlphanumeric(5, 100);
+        value5 = RandomStringUtils.secure().nextAlphanumeric(5, 100);
+        value6 = RandomStringUtils.secure().nextAlphanumeric(5, 100);
         log.info("key4:" + key4 + "   value4:" + value4);
         log.info("key5:" + key5 + "   value5:" + value5);
         log.info("key6:" + key6 + "   value6:" + value6);

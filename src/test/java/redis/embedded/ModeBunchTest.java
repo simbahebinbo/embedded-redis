@@ -30,14 +30,14 @@ public class ModeBunchTest extends JedisBaseTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        masterName = RandomStringUtils.randomAlphabetic(50, 100);
-        masterName1 = RandomStringUtils.randomAlphabetic(50, 100);
-        masterName2 = RandomStringUtils.randomAlphabetic(50, 100);
-        masterName3 = RandomStringUtils.randomAlphabetic(50, 100);
+        masterName = RandomStringUtils.secure().nextAlphabetic(50, 100);
+        masterName1 = RandomStringUtils.secure().nextAlphabetic(50, 100);
+        masterName2 = RandomStringUtils.secure().nextAlphabetic(50, 100);
+        masterName3 = RandomStringUtils.secure().nextAlphabetic(50, 100);
         sentinelHost = CommonConstant.DEFAULT_REDIS_HOST;
-        sentinelPort = RandomUtils.nextInt(10001, 11000);
+        sentinelPort = RandomUtils.secure().randomInt(10001, 11000);
         serverHost = CommonConstant.DEFAULT_REDIS_HOST;
-        serverPort = RandomUtils.nextInt(11001, 12000);
+        serverPort = RandomUtils.secure().randomInt(11001, 12000);
     }
 
     @Test

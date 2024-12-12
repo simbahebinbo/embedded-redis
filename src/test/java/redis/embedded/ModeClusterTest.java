@@ -44,19 +44,19 @@ public class ModeClusterTest extends JedisClusterBaseTest {
     public void setUp() {
         super.setUp();
         nodeHost1 = CommonConstant.DEFAULT_REDIS_HOST;
-        nodePort1 = RandomUtils.nextInt(10001, 11000);
+        nodePort1 = RandomUtils.secure().randomInt(10001, 11000);
         nodeHost2 = CommonConstant.DEFAULT_REDIS_HOST;
-        nodePort2 = RandomUtils.nextInt(11001, 12000);
+        nodePort2 = RandomUtils.secure().randomInt(11001, 12000);
         nodeHost3 = CommonConstant.DEFAULT_REDIS_HOST;
-        nodePort3 = RandomUtils.nextInt(12001, 13000);
+        nodePort3 = RandomUtils.secure().randomInt(12001, 13000);
         nodeHost4 = CommonConstant.DEFAULT_REDIS_HOST;
-        nodePort4 = RandomUtils.nextInt(13001, 14000);
+        nodePort4 = RandomUtils.secure().randomInt(13001, 14000);
         nodeHost5 = CommonConstant.DEFAULT_REDIS_HOST;
-        nodePort5 = RandomUtils.nextInt(14001, 15000);
+        nodePort5 = RandomUtils.secure().randomInt(14001, 15000);
         nodeHost6 = CommonConstant.DEFAULT_REDIS_HOST;
-        nodePort6 = RandomUtils.nextInt(15001, 16000);
+        nodePort6 = RandomUtils.secure().randomInt(15001, 16000);
         nodeHost7 = CommonConstant.DEFAULT_REDIS_HOST;
-        nodePort7 = RandomUtils.nextInt(16001, 17000);
+        nodePort7 = RandomUtils.secure().randomInt(16001, 17000);
     }
 
 

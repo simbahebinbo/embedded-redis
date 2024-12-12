@@ -9,7 +9,6 @@ import redis.embedded.exceptions.RedisBuildingException;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,16 +21,16 @@ public class RedisServerBuilder {
     private File executable;
     private RedisExecProvider redisExecProvider = RedisServerExecProvider.defaultProvider();
     private String bind = CommonConstant.ALL_REDIS_HOST;
-    private int port = CommonConstant.DEFAULT_REDIS_STANDALONE_PORT;
+    private Integer port = CommonConstant.DEFAULT_REDIS_STANDALONE_PORT;
 
     //集群模式参数
-    private Boolean clusterEnable = false;
+    private Boolean clusterEnable = Boolean.FALSE;
 
     //哨兵模式参数
-    private Boolean sentinelEnable = false;
+    private Boolean sentinelEnable = Boolean.FALSE;
 
     //主从模式参数
-    private InetSocketAddress replicaOf;
+    private RedisEndpoint replicaOf;
 
     private String redisConf;
 
@@ -47,27 +46,27 @@ public class RedisServerBuilder {
         return this;
     }
 
-    public RedisServerBuilder port(int port) {
+    public RedisServerBuilder port(Integer port) {
         this.port = port;
         return this;
     }
 
-    public RedisServerBuilder clusterEnable(boolean enable) {
+    public RedisServerBuilder clusterEnable(Boolean enable) {
         this.clusterEnable = enable;
         return this;
     }
 
-    public RedisServerBuilder sentinelEnable(boolean enable) {
+    public RedisServerBuilder sentinelEnable(Boolean enable) {
         this.sentinelEnable = enable;
         return this;
     }
 
-    public RedisServerBuilder replicaOf(int port) {
-        this.replicaOf = new InetSocketAddress(CommonConstant.DEFAULT_REDIS_HOST, port);
+    public RedisServerBuilder replicaOf(Integer port) {
+        this.replicaOf = new RedisEndpoint(CommonConstant.DEFAULT_REDIS_HOST, port);
         return this;
     }
 
-    public RedisServerBuilder replicaOf(InetSocketAddress replicaOf) {
+    public RedisServerBuilder replicaOf(RedisEndpoint replicaOf) {
         this.replicaOf = replicaOf;
         return this;
     }
@@ -111,8 +110,8 @@ public class RedisServerBuilder {
         this.redisConfigBuilder = null;
         this.replicaOf = null;
         this.redisConf = null;
-        this.clusterEnable = false;
-        this.sentinelEnable = false;
+        this.clusterEnable = Boolean.FALSE;
+        this.sentinelEnable = Boolean.FALSE;
     }
 
     private void tryResolveConfAndExec() {
@@ -161,7 +160,7 @@ public class RedisServerBuilder {
 
         if (replicaOf != null) {
             args.add("--replicaof");
-            args.add(replicaOf.getHostName());
+            args.add(replicaOf.getHost());
             args.add(Integer.toString(replicaOf.getPort()));
         }
 

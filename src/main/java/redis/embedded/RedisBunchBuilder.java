@@ -16,8 +16,8 @@ public class RedisBunchBuilder {
     private final List<ReplicationGroup> groups = new LinkedList<>();
     private RedisSentinelBuilder sentinelBuilder = new RedisSentinelBuilder();
     private RedisServerBuilder serverBuilder = new RedisServerBuilder();
-    private int sentinelCount = 1;
-    private int quorumSize = 1;
+    private Integer sentinelCount = (Integer) 1;
+    private Integer quorumSize = (Integer) 1;
     private PortProvider sentinelPortProvider =
             new SequencePortProvider(CommonConstant.DEFAULT_REDIS_SENTINEL_PORT);
     private PortProvider replicationGroupPortProvider =
@@ -35,7 +35,7 @@ public class RedisBunchBuilder {
 
     public RedisBunchBuilder sentinelPorts(Set<Integer> ports) {
         this.sentinelPortProvider = new PredefinedPortProvider(ports);
-        this.sentinelCount = ports.size();
+        this.sentinelCount = (Integer) ports.size();
         return this;
     }
 
@@ -60,22 +60,22 @@ public class RedisBunchBuilder {
         return this;
     }
 
-    public RedisBunchBuilder sentinelCount(int sentinelCount) {
+    public RedisBunchBuilder sentinelCount(Integer sentinelCount) {
         this.sentinelCount = sentinelCount;
         return this;
     }
 
-    public RedisBunchBuilder sentinelStartingPort(int startingPort) {
+    public RedisBunchBuilder sentinelStartingPort(Integer startingPort) {
         this.sentinelPortProvider = new SequencePortProvider(startingPort);
         return this;
     }
 
-    public RedisBunchBuilder quorumSize(int quorumSize) {
+    public RedisBunchBuilder quorumSize(Integer quorumSize) {
         this.quorumSize = quorumSize;
         return this;
     }
 
-    public RedisBunchBuilder replicationGroup(String masterName, int slaveCount) {
+    public RedisBunchBuilder replicationGroup(String masterName, Integer slaveCount) {
         this.groups.add(
                 new ReplicationGroup(masterName, slaveCount, this.replicationGroupPortProvider));
         return this;
@@ -115,7 +115,7 @@ public class RedisBunchBuilder {
     }
 
     private List<RedisSentinel> buildSentinels() {
-        int toBuild = this.sentinelCount;
+        Integer toBuild = this.sentinelCount;
         final List<RedisSentinel> redisSentinels = new LinkedList<>();
         while (toBuild-- > 0) {
             redisSentinels.add(buildSentinel());
@@ -135,16 +135,16 @@ public class RedisBunchBuilder {
         return sentinelBuilder.build();
     }
 
-    private int nextSentinelPort() {
+    private Integer nextSentinelPort() {
         return sentinelPortProvider.next();
     }
 
     private static class ReplicationGroup {
         private final String masterName;
-        private final int masterPort;
+        private final Integer masterPort;
         private final Set<Integer> slavePorts = new LinkedHashSet<>();
 
-        private ReplicationGroup(String masterName, int slaveCount, PortProvider portProvider) {
+        private ReplicationGroup(String masterName, Integer slaveCount, PortProvider portProvider) {
             this.masterName = masterName;
             masterPort = portProvider.next();
             while (slaveCount-- > 0) {

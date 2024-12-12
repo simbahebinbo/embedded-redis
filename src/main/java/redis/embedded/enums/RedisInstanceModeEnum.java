@@ -12,10 +12,10 @@ import java.util.Map;
 @Getter
 @AllArgsConstructor
 public enum RedisInstanceModeEnum {
-    INVALID(0, "invalid"),
-    CLIENT(1, "client"),
-    SERVER(2, "server"),
-    SENTINEL(3, "sentinel"),
+    INVALID((Integer) 0, "invalid"),
+    CLIENT((Integer) 1, "client"),
+    SERVER((Integer) 2, "server"),
+    SENTINEL((Integer) 3, "sentinel"),
     ;
 
     private static final ImmutableMap<String, RedisInstanceModeEnum> valueMapping;

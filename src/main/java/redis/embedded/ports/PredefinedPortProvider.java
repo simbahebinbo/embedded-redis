@@ -20,7 +20,7 @@ public class PredefinedPortProvider implements PortProvider {
     }
 
     @Override
-    public synchronized int next() {
+    public synchronized Integer next() {
         if (!current.hasNext()) {
             String msg = "Run out of Redis ports!";
             log.warn(msg);

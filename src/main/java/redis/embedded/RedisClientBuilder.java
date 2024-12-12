@@ -17,7 +17,7 @@ public class RedisClientBuilder {
     private final Collection<Integer> ports = new LinkedList<>();
     private File executable;
     private RedisExecProvider redisExecProvider = RedisCliExecProvider.defaultProvider();
-    private Integer clusterReplicas = 0;
+    private Integer clusterReplicas = (Integer) 0;
 
     public RedisClientBuilder redisExecProvider(RedisExecProvider redisExecProvider) {
         this.redisExecProvider = redisExecProvider;
@@ -43,7 +43,7 @@ public class RedisClientBuilder {
     public void reset() {
         this.ports.clear();
         this.executable = null;
-        clusterReplicas = 0;
+        clusterReplicas = (Integer) 0;
     }
 
 

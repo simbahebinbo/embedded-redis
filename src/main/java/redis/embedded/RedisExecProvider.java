@@ -48,7 +48,7 @@ abstract class RedisExecProvider {
                 : JarUtil.extractExecutableFromJar(executablePath);
     }
 
-    private boolean fileExists(String executablePath) {
-        return new File(executablePath).exists();
+    private Boolean fileExists(String executablePath) {
+        return (Boolean) new File(executablePath).exists();
     }
 }

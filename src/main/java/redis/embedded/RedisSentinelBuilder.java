@@ -31,10 +31,10 @@ public class RedisSentinelBuilder {
     private Integer masterPort = CommonConstant.DEFAULT_REDIS_MASTER_PORT;
 
     private String masterName = "embedded-master-name";
-    private long downAfterMilliseconds = 60000L;
-    private long failoverTimeout = 180000L;
-    private int parallelSyncs = 1;
-    private int quorumSize = 1;
+    private Long downAfterMilliseconds = (Long) 60000L;
+    private Long failoverTimeout = (Long) 180000L;
+    private Integer parallelSyncs = (Integer) 1;
+    private Integer quorumSize = (Integer) 1;
     private String sentinelConf;
 
     private StringBuilder redisConfigBuilder;
@@ -64,7 +64,7 @@ public class RedisSentinelBuilder {
         return this;
     }
 
-    public RedisSentinelBuilder quorumSize(int quorumSize) {
+    public RedisSentinelBuilder quorumSize(Integer quorumSize) {
         this.quorumSize = quorumSize;
         return this;
     }
@@ -79,7 +79,7 @@ public class RedisSentinelBuilder {
         return this;
     }
 
-    public RedisSentinelBuilder parallelSyncs(int parallelSyncs) {
+    public RedisSentinelBuilder parallelSyncs(Integer parallelSyncs) {
         this.parallelSyncs = parallelSyncs;
         return this;
     }

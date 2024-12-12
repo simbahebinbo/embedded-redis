@@ -19,19 +19,19 @@ import java.util.Set;
 public class ModeGatherTest extends JedisBaseTest {
     private RedisGather redisGather;
 
-    private int masterPort;
+    private Integer masterPort;
 
     private String masterHost;
 
-    private int slavePort;
+    private Integer slavePort;
 
     private String slaveHost;
 
-    private int slavePort1;
+    private Integer slavePort1;
 
     private String slaveHost1;
 
-    private int slavePort2;
+    private Integer slavePort2;
 
     private String slaveHost2;
 
@@ -39,13 +39,13 @@ public class ModeGatherTest extends JedisBaseTest {
     public void setUp() {
         super.setUp();
         masterHost = CommonConstant.DEFAULT_REDIS_HOST;
-        masterPort = RandomUtils.nextInt(10001, 11000);
+        masterPort = (Integer) RandomUtils.secure().randomInt(10001, 11000);
         slaveHost = CommonConstant.DEFAULT_REDIS_HOST;
-        slavePort = RandomUtils.nextInt(11001, 12000);
+        slavePort = (Integer) RandomUtils.secure().randomInt(11001, 12000);
         slaveHost1 = CommonConstant.DEFAULT_REDIS_HOST;
-        slavePort1 = RandomUtils.nextInt(12001, 13000);
+        slavePort1 = (Integer) RandomUtils.secure().randomInt(12001, 13000);
         slaveHost2 = CommonConstant.DEFAULT_REDIS_HOST;
-        slavePort2 = RandomUtils.nextInt(13001, 14000);
+        slavePort2 = (Integer) RandomUtils.secure().randomInt(13001, 14000);
     }
 
     // 主从模式

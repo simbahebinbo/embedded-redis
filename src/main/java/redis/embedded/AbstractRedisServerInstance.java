@@ -19,17 +19,17 @@ abstract class AbstractRedisServerInstance extends AbstractRedisInstance impleme
         super(args);
     }
 
-    protected AbstractRedisServerInstance(int port) {
+    protected AbstractRedisServerInstance(Integer port) {
         super();
         this.ports.add(port);
     }
 
-    AbstractRedisServerInstance(List<String> args, int port) {
+    AbstractRedisServerInstance(List<String> args, Integer port) {
         super(args);
         this.ports.add(port);
     }
 
-    AbstractRedisServerInstance(int sentinelPort, int masterPort) {
+    AbstractRedisServerInstance(Integer sentinelPort, Integer masterPort) {
         super();
         this.ports.add(sentinelPort);
         this.ports.add(masterPort);
@@ -37,7 +37,7 @@ abstract class AbstractRedisServerInstance extends AbstractRedisInstance impleme
         this.masterPorts.add(masterPort);
     }
 
-    AbstractRedisServerInstance(List<String> args, int sentinelPort, int masterPort) {
+    AbstractRedisServerInstance(List<String> args, Integer sentinelPort, Integer masterPort) {
         super(args);
         this.ports.add(sentinelPort);
         this.ports.add(masterPort);
@@ -76,3 +76,5 @@ abstract class AbstractRedisServerInstance extends AbstractRedisInstance impleme
         return masterPorts;
     }
 }
+
+

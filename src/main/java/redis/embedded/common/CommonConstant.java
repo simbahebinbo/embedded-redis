@@ -51,12 +51,12 @@ public class CommonConstant {
     /**
      * 默认redis的端口和地址
      */
-    public static final int DEFAULT_REDIS_PORT = 6379;
+    public static final Integer DEFAULT_REDIS_PORT = (Integer) 6379;
 
-    public static final int DEFAULT_REDIS_STANDALONE_PORT = DEFAULT_REDIS_PORT;
+    public static final Integer DEFAULT_REDIS_STANDALONE_PORT = DEFAULT_REDIS_PORT;
 
-    public static final int DEFAULT_REDIS_MASTER_PORT = DEFAULT_REDIS_PORT;
-    public static final int DEFAULT_REDIS_SENTINEL_PORT = 26379;
+    public static final Integer DEFAULT_REDIS_MASTER_PORT = DEFAULT_REDIS_PORT;
+    public static final Integer DEFAULT_REDIS_SENTINEL_PORT = (Integer) 26379;
 
     public static final String DEFAULT_REDIS_HOST = "127.0.0.1";
     public static final String ALL_REDIS_HOST = "0.0.0.0";

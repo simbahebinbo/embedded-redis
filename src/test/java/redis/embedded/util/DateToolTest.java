@@ -13,7 +13,7 @@ public class DateToolTest {
 
     @Test
     public void testIntervalMillis() {
-        long interval = RandomUtils.nextLong(1, 100);
+        long interval = RandomUtils.secure().randomLong(1, 100);
         long currentTime = DateTool.currentTimeMillis();
         Awaitility.await().pollDelay(interval, TimeUnit.MILLISECONDS).until(() -> true);
         long newTime = DateTool.currentTimeMillis();
@@ -22,7 +22,7 @@ public class DateToolTest {
 
     @Test
     public void testIntervalNanos() {
-        long interval = RandomUtils.nextLong(1, 100);
+        long interval = RandomUtils.secure().randomLong(1, 100);
         long currentTime = DateTool.currentTimeNanos();
         Awaitility.await().pollDelay(interval, TimeUnit.NANOSECONDS).until(() -> true);
         long newTime = DateTool.currentTimeNanos();
@@ -34,10 +34,10 @@ public class DateToolTest {
         long currentTimeMillis = DateTool.currentTimeMillis();
         long currentTimeNanos = DateTool.currentTimeNanos();
         Awaitility.await()
-                .pollDelay(RandomUtils.nextLong(1, 100), TimeUnit.MILLISECONDS)
+                .pollDelay(RandomUtils.secure().randomLong(1, 100), TimeUnit.MILLISECONDS)
                 .until(() -> true);
         Awaitility.await()
-                .pollDelay(RandomUtils.nextLong(1, 100), TimeUnit.NANOSECONDS)
+                .pollDelay(RandomUtils.secure().randomLong(1, 100), TimeUnit.NANOSECONDS)
                 .until(() -> true);
         long newTimeMillis = DateTool.currentTimeMillis();
         long newTimeNanos = DateTool.currentTimeNanos();

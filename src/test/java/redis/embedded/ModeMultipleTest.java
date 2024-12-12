@@ -36,11 +36,11 @@ public class ModeMultipleTest extends JedisBaseTest {
     public void setUp() {
         super.setUp();
         masterHost1 = CommonConstant.DEFAULT_REDIS_HOST;
-        masterPort1 = RandomUtils.nextInt(10001, 11000);
+        masterPort1 = RandomUtils.secure().randomInt(10001, 11000);
         masterHost2 = CommonConstant.DEFAULT_REDIS_HOST;
-        masterPort2 = RandomUtils.nextInt(11001, 12000);
+        masterPort2 = RandomUtils.secure().randomInt(11001, 12000);
         masterHost3 = CommonConstant.DEFAULT_REDIS_HOST;
-        masterPort3 = RandomUtils.nextInt(12001, 13000);
+        masterPort3 = RandomUtils.secure().randomInt(12001, 13000);
     }
 
     // 主主模式

@@ -11,15 +11,15 @@ import java.util.List;
 public class RedisServer extends AbstractRedisServerInstance {
     private static final String REDIS_SERVER_READY_PATTERN = ".*(R|r)eady to accept connections.*";
 
-    RedisServer(File executable, int port) {
+    RedisServer(File executable, Integer port) {
         super(Arrays.asList(executable.getAbsolutePath(), "--port", Integer.toString(port)), port);
     }
 
-    RedisServer(RedisServerExecProvider redisExecProvider, int port) throws IOException {
+    RedisServer(RedisServerExecProvider redisExecProvider, Integer port) throws IOException {
         super(Arrays.asList(redisExecProvider.get().getAbsolutePath(), "--port", Integer.toString(port)), port);
     }
 
-    RedisServer(List<String> args, int port) {
+    RedisServer(List<String> args, Integer port) {
         super(args, port);
     }
 

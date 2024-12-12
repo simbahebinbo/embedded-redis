@@ -22,9 +22,9 @@ public class RedisBunch implements IRedisServer {
     }
 
     @Override
-    public boolean isActive() {
-        return redisSentinels.stream().allMatch(AbstractRedisInstance::isActive)
-                && redisServers.stream().allMatch(AbstractRedisInstance::isActive);
+    public Boolean isActive() {
+        return (Boolean) (redisSentinels.stream().allMatch(AbstractRedisInstance::isActive)
+                && redisServers.stream().allMatch(AbstractRedisInstance::isActive));
     }
 
     @Override

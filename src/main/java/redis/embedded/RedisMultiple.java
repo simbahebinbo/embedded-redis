@@ -21,8 +21,8 @@ public class RedisMultiple implements IRedisServer {
     }
 
     @Override
-    public boolean isActive() {
-        return redisServers.stream().allMatch(AbstractRedisInstance::isActive);
+    public Boolean isActive() {
+        return (Boolean) redisServers.stream().allMatch(AbstractRedisInstance::isActive);
     }
 
     @Override
